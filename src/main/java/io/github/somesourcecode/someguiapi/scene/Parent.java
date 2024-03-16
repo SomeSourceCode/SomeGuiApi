@@ -2,12 +2,11 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
-import io.github.somesourcecode.someguiapi.scene.pane.Region;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-public class Parent extends Region {
+public abstract class Parent extends Node {
 
 	private final ObservableList<Node> children = new ObservableListBase<>(new ArrayList<>());
 
