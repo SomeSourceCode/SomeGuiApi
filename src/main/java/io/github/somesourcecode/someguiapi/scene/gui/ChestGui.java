@@ -44,7 +44,8 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
-				pixels[x][y] = root.pixelAt(x - rootLayoutX, y - rootLayoutY);
+				ItemStack pixel = root.pixelAt(x - rootLayoutX, y - rootLayoutY);
+				pixels[x][y] = pixel == null ? (scene.getBackground() == null ? null : scene.getBackground().backgroundAt(x, y)) : pixel;
 			}
 		}
 

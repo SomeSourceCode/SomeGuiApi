@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Scene {
 
 	private Parent root;
+	private Background background;
 
 	public Scene() {
 
@@ -72,6 +73,14 @@ public class Scene {
 
 	public void setRoot(Parent root) {
 		this.root = root;
+	}
+
+	public Background getBackground() {
+		return background;
+	}
+
+	public void setBackground(Background background) {
+		this.background = background;
 	}
 
 }
