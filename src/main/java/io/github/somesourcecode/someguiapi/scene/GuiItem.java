@@ -192,8 +192,28 @@ public class GuiItem extends Node {
 			return this;
 		}
 
-		public Builder withOnClick(Consumer<NodeClickContext> context) {
+		public Builder onClick(Consumer<NodeClickContext> context) {
 			item.setOnClick(context);
+			return this;
+		}
+
+		public Builder onLeftClick(Consumer<NodeClickContext> context) {
+			item.setOnLeftClick(context);
+			return this;
+		}
+
+		public Builder onRightClick(Consumer<NodeClickContext> context) {
+			item.setOnRightClick(context);
+			return this;
+		}
+
+		public Builder onShiftClick(Consumer<NodeClickContext> context) {
+			item.setOnShiftClick(context);
+			return this;
+		}
+
+		public Builder onHotBarClick(Consumer<NodeClickContext> context) {
+			item.setOnHotBarClick(context);
 			return this;
 		}
 

@@ -45,10 +45,21 @@ public class Scene {
 		}
 
 		for (Node node : nodeBranch) {
-			if (node.getOnClick() == null) {
-				continue;
+			if (node.getOnClick() != null) {
+				node.getOnClick().accept(context);
 			}
-			node.getOnClick().accept(context);
+			if (node.getOnLeftClick() != null && context.isLeftClick()) {
+				node.getOnLeftClick().accept(context);
+			}
+			if (node.getOnRightClick() != null && context.isRightClick()) {
+				node.getOnRightClick().accept(context);
+			}
+			if (node.getOnShiftClick() != null && context.isShiftClick()) {
+				node.getOnShiftClick().accept(context);
+			}
+			if (node.getOnHotBarClick() != null && context.isHotBarClick()) {
+				node.getOnHotBarClick().accept(context);
+			}
 		}
 	}
 

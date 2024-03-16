@@ -16,6 +16,10 @@ public abstract class Node {
 	private boolean clipping = true;
 
 	private Consumer<NodeClickContext> onClick;
+	private Consumer<NodeClickContext> onLeftClick;
+	private Consumer<NodeClickContext> onRightClick;
+	private Consumer<NodeClickContext> onShiftClick;
+	private Consumer<NodeClickContext> onHotBarClick;
 
 	public Parent getParent() {
 		return parent;
@@ -72,6 +76,38 @@ public abstract class Node {
 
 	public void setOnClick(Consumer<NodeClickContext> onClick) {
 		this.onClick = onClick;
+	}
+
+	public Consumer<NodeClickContext> getOnLeftClick() {
+		return onLeftClick;
+	}
+
+	public void setOnLeftClick(Consumer<NodeClickContext> onLeftClick) {
+		this.onLeftClick = onLeftClick;
+	}
+
+	public Consumer<NodeClickContext> getOnRightClick() {
+		return onRightClick;
+	}
+
+	public void setOnRightClick(Consumer<NodeClickContext> onRightClick) {
+		this.onRightClick = onRightClick;
+	}
+
+	public Consumer<NodeClickContext> getOnShiftClick() {
+		return onShiftClick;
+	}
+
+	public void setOnShiftClick(Consumer<NodeClickContext> onShiftClick) {
+		this.onShiftClick = onShiftClick;
+	}
+
+	public Consumer<NodeClickContext> getOnHotBarClick() {
+		return onHotBarClick;
+	}
+
+	public void setOnHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
+		this.onHotBarClick = onHotBarClick;
 	}
 
 	public abstract ItemStack pixelAt(int x, int y);

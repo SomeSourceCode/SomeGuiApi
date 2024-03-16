@@ -12,13 +12,16 @@ public class NodeClickContext {
 
 	private final Player player;
 
+	private final int hotBarButton;
+
 	private boolean consumed;
 
-	public NodeClickContext(int x, int y, ClickType type, Player player) {
+	public NodeClickContext(int x, int y, ClickType type, Player player, int hotBarButton) {
 		this.slotX = x;
 		this.slotY = y;
 		this.type = type;
 		this.player = player;
+		this.hotBarButton = hotBarButton;
 	}
 
 	public int getSlotX() {
@@ -45,8 +48,16 @@ public class NodeClickContext {
 		return type.isShiftClick();
 	}
 
+	public boolean isHotBarClick() {
+		return hotBarButton != -1;
+	}
+
 	public Player getPlayer() {
 		return player;
+	}
+
+	public int getHotBarButton() {
+		return hotBarButton;
 	}
 
 	public boolean isConsumed() {

@@ -30,8 +30,7 @@ public class GuiListener implements Listener {
 
 		Bukkit.broadcast(Component.text("Slot: " + slotX + ", " + slotY, NamedTextColor.GREEN, TextDecoration.ITALIC));
 
-		gui.getScene().fireOnClick(new NodeClickContext(slotX, slotY, event.getClick(), player));
-
+		gui.getScene().fireOnClick(new NodeClickContext(slotX, slotY, event.getClick(), player, event.getHotbarButton()));
 	}
 
 }
