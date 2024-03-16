@@ -36,6 +36,15 @@ public abstract class Parent extends Node {
 		});
 	}
 
+	public void layout() {
+		for (Node child : children) {
+			if (child instanceof Parent parent) {
+				parent.layout();
+			}
+		}
+		layoutChildren();
+	}
+
 	public void layoutChildren() {
 
 	}

@@ -35,6 +35,9 @@ public class ChestGui extends Gui implements InventoryHolder {
 		if (scene == null) {
 			return;
 		}
+		if (scene.getRoot() != null) {
+			scene.getRoot().layout();
+		}
 		render();
 		player.openInventory(inventory);
 	}
