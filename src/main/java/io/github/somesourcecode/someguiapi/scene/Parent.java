@@ -10,6 +10,8 @@ public abstract class Parent extends Node {
 
 	private final ObservableList<Node> children = new ObservableListBase<>(new ArrayList<>());
 
+	private Background background;
+
 	protected ObservableList<Node> getChildren() {
 		return children;
 	}
@@ -36,6 +38,14 @@ public abstract class Parent extends Node {
 
 	public void layoutChildren() {
 
+	}
+
+	public Background getBackground() {
+		return background;
+	}
+
+	public void setBackground(Background background) {
+		this.background = background;
 	}
 
 	@Override
@@ -66,6 +76,10 @@ public abstract class Parent extends Node {
 			if (pixel != null) {
 				return pixel;
 			}
+		}
+
+		if (isInBounds && background != null) {
+			return background.backgroundAt(x, y);
 		}
 
 		return null;
