@@ -30,6 +30,9 @@ public class Scene {
 		final ArrayList<Node> nodeBranch = new ArrayList<>();
 
 		Node clickedNode = root.nodeAt(localX, localY);
+		if (clickedNode == null) {
+			return;
+		}
 		nodeBranch.add(clickedNode);
 
 		Parent parent = clickedNode.getParent();
