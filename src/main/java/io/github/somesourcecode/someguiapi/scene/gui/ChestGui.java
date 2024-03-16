@@ -31,6 +31,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 	@Override
 	public void show(Player player) {
+		viewers.add(player);
 		render();
 		player.openInventory(inventory);
 	}
