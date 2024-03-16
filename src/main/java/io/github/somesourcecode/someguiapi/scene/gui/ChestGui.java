@@ -32,11 +32,24 @@ public class ChestGui extends Gui implements InventoryHolder {
 	@Override
 	public void show(Player player) {
 		viewers.add(player);
+		if (scene == null) {
+			return;
+		}
 		render();
 		player.openInventory(inventory);
 	}
 
 	public void render() {
+		if (scene == null || (scene.getRoot() == null && scene.getBackground() == null)) {
+			inventory.clear();
+			return;
+		}
+		if (scene.getRoot() == null) {
+			for (int i = 0; i < inventory.getSize(); i++) {
+				inventory.setItem(i, scene.getBackground().backgroundAt(i % 9, i / 9));
+			}
+		}
+
 		ItemStack[][] pixels = new ItemStack[9][rows];
 		Parent root = scene.getRoot();
 
