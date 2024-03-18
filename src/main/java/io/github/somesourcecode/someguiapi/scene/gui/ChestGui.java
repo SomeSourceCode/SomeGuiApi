@@ -94,8 +94,6 @@ public class ChestGui extends Gui implements InventoryHolder {
 		update();
 	}
 
-
-
 	@Override
 	public @NotNull Inventory getInventory() {
 		return inventory;
