@@ -16,9 +16,11 @@ public class VBox extends Pane {
 
 	@Override
 	public void layoutChildren() {
-		int y = 0;
+		final int leftPadding = getPadding().getLeft();
+
+		int y = getPadding().getTop();
 		for (Node child : getChildren()) {
-			child.relocate(0, y);
+			child.relocate(leftPadding, y);
 			y += child.getHeight() + spacing;
 		}
 	}

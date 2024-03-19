@@ -16,9 +16,11 @@ public class HBox extends Pane {
 
 	@Override
 	public void layoutChildren() {
-		int x = 0;
+		final int topPadding = getPadding().getTop();
+
+		int x = getPadding().getLeft();
 		for (Node child : getChildren()) {
-			child.relocate(x, 0);
+			child.relocate(x, topPadding);
 			x += child.getWidth() + spacing;
 		}
 	}

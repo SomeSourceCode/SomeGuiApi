@@ -40,24 +40,32 @@ public class FlowPane extends Pane {
 
 	@Override
 	public void layoutChildren() {
+		final int topPadding = getPadding().getTop();
+		final int leftPadding = getPadding().getLeft();
+		final int rightPadding = getPadding().getRight();
+		final int bottomPadding = getPadding().getBottom();
+
+		final int layoutWidth = getWidth() - leftPadding - rightPadding;
+		final int layoutHeight = getHeight() - topPadding - bottomPadding;
+
 		final Orientation orientation = getOrientation();
-		final int maxLength = orientation == Orientation.HORIZONTAL ? getWidth() : getHeight();
+		final int maxLength = orientation == Orientation.HORIZONTAL ? layoutWidth : layoutHeight;
 
 		int length = 0;
 		int width = 0;
 
-		int x = 0;
-		int y = 0;
+		int x = leftPadding;
+		int y = topPadding;
 
 		for (Node child : getChildren()) {
 			final int childLength = orientation == Orientation.HORIZONTAL ? child.getWidth() : child.getHeight();
 			final int childWidth = orientation == Orientation.HORIZONTAL ? child.getHeight() : child.getWidth();
 			if ((orientation == Orientation.HORIZONTAL ? x : y) + childLength > maxLength && length > 0) {
 				if (orientation == Orientation.HORIZONTAL) {
-					x = 0;
+					x = leftPadding;
 					y += width + vGap;
 				} else {
-					y = 0;
+					y = topPadding;
 					x += width + hGap;
 				}
 				length = 0;
