@@ -71,7 +71,7 @@ public class FlowPane extends Pane {
 				length = 0;
 			}
 
-			child.relocate(x, y);
+			child.relocate(x + child.getTranslateX(), y + child.getTranslateY());
 
 			width = Math.max(width, childWidth);
 			length += childLength;

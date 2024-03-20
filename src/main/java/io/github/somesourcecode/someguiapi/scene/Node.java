@@ -12,6 +12,9 @@ public abstract class Node {
 	private int layoutX;
 	private int layoutY;
 
+	private int translateX;
+	private int translateY;
+
 	private boolean visible = true;
 	private boolean clipping = true;
 
@@ -48,6 +51,22 @@ public abstract class Node {
 	public void relocate(int layoutX, int layoutY) {
 		setLayoutX(layoutX);
 		setLayoutY(layoutY);
+	}
+
+	public int getTranslateX() {
+		return translateX;
+	}
+
+	public void setTranslateX(int translateX) {
+		this.translateX = translateX;
+	}
+
+	public int getTranslateY() {
+		return translateY;
+	}
+
+	public void setTranslateY(int translateY) {
+		this.translateY = translateY;
 	}
 
 	public abstract int getWidth();
