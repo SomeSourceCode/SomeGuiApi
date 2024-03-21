@@ -16,7 +16,7 @@ public abstract class Parent extends Node {
 		return children;
 	}
 
-	public Parent() {
+	protected Parent() {
 		children.addListener(change -> {
 			if (change.wasAdded()) {
 				for (Node child : change.getAddedSubList()) {
