@@ -49,7 +49,7 @@ public abstract class Parent extends Node {
 		layoutChildren();
 	}
 
-	public void layoutChildren() {
+	protected void layoutChildren() {
 
 	}
 

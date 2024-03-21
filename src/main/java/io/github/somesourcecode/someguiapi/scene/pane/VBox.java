@@ -15,7 +15,7 @@ public class VBox extends Pane {
 	}
 
 	@Override
-	public void layoutChildren() {
+	protected void layoutChildren() {
 		final int leftPadding = getPadding().getLeft();
 
 		int y = getPadding().getTop();

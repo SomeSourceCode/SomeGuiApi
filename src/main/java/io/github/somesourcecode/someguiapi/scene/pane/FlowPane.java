@@ -39,7 +39,7 @@ public class FlowPane extends Pane {
 	}
 
 	@Override
-	public void layoutChildren() {
+	protected void layoutChildren() {
 		final int topPadding = getPadding().getTop();
 		final int leftPadding = getPadding().getLeft();
 		final int rightPadding = getPadding().getRight();

@@ -15,7 +15,7 @@ public class HBox extends Pane {
 	}
 
 	@Override
-	public void layoutChildren() {
+	protected void layoutChildren() {
 		final int topPadding = getPadding().getTop();
 
 		int x = getPadding().getLeft();
