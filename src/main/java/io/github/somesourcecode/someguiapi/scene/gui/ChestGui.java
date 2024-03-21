@@ -34,6 +34,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		if (viewers.contains(player)) {
 			return;
 		}
+		player.openInventory(inventory);
 		if (scene == null) {
 			return;
 		}
@@ -41,7 +42,6 @@ public class ChestGui extends Gui implements InventoryHolder {
 			scene.getRoot().layout();
 		}
 		render();
-		player.openInventory(inventory);
 	}
 
 	public void render() {
