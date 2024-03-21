@@ -6,6 +6,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
+/**
+ * The base class for all nodes that can have children.
+ * <p>
+ * This class handles all hierarchy-related operations, such as adding and removing child nodes,
+ * layout and rendering.
+ */
 public abstract class Parent extends Node {
 
 	private final ObservableList<Node> children = new ObservableListBase<>(new ArrayList<>());
@@ -40,6 +46,9 @@ public abstract class Parent extends Node {
 		});
 	}
 
+	/**
+	 * Recursively applies the layout to all children and itself.
+	 */
 	public final void layout() {
 		for (Node child : children) {
 			if (child instanceof Parent parent) {
@@ -53,14 +62,25 @@ public abstract class Parent extends Node {
 
 	}
 
+	/**
+	 * Returns the background of this parent.
+	 * @return the background
+	 */
 	public Background getBackground() {
 		return background;
 	}
 
+	/**
+	 * Sets the background of this parent. It will be rendered behind all children.
+	 * @param background the new background
+	 */
 	public void setBackground(Background background) {
 		this.background = background;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ItemStack pixelAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
@@ -98,6 +118,9 @@ public abstract class Parent extends Node {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Node nodeAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
