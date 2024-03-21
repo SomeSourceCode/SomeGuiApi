@@ -20,8 +20,12 @@ public abstract class Parent extends Node {
 		children.addListener(change -> {
 			if (change.wasAdded()) {
 				for (Node child : change.getAddedSubList()) {
-					if (child.getParent() != null) {
-						throw new IllegalStateException("Node is already in the scene graph. A node may only be added to one parent.");
+					Parent oldParent = child.getParent();
+					if (oldParent == this) {
+						continue;
+					}
+					if (oldParent != null) {
+						oldParent.getChildren().remove(child);
 					}
 					child.setParent(this);
 				}
