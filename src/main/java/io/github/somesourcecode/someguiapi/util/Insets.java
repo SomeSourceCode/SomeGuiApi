@@ -1,7 +1,13 @@
 package io.github.somesourcecode.someguiapi.util;
 
+/**
+ * Represents the distance from the edges of a container to its content.
+ */
 public class Insets {
 
+	/**
+	 * Empty insets. An {@code Insets} instance with all insets set to 0.
+	 */
 	public static final Insets EMPTY = new Insets(0, 0, 0, 0);
 
 	private final int top;
@@ -9,6 +15,13 @@ public class Insets {
 	private final int bottom;
 	private final int left;
 
+	/**
+	 * Constructs a new Insets instance with four different offsets.
+	 * @param top the top inset
+	 * @param right the right inset
+	 * @param bottom the bottom inset
+	 * @param left the left inset
+	 */
 	public Insets(int top, int right, int bottom, int left) {
 		this.top = top;
 		this.right = right;
@@ -16,6 +29,11 @@ public class Insets {
 		this.left = left;
 	}
 
+	/**
+	 * Constructs a new Insets instance with same value for top and bottom, and for right and left.
+	 * @param topBottom the top and bottom insets
+	 * @param rightLeft the right and left insets
+	 */
 	public Insets(int topBottom, int rightLeft) {
 		this.top = topBottom;
 		this.right = rightLeft;
@@ -23,6 +41,10 @@ public class Insets {
 		this.left = rightLeft;
 	}
 
+	/**
+	 * Constructs a new Insets instance with same value for all four offsets.
+	 * @param topRightBottomLeft the top, right, bottom, and left insets
+	 */
 	public Insets(int topRightBottomLeft) {
 		this.top = topRightBottomLeft;
 		this.right = topRightBottomLeft;
@@ -30,22 +52,44 @@ public class Insets {
 		this.left = topRightBottomLeft;
 	}
 
+	/**
+	 * Returns the top inset.
+	 * @return the top inset
+	 */
 	public int getTop() {
 		return top;
 	}
 
+	/**
+	 * Returns the right inset.
+	 * @return the right inset
+	 */
 	public int getRight() {
 		return right;
 	}
 
+	/**
+	 * Returns the bottom inset.
+	 * @return the bottom inset
+	 */
 	public int getBottom() {
 		return bottom;
 	}
 
+	/**
+	 * Returns the left inset.
+	 * @return the left inset
+	 */
 	public int getLeft() {
 		return left;
 	}
 
+	/**
+	 * Indicates whether some other object is "equal to" this one.
+	 *
+	 * @param obj the reference object with which to compare.
+	 * @return true if this object is the same as the obj argument; false otherwise.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
