@@ -94,6 +94,19 @@ public class ChestGui extends Gui implements InventoryHolder {
 		update();
 	}
 
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		if (this.rows == rows) {
+			return;
+		}
+		this.rows = rows;
+		inventory = Bukkit.createInventory(this, rows * 9, title);
+		update();
+	}
+
 	@Override
 	public @NotNull Inventory getInventory() {
 		return inventory;
