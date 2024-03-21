@@ -4,19 +4,37 @@ import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
 
 import java.util.ArrayList;
 
+/**
+ * The Scene class is the container for all content in a scene graph.
+ * The background of the scene is filled as specified by the background property.
+ * <p>
+ * For content to be rendered the application must specify a root Node by setting the root property.
+ */
 public class Scene {
 
 	private Parent root;
 	private Background background;
 
+	/**
+	 * Constructs a new empty scene.
+	 */
 	public Scene() {
 
 	}
 
+	/**
+	 * Constructs a new scene with the given root.
+	 * @param root the root of the scene
+	 */
 	public Scene(Parent root) {
 		this.root = root;
 	}
 
+	/**
+	 * Fires the onClick event for the node at the given coordinates.
+	 * The listeners a called for the clicked node and all of its parents, respectively.
+	 * @param context the click context
+	 */
 	public void fireOnClick(NodeClickContext context) {
 		if (root == null) {
 			return;
@@ -67,18 +85,34 @@ public class Scene {
 		}
 	}
 
+	/**
+	 * Returns the root of the scene.
+	 * @return the root of the scene
+	 */
 	public Parent getRoot() {
 		return root;
 	}
 
+	/**
+	 * Sets the root of the scene.
+	 * @param root the new root of the scene
+	 */
 	public void setRoot(Parent root) {
 		this.root = root;
 	}
 
+	/**
+	 * Returns the background of the scene.
+	 * @return the background of the scene
+	 */
 	public Background getBackground() {
 		return background;
 	}
 
+	/**
+	 * Sets the background of the scene.
+	 * @param background the new background of the scene
+	 */
 	public void setBackground(Background background) {
 		this.background = background;
 	}
