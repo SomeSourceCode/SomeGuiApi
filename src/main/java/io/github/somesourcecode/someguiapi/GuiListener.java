@@ -7,6 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+/**
+ * A listener that listens for GUI interactions.
+ */
 public class GuiListener implements Listener {
 
 	@EventHandler
