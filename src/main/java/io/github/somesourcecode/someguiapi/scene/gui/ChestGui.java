@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a GUI that can be shown to players.
+ */
 public class ChestGui extends Gui implements InventoryHolder {
 
 	private final List<Player> viewers = new ArrayList<>();
@@ -22,6 +25,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 	private Scene scene;
 
+	/**
+	 * Constructs a new ChestGui with the specified title and number of rows.
+	 * @param title the title
+	 * @param rows the number of rows
+	 */
 	public ChestGui(Component title, int rows) {
 		this.title = title;
 		this.rows = rows;
@@ -75,18 +83,34 @@ public class ChestGui extends Gui implements InventoryHolder {
 		}
 	}
 
+	/**
+	 * Returns the {@link Scene} of this GUI.
+	 * @return the scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 
+	/**
+	 * Sets the {@link Scene} of this GUI.
+	 * @param scene the scene
+	 */
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
 
+	/**
+	 * Returns the title of this GUI.
+	 * @return the title
+	 */
 	public Component getTitle() {
 		return title;
 	}
 
+	/**
+	 * Sets the title of this GUI.
+	 * @param title the title
+	 */
 	public void setTitle(Component title) {
 		if (this.title.equals(title)) {
 			return;
@@ -96,10 +120,18 @@ public class ChestGui extends Gui implements InventoryHolder {
 		update();
 	}
 
+	/**
+	 * Returns the number of rows of this GUI.
+	 * @return the number of rows
+	 */
 	public int getRows() {
 		return rows;
 	}
 
+	/**
+	 * Sets the number of rows of this GUI.
+	 * @param rows the number of rows
+	 */
 	public void setRows(int rows) {
 		if (this.rows == rows) {
 			return;
