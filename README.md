@@ -140,7 +140,7 @@ a click event will be fired. The top-most clicked node will receive the click fi
 parent nodes, if the click occurs within their bounds.
 ```java
 item.setOnClick(context -> {
-	// Handle click
+    // Handle click
 })
 
 item.setOnLeftClick(context -> {
