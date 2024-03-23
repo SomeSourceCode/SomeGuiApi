@@ -4,7 +4,3 @@ main: io.github.somesourcecode.someguiapi.Main
 description: A gui api
 author: SomeSourceCode
 api-version: '1.20'
-
-commands:
-    test:
-        aliases: [testing]
