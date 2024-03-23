@@ -153,25 +153,16 @@ public class GuiItem extends Node {
 		this.lore = lore;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getWidth() {
 		return 1;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getHeight() {
 		return 1;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isClipping() {
 		return true;

@@ -82,9 +82,6 @@ public abstract class Parent extends Node {
 		this.background = background;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ItemStack pixelAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
@@ -122,9 +119,6 @@ public abstract class Parent extends Node {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Node nodeAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
