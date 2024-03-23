@@ -77,7 +77,7 @@ In this example, we create a Pane layout pane to hold the content of the GUI.
 We add GuiItems or other nodes to the layout, and then we set the `root` node for the GUI using a `Scene`.
 Finally, we show the GUI to the player.
 
-## Layout Panes
+### Layout Panes
 
 SomeGuiApi provides several layout panes to assist with organizing and positioning GUI elements:
 - `Pane`: A basic layout pane that allows you to position elements manually.
@@ -85,7 +85,7 @@ SomeGuiApi provides several layout panes to assist with organizing and positioni
 - `VBox`: A vertical box layout pane that arranges elements in a single column.
 - `FlowPane`: A layout pane that arranges elements in a flow layout, wrapping at the pane's boundary.
 
-## Nesting
+### Nesting
 
 You can nest layout panes within each other to achieve more complex GUI designs. For example:
 ```java
