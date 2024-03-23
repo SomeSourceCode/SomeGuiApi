@@ -10,10 +10,6 @@ public class Region extends Parent {
 
 	private Insets padding;
 
-	public Region() {
-
-	}
-
 	@Override
 	public int getWidth() {
 		return width;
