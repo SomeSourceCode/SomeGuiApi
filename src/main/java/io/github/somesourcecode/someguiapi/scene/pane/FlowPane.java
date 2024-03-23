@@ -3,6 +3,14 @@ package io.github.somesourcecode.someguiapi.scene.pane;
 import io.github.somesourcecode.someguiapi.scene.Node;
 import io.github.somesourcecode.someguiapi.util.Orientation;
 
+/**
+ * A layout pane that arranges its children in a flow, wrapping at the pane's bounds.
+ * <p>
+ * A horizontal FlowPane (the default) will lay out nodes in rows, wrapping at the width
+ * of the pane. A vertical FlowPane will lay out nodes in columns, wrapping at the height
+ * of the pane. If the FlowPane has padding set, the nodes will be laid out within
+ * those insets.
+ */
 public class FlowPane extends Pane {
 
 	private Orientation orientation;
@@ -14,26 +22,54 @@ public class FlowPane extends Pane {
 		this.orientation = Orientation.HORIZONTAL;
 	}
 
+	/**
+	 * Returns the orientation of the flow pane.
+	 * @return the orientation of the flow pane
+	 */
 	public Orientation getOrientation() {
 		return orientation == null ? Orientation.HORIZONTAL : orientation;
 	}
 
+	/**
+	 * Sets the orientation of the flow pane.
+	 * @param orientation the orientation of the flow pane
+	 */
 	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 
+	/**
+	 * Returns the amount of space between each node in a horizontal FlowPane
+	 * or the space between each column in a vertical FlowPane.
+	 * @return the horizontal gap between nodes
+	 */
 	public int getHGap() {
 		return hGap;
 	}
 
+	/**
+	 * Sets the amount of space between each node in a horizontal FlowPane
+	 * or the space between each column in a vertical FlowPane.
+	 * @param hGap the horizontal gap between nodes
+	 */
 	public void setHGap(int hGap) {
 		this.hGap = hGap;
 	}
 
+	/**
+	 * Returns the amount of space between each node in a vertical FlowPane
+	 * or the space between each row in a horizontal FlowPane.
+	 * @return the vertical gap between nodes
+	 */
 	public int getVGap() {
 		return vGap;
 	}
 
+	/**
+	 * Sets the amount of space between each node in a vertical FlowPane
+	 * or the space between each row in a horizontal FlowPane.
+	 * @param vGap the vertical gap between nodes
+	 */
 	public void setVGap(int vGap) {
 		this.vGap = vGap;
 	}
