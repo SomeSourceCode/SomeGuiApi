@@ -44,7 +44,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		render();
 	}
 
-	public void render() {
+	private void render() {
 		if (scene == null || (scene.getRoot() == null && scene.getBackground() == null)) {
 			inventory.clear();
 			return;
