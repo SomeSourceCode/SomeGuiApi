@@ -43,14 +43,16 @@ import java.util.function.Consumer;
  * in the scene graph to another. This is normally done by removing the node from its current location
  * before inserting it at the new location. However, a subtree will be automatically removed
  * if it is added to a new parent, as described above.
- *
- * <h4>Coordinate System</h4>
+ * <p>
+ * <br>
+ * <b>Coordinate System</b>
  * <p>
  * The {@code Node} class defines a computer graphics "local" coordinate system. Coordinates are
  * specified in integer pixels, with the origin (0,0) in the top-left corner of the node.
  * The x-coordinate increases to the right, and the y-coordinate increases downwards.
- *
- * <h4>Transformations</h4>
+ * <p>
+ * <br>
+ * <b>Transformations</b>
  * <p>
  * Translation coordinates are specified in integer pixels, and move the node's origin by the
  * specified amount in the x and y directions. The translation is applied after the layout
