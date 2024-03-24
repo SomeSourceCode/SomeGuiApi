@@ -21,6 +21,12 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/SomeSourceCode/SomeGuiApi.git</connection>
+        <developerConnection>scm:git:ssh://github.com:SomeSourceCode/SomeGuiApi.git</developerConnection>
+        <url>https://github.com/SomeSourceCode/SomeGuiApi/tree/master</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
