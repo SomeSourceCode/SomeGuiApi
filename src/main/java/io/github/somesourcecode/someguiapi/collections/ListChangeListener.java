@@ -23,8 +23,16 @@
 
 package io.github.somesourcecode.someguiapi.collections;
 
+/**
+ * A listener that is called whenever an {@link ObservableList} changes.
+ * @param <E> the type of elements in the list
+ */
 public interface ListChangeListener<E> {
 
+	/**
+	 * Called whenever the list changes.
+	 * @param change the change
+	 */
 	void onChanged(Change<? extends E> change);
 
 }
