@@ -9,6 +9,9 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <name>SomeGuiApi</name>
+    <description>SomeGuiApi is a simple API for creating GUIs in Minecraft Paper.</description>
+    <url>https://github.com/SomeSourceCode/SomeGuiApi</url>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
