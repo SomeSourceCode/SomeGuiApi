@@ -32,7 +32,7 @@ import java.util.*;
  * <p>
  * This class works as a wrapper around any {@link List} and fires
  * change events whenever elements are added or removed.
- * @param <E>
+ * @param <E> the type of elements in the list
  */
 public class ObservableListBase<E> implements ObservableList<E> {
 

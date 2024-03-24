@@ -30,7 +30,7 @@ import java.util.List;
  * Represents a change in a list. It contains a list of elements that were added and
  * a list of elements that were removed. If no elements were added or removed, the
  * corresponding lists will be empty.
- * @param <E>
+ * @param <E> the type of elements in the list
  */
 public class Change<E> {
 
