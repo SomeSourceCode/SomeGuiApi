@@ -12,6 +12,15 @@
     <name>SomeGuiApi</name>
     <description>SomeGuiApi is a simple API for creating GUIs in Minecraft Paper.</description>
     <url>https://github.com/SomeSourceCode/SomeGuiApi</url>
+
+    <developers>
+        <developer>
+            <id>somesourcecode</id>
+            <name>SomeSourceCode</name>
+            <url>https://github.com/SomeSourceCode</url>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
