@@ -1,4 +1,4 @@
-name: ExamplePlugin
+name: SomeGuiApi
 version: 1.0.0
 main: io.github.somesourcecode.someguiapi.Main
 description: A gui api
