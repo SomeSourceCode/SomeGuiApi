@@ -25,10 +25,25 @@ package io.github.somesourcecode.someguiapi.collections;
 
 import java.util.List;
 
+/**
+ * A list that can be observed for changes.
+ * <p>
+ * A change will be fired whenever elements are added or removed from the list
+ * and can be listened to by adding a {@link ListChangeListener}.
+ * @param <E> the type of elements in the list
+ */
 public interface ObservableList<E> extends List<E> {
 
+	/**
+	 * Adds a listener that is called whenever the list changes.
+	 * @param listener the listener
+	 */
 	void addListener(ListChangeListener<? super E> listener);
 
+	/**
+	 * Removes a listener.
+	 * @param listener the listener
+	 */
 	void removeListener(ListChangeListener<? super E> listener);
 
 }
