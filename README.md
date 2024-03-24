@@ -165,3 +165,7 @@ and the `click type` (e.g., left-click, right-click).
 <br>
 It also can be consumed using `context.consume()` to prevent further processing of the click event. Other listeners can
 check if the context is consumed before handling the event using `context.isConsumed()`.
+
+## License
+
+SomeGuiApi is licensed under the [MIT License](LICENSE).
