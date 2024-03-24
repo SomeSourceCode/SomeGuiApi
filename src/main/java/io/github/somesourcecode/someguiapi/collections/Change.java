@@ -26,6 +26,12 @@ package io.github.somesourcecode.someguiapi.collections;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents a change in a list. It contains a list of elements that were added and
+ * a list of elements that were removed. If no elements were added or removed, the
+ * corresponding lists will be empty.
+ * @param <E>
+ */
 public class Change<E> {
 
 	private final List<? extends E> addedSubList;
@@ -34,6 +40,11 @@ public class Change<E> {
 	private final boolean wasAdded;
 	private final boolean wasRemoved;
 
+	/**
+	 * Constructs a new change with the specified added and removed sublists.
+	 * @param addedSubList the added sublist
+	 * @param removedSubList the removed sublist
+	 */
 	public Change(List<? extends E> addedSubList, List<? extends E> removedSubList) {
 		this.wasAdded = addedSubList != null && !addedSubList.isEmpty();
 		this.wasRemoved = removedSubList != null && !removedSubList.isEmpty();
@@ -42,18 +53,36 @@ public class Change<E> {
 		this.removedSubList = wasRemoved ? Collections.unmodifiableList(removedSubList) : Collections.emptyList();
 	}
 
+	/**
+	 * Returns the list of elements that were added.
+	 * If no elements were added, the list will be empty.
+	 * @return the list of elements that were added
+	 */
 	public List<? extends E> getAddedSubList() {
 		return addedSubList;
 	}
 
+	/**
+	 * Returns the list of elements that were removed.
+	 * If no elements were removed, the list will be empty.
+	 * @return the list of elements that were removed
+	 */
 	public List<? extends E> getRemovedSubList() {
 		return removedSubList;
 	}
 
+	/**
+	 * Returns whether elements were added.
+	 * @return whether elements were added
+	 */
 	public boolean wasAdded() {
 		return wasAdded;
 	}
 
+	/**
+	 * Returns whether elements were removed.
+	 * @return whether elements were removed
+	 */
 	public boolean wasRemoved() {
 		return wasRemoved;
 	}
