@@ -43,6 +43,7 @@ public abstract class Gui {
 
 	/**
 	 * Returns a list of players that are currently viewing this GUI.
+	 * @return a list of players viewing this GUI
 	 */
 	public abstract List<Player> getViewers();
 
