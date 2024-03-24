@@ -27,11 +27,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * A base implementation of an {@link ObservableList}.
+ * <p>
+ * This class works as a wrapper around any {@link List} and fires
+ * change events whenever elements are added or removed.
+ * @param <E>
+ */
 public class ObservableListBase<E> implements ObservableList<E> {
 
 	private final List<E> baseList;
 	private final List<ListChangeListener<? super E>> listeners = new ArrayList<>();
 
+	/**
+	 * Constructs a new observable list with the specified base list.
+	 * @param baseList the base list
+	 */
 	public ObservableListBase(List<E> baseList) {
 		this.baseList = baseList;
 	}
