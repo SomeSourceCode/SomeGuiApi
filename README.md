@@ -11,6 +11,40 @@ player experience within their Minecraft worlds.
 - **Flexible Components**: Support for various layout panes for flexible design.
 - **Interaction**: Click handling for interactive elements.
 
+## Installation
+
+### Plugin
+
+Download the SomeGuiApi plugin from the releases page and place it in your server's `plugins` folder.
+
+### Maven
+
+Add the following dependency to your `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>io.github.somesourcecode</groupId>
+    <artifactId>someguiapi</artifactId>
+    <version>1.0.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+### Gradle
+
+Add the following repository and dependency to your `build.gradle` file:
+
+```groovy
+repositories {
+    mavenCentral()
+    maven { url = uri('https://repo.somesourcecode.io/repository/maven-public/') }
+}
+
+dependencies {
+    compileOnly 'io.github.somesourcecode:someguiapi:1.0.0'
+}
+```
+
 ## Usage
 
 ### Coordinate System
