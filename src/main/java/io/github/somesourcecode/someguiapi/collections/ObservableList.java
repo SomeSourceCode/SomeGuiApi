@@ -46,4 +46,18 @@ public interface ObservableList<E> extends List<E> {
 	 */
 	void removeListener(ListChangeListener<? super E> listener);
 
+	/**
+	 * A convenience method to add varargs elements to the list.
+	 * @param elements the elements to add
+	 * @return true if the list was changed as a result of this call
+	 */
+	boolean addAll(E... elements);
+
+	/**
+	 * A convenience method to remove varargs elements from the list.
+	 * @param elements the elements to remove
+	 * @return true if the list was changed as a result of this call
+	 */
+	boolean removeAll(E... elements);
+
 }

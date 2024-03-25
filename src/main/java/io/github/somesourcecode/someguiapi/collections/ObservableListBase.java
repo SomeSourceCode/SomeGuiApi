@@ -235,6 +235,18 @@ public class ObservableListBase<E> implements ObservableList<E> {
 		return baseList.subList(fromIndex, toIndex);
 	}
 
+	@Override
+	public boolean addAll(E... elements) {
+		Change<E> change = new Change<>(Arrays.asList(elements), null);
+		fireChange(change);
+		return Collections.addAll(baseList, elements);
+	}
+
+	@Override
+	public boolean removeAll(E... elements) {
+		return removeAll(Arrays.asList(elements));
+	}
+
 	private void fireChange(Change<E> change) {
 		for (ListChangeListener<? super E> listener : listeners) {
 			listener.onChanged(change);
