@@ -39,6 +39,13 @@ public class Region extends Parent {
 
 	private Insets padding;
 
+	/**
+	 * Constructs a new region with a width and height of 0.
+	 */
+	public Region() {
+		super();
+	}
+
 	@Override
 	public int getWidth() {
 		return width;

@@ -42,13 +42,8 @@ public abstract class Parent extends Node {
 	private Background background;
 
 	/**
-	 * Returns the list of children of this parent.
-	 * @return the list of children
+	 * Constructs a new parent node.
 	 */
-	protected ObservableList<Node> getChildren() {
-		return children;
-	}
-
 	protected Parent() {
 		children.addListener(change -> {
 			if (change.wasAdded()) {
@@ -71,6 +66,14 @@ public abstract class Parent extends Node {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Returns the list of children of this parent.
+	 * @return the list of children
+	 */
+	protected ObservableList<Node> getChildren() {
+		return children;
 	}
 
 	/**

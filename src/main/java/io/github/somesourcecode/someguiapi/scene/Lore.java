@@ -36,6 +36,29 @@ public class Lore {
 	private final List<Component> lines = new ArrayList<>();;
 
 	/**
+	 * Constructs a new empty lore.
+	 */
+	public Lore() {
+
+	}
+
+	/**
+	 * Constructs a new lore with the given lines.
+	 * @param lines the lines of the lore
+	 */
+	public Lore(List<Component> lines) {
+		this.lines.addAll(lines);
+	}
+
+	/**
+	 * Constructs a new lore with the given lines.
+	 * @param lines the lines of the lore
+	 */
+	public Lore(Component... lines) {
+		this.lines.addAll(List.of(lines));
+	}
+
+	/**
 	 * Returns the lines of the lore, represented as a list of components.
 	 * @return the lines of the lore
 	 */
@@ -138,6 +161,15 @@ public class Lore {
 	 */
 	public static Builder create() {
 		return new Builder();
+	}
+
+	/**
+	 * Constructs a new lore builder with the lines of the given lore.
+	 * @param lore the lore to copy the lines from
+	 * @return the lore builder
+	 */
+	public static Builder create(Lore lore) {
+		return new Builder().lines(lore.getLines());
 	}
 
 	/**

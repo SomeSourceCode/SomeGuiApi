@@ -41,8 +41,88 @@ public class FlowPane extends Pane {
 	private int hGap;
 	private int vGap;
 
+	/**
+	 * Constructs a new FlowPane with horizontal orientation.
+	 */
 	public FlowPane() {
-		this.orientation = Orientation.HORIZONTAL;
+		super();
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given orientation.
+	 * @param orientation the orientation of the flow pane
+	 */
+	public FlowPane(Orientation orientation) {
+		super();
+		this.orientation = orientation;
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given horizontal and vertical gaps.
+	 * @param hGap the horizontal gap between nodes
+	 * @param vGap the vertical gap between nodes
+	 */
+	public FlowPane(int hGap, int vGap) {
+		super();
+		this.hGap = hGap;
+		this.vGap = vGap;
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given orientation, horizontal and vertical gaps.
+	 * @param orientation the orientation of the flow pane
+	 * @param hGap the horizontal gap between nodes
+	 * @param vGap the vertical gap between nodes
+	 */
+	public FlowPane(Orientation orientation, int hGap, int vGap) {
+		super();
+		this.orientation = orientation;
+		this.hGap = hGap;
+		this.vGap = vGap;
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given children.
+	 * @param children the children of the flow pane
+	 */
+	public FlowPane(Node... children) {
+		super(children);
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given orientation and children.
+	 * @param orientation the orientation of the flow pane
+	 * @param children the children of the flow pane
+	 */
+	public FlowPane(Orientation orientation, Node... children) {
+		super(children);
+		this.orientation = orientation;
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given horizontal and vertical gaps and children.
+	 * @param hGap the horizontal gap between nodes
+	 * @param vGap the vertical gap between nodes
+	 * @param children the children of the flow pane
+	 */
+	public FlowPane(int hGap, int vGap, Node... children) {
+		super(children);
+		this.hGap = hGap;
+		this.vGap = vGap;
+	}
+
+	/**
+	 * Constructs a new FlowPane with the given orientation, horizontal and vertical gaps, and children.
+	 * @param orientation the orientation of the flow pane
+	 * @param hGap the horizontal gap between nodes
+	 * @param vGap the vertical gap between nodes
+	 * @param children the children of the flow pane
+	 */
+	public FlowPane(Orientation orientation, int hGap, int vGap, Node... children) {
+		super(children);
+		this.orientation = orientation;
+		this.hGap = hGap;
+		this.vGap = vGap;
 	}
 
 	/**

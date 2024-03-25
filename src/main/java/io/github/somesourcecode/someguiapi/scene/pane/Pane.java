@@ -40,6 +40,22 @@ import io.github.somesourcecode.someguiapi.scene.Node;
  */
 public class Pane extends Region {
 
+	/**
+	 * Constructs a new pane empty.
+	 */
+	public Pane() {
+		super();
+	}
+
+	/**
+	 * Constructs a new pane with the given children.
+	 * @param children the children of the pane
+	 */
+	public Pane(Node... children) {
+		super();
+		getChildren().addAll(children);
+	}
+
 	@Override
 	public ObservableList<Node> getChildren() {
 		return super.getChildren();

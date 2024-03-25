@@ -33,6 +33,40 @@ public class HBox extends Pane {
 	private int spacing;
 
 	/**
+	 * Constructs a new HBox with a spacing of 0.
+	 */
+	public HBox() {
+		super();
+	}
+
+	/**
+	 * Constructs a new HBox with the given spacing.
+	 * @param spacing the horizontal spacing between children
+	 */
+	public HBox(int spacing) {
+		super();
+		this.spacing = spacing;
+	}
+
+	/**
+	 * Constructs a new HBox with the given children.
+	 * @param children the children of the HBox
+	 */
+	public HBox(Node... children) {
+		super(children);
+	}
+
+	/**
+	 * Constructs a new HBox with the given spacing and children.
+	 * @param spacing the horizontal spacing between children
+	 * @param children the children of the HBox
+	 */
+	public HBox(int spacing, Node... children) {
+		super(children);
+		this.spacing = spacing;
+	}
+
+	/**
 	 * Returns the amount of horizontal space between each child node.
 	 * @return the horizontal spacing between children
 	 */

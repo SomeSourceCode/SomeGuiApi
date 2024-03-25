@@ -33,6 +33,40 @@ public class VBox extends Pane {
 	private int spacing;
 
 	/**
+	 * Constructs a new VBox with a spacing of 0.
+	 */
+	public VBox() {
+		super();
+	}
+
+	/**
+	 * Constructs a new VBox with the given spacing.
+	 * @param spacing the vertical spacing between children
+	 */
+	public VBox(int spacing) {
+		super();
+		this.spacing = spacing;
+	}
+
+	/**
+	 * Constructs a new VBox with the given children.
+	 * @param children the children of the VBox
+	 */
+	public VBox(Node... children) {
+		super(children);
+	}
+
+	/**
+	 * Constructs a new VBox with the given spacing and children.
+	 * @param spacing the vertical spacing between children
+	 * @param children the children of the VBox
+	 */
+	public VBox(int spacing, Node... children) {
+		super(children);
+		this.spacing = spacing;
+	}
+
+	/**
 	 * Returns the amount of vertical space between each child node.
 	 * @return the vertical spacing between children
 	 */

@@ -50,6 +50,36 @@ public class GuiItem extends Node {
 	private Lore lore;
 
 	/**
+	 * Constructs a new GuiItem with the specified material.
+	 * @param material the material of the item
+	 */
+	public GuiItem(Material material) {
+		this.material = material;
+	}
+
+	/**
+	 * Constructs a new GuiItem with the specified material and title.
+	 * @param material the material of the item
+	 * @param title the title of the item
+	 */
+	public GuiItem(Material material, Component title) {
+		this.material = material;
+		this.title = title;
+	}
+
+	/**
+	 * Constructs a new GuiItem with the specified material, title, and lore.
+	 * @param material the material of the item
+	 * @param title the title of the item
+	 * @param lore the lore of the item
+	 */
+	public GuiItem(Material material, Component title, Lore lore) {
+		this.material = material;
+		this.title = title;
+		this.lore = lore;
+	}
+
+	/**
 	 * Returns the {@link ItemStack} representation of this item.
 	 * @return the item stack
 	 */
@@ -234,7 +264,7 @@ public class GuiItem extends Node {
 	 * @return the builder
 	 */
 	public static Builder create(Material material) {
-		return new Builder().withMaterial(material);
+		return new Builder(material);
 	}
 
 	/**
@@ -245,8 +275,8 @@ public class GuiItem extends Node {
 
 		private final GuiItem item;
 
-		private Builder() {
-			this.item = new GuiItem();
+		private Builder(Material material) {
+			this.item = new GuiItem(material);
 		}
 
 		/**
