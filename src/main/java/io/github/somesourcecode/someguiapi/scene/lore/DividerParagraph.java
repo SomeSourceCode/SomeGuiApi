@@ -21,19 +21,6 @@ public class DividerParagraph implements Paragraph {
 		this.length = length;
 	}
 
-	@Override
-	public List<Component> getLines() {
-		if (length <= 0) {
-			return Collections.singletonList(Component.empty());
-		}
-		Component component = Component.text(" ".repeat(length))
-				.decoration(TextDecoration.ITALIC, false)
-				.decoration(TextDecoration.BOLD, bold)
-				.decoration(TextDecoration.STRIKETHROUGH, true)
-				.color(color);
-		return Collections.singletonList(component);
-	}
-
 	public int getLength() {
 		return length;
 	}
@@ -59,6 +46,19 @@ public class DividerParagraph implements Paragraph {
 	public DividerParagraph setBold(boolean bold) {
 		this.bold = bold;
 		return this;
+	}
+
+	@Override
+	public List<Component> getLines() {
+		if (length <= 0) {
+			return Collections.singletonList(Component.empty());
+		}
+		Component component = Component.text(" ".repeat(length))
+				.decoration(TextDecoration.ITALIC, false)
+				.decoration(TextDecoration.BOLD, bold)
+				.decoration(TextDecoration.STRIKETHROUGH, true)
+				.color(color);
+		return Collections.singletonList(component);
 	}
 
 }
