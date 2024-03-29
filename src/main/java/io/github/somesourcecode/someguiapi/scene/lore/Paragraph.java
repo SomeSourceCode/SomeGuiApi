@@ -2,6 +2,7 @@ package io.github.somesourcecode.someguiapi.scene.lore;
 
 import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.List;
 import java.util.function.Function;
@@ -22,8 +23,15 @@ public interface Paragraph {
 		return new DividerParagraph();
 	}
 
-	static DividerParagraph divider(int length) {
-		return new DividerParagraph(length);
+	static DividerParagraph divider(int length, NamedTextColor color) {
+		return new DividerParagraph(length)
+				.setColor(color);
+	}
+
+	static DividerParagraph divider(int length, NamedTextColor color, boolean bold) {
+		return new DividerParagraph(length)
+				.setColor(color)
+				.setBold(bold);
 	}
 
 	static BlankParagraph blank() {

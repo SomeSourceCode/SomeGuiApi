@@ -2,6 +2,7 @@ package io.github.somesourcecode.someguiapi.scene.lore;
 
 import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,14 @@ public class Lore {
 
 	public Lore appendBlank(int space) {
 		return appendParagraph(Paragraph.blank(space));
+	}
+
+	public Lore appendDivider(int length, NamedTextColor color) {
+		return appendParagraph(Paragraph.divider(length, color));
+	}
+
+	public Lore appendDivider(int length, NamedTextColor color, boolean bold) {
+		return appendParagraph(Paragraph.divider(length, color, bold));
 	}
 
 	public Lore clear() {
