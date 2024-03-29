@@ -1,0 +1,64 @@
+package io.github.somesourcecode.someguiapi.scene.lore;
+
+import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
+import net.kyori.adventure.text.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lore {
+
+	private final List<Paragraph> paragraphs = new ArrayList<>();
+
+	public Lore setParagraphs(List<Paragraph> paragraphs) {
+		this.paragraphs.clear();
+		this.paragraphs.addAll(paragraphs);
+		return this;
+	}
+
+	public Lore appendLine(Component line) {
+		return appendParagraph(Paragraph.line(line));
+	}
+
+	public Lore appendParagraph(Paragraph paragraph) {
+		paragraphs.add(paragraph);
+		return this;
+	}
+
+	public Lore appendParagraphs(Paragraph... paragraphs) {
+		for (Paragraph paragraph : paragraphs) {
+			appendParagraph(paragraph);
+		}
+		return this;
+	}
+
+	public Lore appendParagraphs(List<Paragraph> paragraphs) {
+		this.paragraphs.addAll(paragraphs);
+		return this;
+	}
+
+	public Lore appendBlank() {
+		return appendParagraph(Paragraph.blank());
+	}
+
+	public Lore appendBlank(int space) {
+		return appendParagraph(Paragraph.blank(space));
+	}
+
+	public Lore clear() {
+		paragraphs.clear();
+		return this;
+	}
+
+	public List<Component> generateLines(RenderContext context) {
+		paragraphs.stream()
+				.filter(ReloadableParagraph.class::isInstance)
+				.map(ReloadableParagraph.class::cast)
+				.forEach(paragraph -> paragraph.reload(context));
+		return paragraphs.stream()
+				.map(Paragraph::getLines)
+				.flatMap(List::stream)
+				.toList();
+	}
+
+}
