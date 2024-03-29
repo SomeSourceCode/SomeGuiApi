@@ -45,6 +45,10 @@ public class GuiListener implements Listener {
 		}
 		event.setCancelled(true);
 
+		if (gui.getScene() == null) {
+			return;
+		}
+
 		int slotX = event.getSlot() % 9;
 		int slotY = event.getSlot() / 9;
 
