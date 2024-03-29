@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.action;
 
+import io.github.somesourcecode.someguiapi.scene.Scene;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
@@ -31,6 +32,8 @@ import org.bukkit.event.inventory.ClickType;
  * It contains information about the type of click that was performed and the player that clicked.
  */
 public class NodeClickContext {
+
+	private final Scene scene;
 
 	private final int slotX;
 	private final int slotY;
@@ -45,18 +48,28 @@ public class NodeClickContext {
 
 	/**
 	 * Creates a new node click context.
+	 * @param scene the scene the click occurred in
 	 * @param x the x coordinate of the slot that was clicked
 	 * @param y the y coordinate of the slot that was clicked
 	 * @param type the type of click that was performed
 	 * @param player the player that clicked the node
 	 * @param hotBarButton the hot bar button that was clicked
 	 */
-	public NodeClickContext(int x, int y, ClickType type, Player player, int hotBarButton) {
+	public NodeClickContext(Scene scene, int x, int y, ClickType type, Player player, int hotBarButton) {
+		this.scene = scene;
 		this.slotX = x;
 		this.slotY = y;
 		this.type = type;
 		this.player = player;
 		this.hotBarButton = hotBarButton;
+	}
+
+	/**
+	 * Returns the scene the click occurred in.
+	 * @return the scene the click occurred in
+	 */
+	public Scene getScene() {
+		return scene;
 	}
 
 	/**

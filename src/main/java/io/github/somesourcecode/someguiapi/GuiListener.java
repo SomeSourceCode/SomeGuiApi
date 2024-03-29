@@ -48,7 +48,7 @@ public class GuiListener implements Listener {
 		int slotX = event.getSlot() % 9;
 		int slotY = event.getSlot() / 9;
 
-		gui.getScene().fireOnClick(new NodeClickContext(slotX, slotY, event.getClick(), player, event.getHotbarButton()));
+		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), player, event.getHotbarButton()));
 	}
 
 }
