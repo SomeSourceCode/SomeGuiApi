@@ -59,6 +59,10 @@ public class Scene {
 		setRoot(root);
 	}
 
+	/**
+	 * Returns the data holder of this scene.
+	 * @return the data holder of this scene
+	 */
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
 	}
