@@ -9,9 +9,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * A paragraph that contains text in form of a component.
+ * The content of the paragraph can be wrapped to fit a certain width.
+ */
 public class TextParagraph implements Paragraph {
 
+	/**
+	 * The default width at which the text should be wrapped.
+	 */
 	public static final int DEFAULT_WRAP_WIDTH = 30;
+	/**
+	 * The default type of wrapping.
+	 */
 	public static final WrapType DEFAULT_WRAP_TYPE = WrapType.WORD;
 
 	private Component contentComponent;
@@ -19,41 +29,82 @@ public class TextParagraph implements Paragraph {
 	private WrapType wrapType = DEFAULT_WRAP_TYPE;
 	private int wrapWidth = DEFAULT_WRAP_WIDTH;
 
+	/**
+	 * Constructs a new empty text paragraph.
+	 */
 	public TextParagraph() {
 
 	}
 
+	/**
+	 * Constructs a new text paragraph with the given content.
+	 * @param content the content of the paragraph
+	 */
 	public TextParagraph(Component content) {
 		this.contentComponent = content;
 	}
 
+	/**
+	 * Returns the content of the paragraph.
+	 * @return the content of the paragraph
+	 */
 	public Component getContent() {
 		return contentComponent;
 	}
 
+	/**
+	 * Sets the content of the paragraph.
+	 * Previous content will be overwritten. To append content,
+	 * use {@link #append(Component)}.
+	 * @param content the content of the paragraph
+	 * @return the paragraph for method chaining
+	 */
 	public TextParagraph setContent(Component content) {
 		this.contentComponent = content;
 		return this;
 	}
 
+	/**
+	 * Appends a component to the content of the paragraph.
+	 * @param component the component to append
+	 * @return the paragraph for method chaining
+	 */
 	public TextParagraph append(Component component) {
 		this.contentComponent = this.contentComponent.append(component);
 		return this;
 	}
 
+	/**
+	 * Returns the type of wrapping that is applied to the paragraph.
+	 * @return the type of wrapping
+	 */
 	public WrapType getWrapType() {
 		return wrapType;
 	}
 
+	/**
+	 * Sets the type of wrapping that should be applied to the paragraph.
+	 * @param wrapType the type of wrapping
+	 * @return the paragraph for method chaining
+	 */
 	public TextParagraph setWrapType(WrapType wrapType) {
 		this.wrapType = wrapType;
 		return this;
 	}
 
+	/**
+	 * Returns the width at which the text should be wrapped.
+	 * @return the wrap width
+	 */
 	public int getWrapWidth() {
 		return wrapWidth;
 	}
 
+	/**
+	 * Sets the width at which the text should be wrapped.
+	 * @param wrapWidth the wrap width
+	 * @return the paragraph for method chaining
+	 */
 	public TextParagraph setWrapWidth(int wrapWidth) {
 		this.wrapWidth = wrapWidth;
 		return this;

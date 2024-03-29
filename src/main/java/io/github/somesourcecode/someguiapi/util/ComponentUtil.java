@@ -2,8 +2,17 @@ package io.github.somesourcecode.someguiapi.util;
 
 import net.kyori.adventure.text.*;
 
+/**
+ * Utility class for components.
+ */
 public class ComponentUtil {
 
+	/**
+	 * Copies a component.
+	 * @param component the component to copy
+	 * @param copyChildren whether to copy the children of the component
+	 * @return the copied component
+	 */
 	public static Component copyComponent(Component component, boolean copyChildren) {
 		if (component == null) {
 			return null;

@@ -5,22 +5,40 @@ import net.kyori.adventure.text.Component;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A paragraph that contains just blank lines.
+ */
 public class BlankParagraph implements Paragraph {
 
 	private int space;
 
+	/**
+	 * Constructs a new blank paragraph with a single blank line.
+	 */
 	public BlankParagraph() {
 		this.space = 1;
 	}
 
+	/**
+	 * Constructs a new blank paragraph with the given amount of blank lines.
+	 * @param space the amount of blank lines
+	 */
 	public BlankParagraph(int space) {
 		this.space = space;
 	}
 
+	/**
+	 * Returns the amount of blank lines.
+	 * @return the amount of blank lines
+	 */
 	public int getSpace() {
 		return space;
 	}
 
+	/**
+	 * Sets the amount of blank lines.
+	 * @param space the amount of blank lines
+	 */
 	public void setSpace(int space) {
 		this.space = space;
 	}

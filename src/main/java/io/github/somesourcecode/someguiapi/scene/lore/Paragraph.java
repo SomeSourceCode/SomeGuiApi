@@ -7,8 +7,15 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Represents a paragraph in a lore.
+ */
 public interface Paragraph {
 
+	/**
+	 * Returns a list representing the lines of the paragraph.
+	 * @return the lines of the paragraph
+	 */
 	List<Component> getLines();
 
 	static TextParagraph text(Component content) {
