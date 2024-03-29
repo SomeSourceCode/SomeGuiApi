@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Lore {
 
@@ -65,6 +66,7 @@ public class Lore {
 				.map(ReloadableParagraph.class::cast)
 				.forEach(paragraph -> paragraph.reload(context));
 		return paragraphs.stream()
+				.filter(Objects::nonNull)
 				.map(Paragraph::getLines)
 				.flatMap(List::stream)
 				.toList();
