@@ -119,7 +119,16 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @param scene the scene
 	 */
 	public void setScene(Scene scene) {
+		if (this.scene == scene) {
+			return;
+		}
+		if (this.scene != null) {
+			this.scene.setGui(null);
+		}
 		this.scene = scene;
+		if (scene != null) {
+			scene.setGui(this);
+		}
 	}
 
 	/**

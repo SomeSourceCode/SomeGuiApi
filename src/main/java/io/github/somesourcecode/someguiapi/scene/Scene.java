@@ -24,6 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,8 @@ import java.util.ArrayList;
  * For content to be rendered the application must specify a root Node by setting the root property.
  */
 public class Scene {
+
+	private Gui gui;
 
 	private Parent root;
 	private Background background;
@@ -50,7 +53,25 @@ public class Scene {
 	 * @param root the root of the scene
 	 */
 	public Scene(Parent root) {
-		this.root = root;
+		setRoot(root);
+	}
+
+	/**
+	 * Returns the GUI that this scene is attached to.
+	 * @return the GUI that this scene is attached to
+	 */
+	public Gui getGui() {
+		return gui;
+	}
+
+	/**
+	 * Sets the GUI that this scene is attached to.
+	 * <b>This method is part of the internal API and should not be called by users.</b>
+	 * If you want to attach a scene to a GUI, use methods provided by the respective gui class.
+	 * @param gui the GUI that this scene is attached to
+	 */
+	public void setGui(Gui gui) {
+		this.gui = gui;
 	}
 
 	/**
@@ -121,7 +142,16 @@ public class Scene {
 	 * @param root the new root of the scene
 	 */
 	public void setRoot(Parent root) {
+		if (this.root == root) {
+			return;
+		}
+		if (this.root != null) {
+			this.root.setScene(null);
+		}
 		this.root = root;
+		if (root != null) {
+			root.setScene(this);
+		}
 	}
 
 	/**

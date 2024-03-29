@@ -60,6 +60,7 @@ import java.util.function.Consumer;
  */
 public abstract class Node {
 
+	private Scene scene;
 	private Parent parent;
 
 	private int layoutX;
@@ -76,6 +77,30 @@ public abstract class Node {
 	private Consumer<NodeClickContext> onRightClick;
 	private Consumer<NodeClickContext> onShiftClick;
 	private Consumer<NodeClickContext> onHotBarClick;
+
+	/**
+	 * Returns the scene that this node is in.
+	 * If this node is not in a scene, this method returns null.
+	 * @return the scene that this node is in
+	 */
+	public Scene getScene() {
+		return scene;
+	}
+
+	/**
+	 * Sets the scene that this node is in.
+	 * <b>This method is part of the internal API and should not be called by users.</b>
+	 * If you want to set the scene of a node, use {@link Scene#setRoot(Parent)}.
+	 * @param scene the scene that this node is in
+	 */
+	public final void setScene(Scene scene) {
+		this.scene = scene;
+		if (this instanceof Parent asParent) {
+			for (Node child : asParent.getChildren()) {
+				child.setScene(scene);
+			}
+		}
+	}
 
 	/**
 	 * Returns the parent of this node.
