@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
+import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -33,7 +34,17 @@ import java.util.List;
  */
 public abstract class Gui {
 
+	protected final ContextDataHolder dataHolder = new ContextDataHolder();
+
 	protected Inventory inventory;
+
+	/**
+	 * Returns the {@link ContextDataHolder} of this GUI.
+	 * @return the data holder
+	 */
+	public ContextDataHolder getDataHolder() {
+		return dataHolder;
+	}
 
 	/**
 	 * Shows this GUI to the specified player.

@@ -24,6 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
  * For content to be rendered the application must specify a root Node by setting the root property.
  */
 public class Scene {
+
+	private final ContextDataHolder dataHolder = new ContextDataHolder();
 
 	private Gui gui;
 
@@ -54,6 +57,10 @@ public class Scene {
 	 */
 	public Scene(Parent root) {
 		setRoot(root);
+	}
+
+	public ContextDataHolder getDataHolder() {
+		return dataHolder;
 	}
 
 	/**
