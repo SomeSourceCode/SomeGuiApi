@@ -32,6 +32,28 @@ public class DividerParagraph implements Paragraph {
 	}
 
 	/**
+	 * Constructs a new divider paragraph with the given length and color.
+	 * @param length the length of the divider
+	 * @param color the color of the divider
+	 */
+	public DividerParagraph(int length, TextColor color) {
+		this.length = length;
+		this.color = color;
+	}
+
+	/**
+	 * Constructs a new divider paragraph with the given length, color and boldness.
+	 * @param length the length of the divider
+	 * @param color the color of the divider
+	 * @param bold whether the divider is bold
+	 */
+	public DividerParagraph(int length, TextColor color, boolean bold) {
+		this.length = length;
+		this.color = color;
+		this.bold = bold;
+	}
+
+	/**
 	 * Returns the length of the divider.
 	 * @return the length of the divider
 	 */

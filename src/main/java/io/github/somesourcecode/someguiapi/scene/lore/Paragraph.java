@@ -30,15 +30,16 @@ public interface Paragraph {
 		return new DividerParagraph();
 	}
 
+	static DividerParagraph divider(int length) {
+		return new DividerParagraph(length);
+	}
+
 	static DividerParagraph divider(int length, NamedTextColor color) {
-		return new DividerParagraph(length)
-				.setColor(color);
+		return new DividerParagraph(length, color);
 	}
 
 	static DividerParagraph divider(int length, NamedTextColor color, boolean bold) {
-		return new DividerParagraph(length)
-				.setColor(color)
-				.setBold(bold);
+		return new DividerParagraph(length, color, bold);
 	}
 
 	static BlankParagraph blank() {
