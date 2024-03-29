@@ -38,9 +38,11 @@ public class BlankParagraph implements Paragraph {
 	/**
 	 * Sets the amount of blank lines.
 	 * @param space the amount of blank lines
+	 * @return the paragraph for method chaining
 	 */
-	public void setSpace(int space) {
+	public BlankParagraph setSpace(int space) {
 		this.space = space;
+		return this;
 	}
 
 	@Override

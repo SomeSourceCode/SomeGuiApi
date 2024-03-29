@@ -30,9 +30,11 @@ public class LineParagraph implements Paragraph {
 	/**
 	 * Sets the line of the paragraph.
 	 * @param line the line of the paragraph
+	 * @return the paragraph for method chaining
 	 */
-	public void setLine(Component line) {
+	public LineParagraph setLine(Component line) {
 		this.line = line;
+		return this;
 	}
 
 	@Override
