@@ -3,10 +3,9 @@ package io.github.somesourcecode.someguiapi.scene.lore;
 import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Represents the text which is shown below the title on hover.
@@ -14,6 +13,30 @@ import java.util.Objects;
 public class Lore {
 
 	private final List<Paragraph> paragraphs = new ArrayList<>();
+
+	private final HashMap<TextDecoration, Boolean> decorations = new HashMap<>();
+
+	/**
+	 * Adds a decoration override to the lore.
+	 * Every line will have the given decoration applied.
+	 * @param decoration the decoration
+	 * @param value the value
+	 * @return the lore for method chaining
+	 */
+	public Lore setDecoration(TextDecoration decoration, boolean value) {
+		decorations.put(decoration, value);
+		return this;
+	}
+
+	/**
+	 * Removes a decoration override from the lore.
+	 * @param decoration the decoration
+	 * @return the lore for method chaining
+	 */
+	public Lore unsetDecoration(TextDecoration decoration) {
+		decorations.remove(decoration);
+		return this;
+	}
 
 	/**
 	 * Sets the paragraphs of the lore.
@@ -135,6 +158,12 @@ public class Lore {
 				.filter(Objects::nonNull)
 				.map(Paragraph::getLines)
 				.flatMap(List::stream)
+				.map(line -> {
+					for (Map.Entry<TextDecoration, Boolean> entry : decorations.entrySet()) {
+						line = line.decoration(entry.getKey(), entry.getValue());
+					}
+					return line;
+				})
 				.toList();
 	}
 
