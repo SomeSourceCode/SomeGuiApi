@@ -24,6 +24,8 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.lore.Lore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -107,7 +109,7 @@ public class GuiItem extends Node {
 			meta.displayName(title);
 		}
 		if (lore != null) {
-			meta.lore(lore.getLines());
+			meta.lore(lore.generateLines(new RenderContext(getScene())));
 		}
 
 		item.setItemMeta(meta);
