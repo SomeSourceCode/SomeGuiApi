@@ -73,7 +73,8 @@ using various properties such as `material`, `title`, `lore`, and `click events`
 GuiItem item = new GuiItem();
 item.setMaterial(Material.DIAMOND_SWORD);
 item.setTitle("Sword");
-item.setLore("A powerful weapon");
+item.setLore(new Lore()
+        .appendLine("A powerful weapon"));
 item.setOnClick(context -> {
     Player player = context.getPlayer();
     player.sendMessage("You clicked the sword!");
