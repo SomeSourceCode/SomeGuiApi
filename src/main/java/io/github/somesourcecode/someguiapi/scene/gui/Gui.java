@@ -24,7 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 
 import java.util.List;
@@ -47,22 +47,22 @@ public abstract class Gui {
 	}
 
 	/**
-	 * Shows this GUI to the specified player.
-	 * @param player the player
+	 * Shows this GUI to the specified human entity.
+	 * @param humanEntity the human entity
 	 */
-	public abstract void show(Player player);
+	public abstract void show(HumanEntity humanEntity);
 
 	/**
-	 * Returns a list of players that are currently viewing this GUI.
-	 * @return a list of players viewing this GUI
+	 * Returns a list of human entities that are currently viewing this GUI.
+	 * @return a list of human entities viewing this GUI
 	 */
-	public abstract List<Player> getViewers();
+	public abstract List<HumanEntity> getViewers();
 
 	/**
 	 * Updates the GUI for all viewers.
 	 */
 	public void update() {
-		for (Player viewer : getViewers()) {
+		for (HumanEntity viewer : getViewers()) {
 			show(viewer);
 		}
 	}

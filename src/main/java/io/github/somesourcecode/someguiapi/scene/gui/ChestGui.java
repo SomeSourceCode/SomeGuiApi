@@ -27,7 +27,7 @@ import io.github.somesourcecode.someguiapi.scene.Parent;
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -40,8 +40,6 @@ import java.util.List;
  * Represents a GUI that can be shown to players.
  */
 public class ChestGui extends Gui implements InventoryHolder {
-
-	private final List<Player> viewers = new ArrayList<>();
 
 	private Component title;
 	private int rows;
@@ -61,11 +59,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	@Override
-	public void show(Player player) {
-		if (viewers.contains(player)) {
+	public void show(HumanEntity humanEntity) {
+		if (getViewers().contains(humanEntity)) {
 			return;
 		}
-		player.openInventory(inventory);
+		humanEntity.openInventory(inventory);
 		if (scene == null) {
 			return;
 		}
@@ -179,8 +177,8 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	@Override
-	public List<Player> getViewers() {
-		return viewers;
+	public List<HumanEntity> getViewers() {
+		return new ArrayList<>(inventory.getViewers());
 	}
 
 }
