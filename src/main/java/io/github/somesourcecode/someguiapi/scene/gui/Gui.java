@@ -23,10 +23,12 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
+import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -36,6 +38,8 @@ public abstract class Gui {
 
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
 
+	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
+
 	protected Inventory inventory;
 
 	/**
@@ -44,6 +48,30 @@ public abstract class Gui {
 	 */
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
+	}
+
+	public EnumSet<DirtyFlag> getDirtyFlags() {
+		return EnumSet.copyOf(dirtyFlags);
+	}
+
+	public final void setDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.add(flag);
+	}
+
+	public final void clearDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.remove(flag);
+	}
+
+	public final void clearDirtyFlags() {
+		dirtyFlags.clear();
+	}
+
+	public final boolean isDirty() {
+		return !dirtyFlags.isEmpty();
+	}
+
+	public final boolean isDirty(DirtyFlag flag) {
+		return dirtyFlags.contains(flag);
 	}
 
 	/**

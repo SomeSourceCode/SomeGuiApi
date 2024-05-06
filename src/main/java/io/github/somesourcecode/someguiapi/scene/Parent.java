@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
+import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 public abstract class Parent extends Node {
 
 	private final ObservableList<Node> children = new ObservableListBase<>(new ArrayList<>());
+
+	private boolean needsLayout = true;
 
 	private Background background;
 
@@ -65,6 +68,7 @@ public abstract class Parent extends Node {
 					}
 				}
 			}
+			requestLayout();
 		});
 	}
 
@@ -77,15 +81,54 @@ public abstract class Parent extends Node {
 	}
 
 	/**
+	 * Returns whether this parent is the root of a scene.
+	 * @return whether this parent is the root of a scene
+	 */
+	public boolean isSceneRoot() {
+		return getParent() == null && getScene() != null;
+	}
+
+	/**
+	 * Requests a layout update for this parent.
+	 * Layout will be applied on the next layout pass.
+	 */
+	public void requestLayout() {
+		needsLayout = true;
+		if (isSceneRoot()) {
+			getScene().getGui().setDirtyFlag(DirtyFlag.GUI_CONTENT);
+		}
+		requestParentLayout();
+	}
+
+	/**
+	 * Returns whether this parent needs a layout update.
+	 * @return whether this parent needs a layout update
+	 * @see #requestLayout()
+	 */
+	public boolean needsLayout() {
+		return needsLayout;
+	}
+
+	private boolean performingLayout = false;
+
+	/**
 	 * Recursively applies the layout to all children and itself.
 	 */
 	public final void layout() {
+		if (!needsLayout || performingLayout) {
+			return;
+		}
+		needsLayout = false;
+
+		performingLayout = true;
+		layoutChildren();
+
 		for (Node child : children) {
 			if (child instanceof Parent parent) {
 				parent.layout();
 			}
 		}
-		layoutChildren();
+		performingLayout = false;
 	}
 
 	protected void layoutChildren() {
@@ -109,7 +152,7 @@ public abstract class Parent extends Node {
 	}
 
 	@Override
-	public ItemStack pixelAt(int x, int y) {
+	public ItemStack renderPixelAt(int x, int y, RenderContext renderContext) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
 
 		if (children.isEmpty()) {
@@ -132,14 +175,14 @@ public abstract class Parent extends Node {
 			final int localX = x - childX;
 			final int localY = y - childY;
 
-			final ItemStack pixel = child.pixelAt(localX, localY);
+			final ItemStack pixel = child.renderPixelAt(localX, localY, renderContext);
 			if (pixel != null) {
 				return pixel;
 			}
 		}
 
 		if (isInBounds && background != null) {
-			return background.backgroundAt(x, y);
+			return background.backgroundAt(renderContext, x, y);
 		}
 
 		return null;

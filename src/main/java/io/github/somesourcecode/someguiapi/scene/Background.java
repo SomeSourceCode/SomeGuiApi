@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -32,11 +33,12 @@ public interface Background {
 
 	/**
 	 * Returns the item stack that should be displayed at the given layout coordinates.
+	 * @param renderContext the render context
 	 * @param layoutX the x coordinate of the layout
 	 * @param layoutY the y coordinate of the layout
 	 * @return the item stack that should be displayed at the given layout coordinates
 	 */
-	 ItemStack backgroundAt(int layoutX, int layoutY);
+	 ItemStack backgroundAt(RenderContext renderContext, int layoutX, int layoutY);
 
 	/**
 	 * Creates a background that fills the background with the given item.
@@ -44,7 +46,7 @@ public interface Background {
 	 * @return the background
 	 */
 	 static Background fill(GuiItem item) {
-		return (layoutX, layoutY) -> item.asItemStack();
+		return (renderContext, layoutX, layoutY) -> item.renderPixel(renderContext);
 	 }
 
 	/**
@@ -54,7 +56,7 @@ public interface Background {
 	 * @return the background
 	 */
 	 static Background checkerboard(GuiItem primary, GuiItem secondary) {
-		 return (layoutX, layoutY) -> (layoutX + layoutY) % 2 == 0 ? primary.asItemStack() : secondary.asItemStack();
+		 return (renderContext, layoutX, layoutY) -> (layoutX + layoutY) % 2 == 0 ? primary.renderPixel(renderContext) : secondary.renderPixel(renderContext);
 	 }
 
 }

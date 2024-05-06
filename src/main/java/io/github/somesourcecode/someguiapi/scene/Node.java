@@ -24,6 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
@@ -116,6 +117,13 @@ public abstract class Node {
 		this.parent = parent;
 	}
 
+	public void requestParentLayout() {
+		Parent parent = getParent();
+		if (parent != null) {
+			parent.requestLayout();
+		}
+	}
+
 	/**
 	 * Returns the x coordinate of the node's origin.
 	 * The origin is the top-left corner of the node.
@@ -133,7 +141,11 @@ public abstract class Node {
 	 * @param layoutX the x coordinate of the node's origin
 	 */
 	public void setLayoutX(int layoutX) {
+		if (this.layoutX == layoutX) {
+			return;
+		}
 		this.layoutX = layoutX;
+		requestParentLayout();
 	}
 
 	/**
@@ -153,7 +165,11 @@ public abstract class Node {
 	 * @param layoutY the y coordinate of the node's origin
 	 */
 	public void setLayoutY(int layoutY) {
+		if (this.layoutY == layoutY) {
+			return;
+		}
 		this.layoutY = layoutY;
+		requestParentLayout();
 	}
 
 	/**
@@ -185,7 +201,11 @@ public abstract class Node {
 	 * @param translateX the x translation of the node
 	 */
 	public void setTranslateX(int translateX) {
+		if (this.translateX == translateX) {
+			return;
+		}
 		this.translateX = translateX;
+		requestParentLayout();
 	}
 
 	/**
@@ -205,7 +225,11 @@ public abstract class Node {
 	 * @param translateY the y translation of the node
 	 */
 	public void setTranslateY(int translateY) {
+		if (this.translateY == translateY) {
+			return;
+		}
 		this.translateY = translateY;
+		requestParentLayout();
 	}
 
 	/**
@@ -349,9 +373,10 @@ public abstract class Node {
 	 * The coordinates are relative to this parent's bounds.
 	 * @param x the x coordinate
 	 * @param y the y coordinate
+	 * @param renderContext the render context
 	 * @return the ItemStack at the given coordinates, or null if there is no pixel at the given coordinates
 	 */
-	public abstract ItemStack pixelAt(int x, int y);
+	public abstract ItemStack renderPixelAt(int x, int y, RenderContext renderContext);
 
 	/**
 	 * Returns the node at the given coordinates.

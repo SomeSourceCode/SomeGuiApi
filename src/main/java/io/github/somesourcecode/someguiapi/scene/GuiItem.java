@@ -82,42 +82,6 @@ public class GuiItem extends Node {
 	}
 
 	/**
-	 * Returns the {@link ItemStack} representation of this item.
-	 * @return the item stack
-	 */
-	public ItemStack asItemStack() {
-		if (material == null) {
-			throw new IllegalStateException("Material is not set");
-		}
-		if (material.isAir()) {
-			throw new IllegalStateException("Material cannot be AIR");
-		}
-		ItemStack item = new ItemStack(material);
-
-		if (index >= 1 && index <= 64) {
-			item.setAmount(index);
-		}
-
-		if (glow) {
-			item.addUnsafeEnchantment(Enchantment.LUCK, 1);
-			item.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		}
-
-		ItemMeta meta = item.getItemMeta();
-
-		if (title != null) {
-			meta.displayName(title);
-		}
-		if (lore != null) {
-			meta.lore(lore.generateLines(new RenderContext(getScene())));
-		}
-
-		item.setItemMeta(meta);
-
-		return item;
-	}
-
-	/**
 	 * Returns the material of this item.
 	 * @return the material
 	 */
@@ -224,14 +188,51 @@ public class GuiItem extends Node {
 	}
 
 	/**
+	 * Renders this item as an ItemStack, regardless of the coordinates.
+	 * @param renderContext the render context
+	 * @return the rendered ItemStack
+	 */
+	public ItemStack renderPixel(RenderContext renderContext) {
+		if (material == null) {
+			throw new IllegalStateException("Material is not set");
+		}
+		if (material.isAir()) {
+			throw new IllegalStateException("Material cannot be AIR");
+		}
+		ItemStack item = new ItemStack(material);
+
+		if (index >= 1 && index <= 64) {
+			item.setAmount(index);
+		}
+
+		if (glow) {
+			item.addUnsafeEnchantment(Enchantment.LUCK, 1);
+			item.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		}
+
+		ItemMeta meta = item.getItemMeta();
+
+		if (title != null) {
+			meta.displayName(title);
+		}
+		if (lore != null) {
+			meta.lore(lore.generateLines(renderContext));
+		}
+
+		item.setItemMeta(meta);
+
+		return item;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * <b>NOTE:</b> This method implementation will always return the ItemStack constructed by
-	 * {@link #asItemStack()} if the given coordinates are within the bounds;
+	 * {@link #renderPixel(RenderContext)} ()} if the given coordinates are within the bounds;
 	 * null otherwise.
 	 */
 	@Override
-	public ItemStack pixelAt(int x, int y) {
+	public ItemStack renderPixelAt(int x, int y, RenderContext renderContext) {
 		if (!isVisible()) {
 			return null;
 		}
@@ -239,7 +240,7 @@ public class GuiItem extends Node {
 		if (!isInBounds) {
 			return null;
 		}
-		return asItemStack();
+		return renderPixel(renderContext);
 	}
 
 	/**
