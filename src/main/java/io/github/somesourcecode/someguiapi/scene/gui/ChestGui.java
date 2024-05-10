@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.Parent;
+import io.github.somesourcecode.someguiapi.scene.Pixel;
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import net.kyori.adventure.text.Component;
@@ -102,7 +103,8 @@ public class ChestGui extends Gui implements InventoryHolder {
 		RenderContext renderContext = new RenderContext(this, scene);
 		if (scene.getRoot() == null && scene.getBackground() != null) {
 			for (int i = 0; i < inventory.getSize(); i++) {
-				inventory.setItem(i, scene.getBackground().backgroundAt(renderContext, i % 9, i / 9));
+				Pixel pixel = scene.getBackground().backgroundAt(i % 9, i / 9);
+				inventory.setItem(i, pixel == null ? null : pixel.renderItemStack(renderContext));
 			}
 		}
 
@@ -115,8 +117,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
-				ItemStack pixel = root.renderPixelAt(x - rootLayoutX, y - rootLayoutY, renderContext);
-				pixels[x][y] = pixel == null ? (scene.getBackground() == null ? null : scene.getBackground().backgroundAt(renderContext, x, y)) : pixel;
+				Pixel pixel = root.renderPixelAt(x - rootLayoutX, y - rootLayoutY);
+				if (pixel == null) {
+					pixel = scene.getBackground().backgroundAt(x, y);
+				}
+				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(renderContext);
 			}
 		}
 

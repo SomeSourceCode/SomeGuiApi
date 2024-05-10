@@ -24,8 +24,6 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -369,14 +367,13 @@ public abstract class Node {
 	}
 
 	/**
-	 * Returns an {@link ItemStack} representing the pixel at the given coordinates.
+	 * Returns a {@link Pixel} that should be rendered at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 * @param renderContext the render context
-	 * @return the ItemStack at the given coordinates, or null if there is no pixel at the given coordinates
+	 * @return the pixel at the given coordinates, or null if there is no pixel at the given coordinates
 	 */
-	public abstract ItemStack renderPixelAt(int x, int y, RenderContext renderContext);
+	public abstract Pixel renderPixelAt(int x, int y);
 
 	/**
 	 * Returns the node at the given coordinates.

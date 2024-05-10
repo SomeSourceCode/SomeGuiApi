@@ -23,9 +23,6 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
-import org.bukkit.inventory.ItemStack;
-
 /**
  * Represents a background for a node or scene.
  */
@@ -33,30 +30,29 @@ public interface Background {
 
 	/**
 	 * Returns the item stack that should be displayed at the given layout coordinates.
-	 * @param renderContext the render context
 	 * @param layoutX the x coordinate of the layout
 	 * @param layoutY the y coordinate of the layout
 	 * @return the item stack that should be displayed at the given layout coordinates
 	 */
-	 ItemStack backgroundAt(RenderContext renderContext, int layoutX, int layoutY);
+	Pixel backgroundAt(int layoutX, int layoutY);
 
 	/**
-	 * Creates a background that fills the background with the given item.
-	 * @param item the item to fill the background with
+	 * Creates a background that fills the background with the given pixel.
+	 * @param pixel the item to fill the background with
 	 * @return the background
 	 */
-	 static Background fill(GuiItem item) {
-		return (renderContext, layoutX, layoutY) -> item.renderPixel(renderContext);
-	 }
+	static Background fill(Pixel pixel) {
+		return (layoutX, layoutY) -> pixel;
+	}
 
 	/**
-	 * Creates a checkerboard background with the given primary and secondary items.
+	 * Creates a checkerboard background with the given primary and secondary pixels.
 	 * @param primary the primary item
 	 * @param secondary the secondary item
 	 * @return the background
 	 */
-	 static Background checkerboard(GuiItem primary, GuiItem secondary) {
-		 return (renderContext, layoutX, layoutY) -> (layoutX + layoutY) % 2 == 0 ? primary.renderPixel(renderContext) : secondary.renderPixel(renderContext);
-	 }
+	static Background checkerboard(Pixel primary, Pixel secondary) {
+		return (layoutX, layoutY) -> (layoutX + layoutY) % 2 == 0 ? primary : secondary;
+	}
 
 }

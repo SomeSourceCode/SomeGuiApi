@@ -25,8 +25,6 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
-import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
@@ -152,7 +150,7 @@ public abstract class Parent extends Node {
 	}
 
 	@Override
-	public ItemStack renderPixelAt(int x, int y, RenderContext renderContext) {
+	public Pixel renderPixelAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
 
 		if (children.isEmpty()) {
@@ -175,14 +173,14 @@ public abstract class Parent extends Node {
 			final int localX = x - childX;
 			final int localY = y - childY;
 
-			final ItemStack pixel = child.renderPixelAt(localX, localY, renderContext);
+			final Pixel pixel = child.renderPixelAt(localX, localY);
 			if (pixel != null) {
 				return pixel;
 			}
 		}
 
 		if (isInBounds && background != null) {
-			return background.backgroundAt(renderContext, x, y);
+			return background.backgroundAt(x, y);
 		}
 
 		return null;
