@@ -115,6 +115,10 @@ public abstract class Node {
 		this.parent = parent;
 	}
 
+	/**
+	 * Requests a layout update for this node's parent.
+	 * Layout will be applied on the next layout pass.
+	 */
 	public void requestParentLayout() {
 		Parent parent = getParent();
 		if (parent != null) {
