@@ -40,6 +40,9 @@ public class GuiItem extends Node {
 
 	private final Pixel pixel;
 
+	/**
+	 * Constructs a new GuiItem with an empty pixel.
+	 */
 	public GuiItem() {
 		this.pixel = Pixel.empty();
 	}
