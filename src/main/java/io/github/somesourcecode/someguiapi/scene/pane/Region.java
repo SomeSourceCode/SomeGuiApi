@@ -56,7 +56,11 @@ public class Region extends Parent {
 	 * @param width the width of this region
 	 */
 	public void setWidth(int width) {
+		if (this.width == width) {
+			return;
+		}
 		this.width = width;
+		requestLayout();
 	}
 
 	@Override
@@ -69,7 +73,11 @@ public class Region extends Parent {
 	 * @param height the height of this region
 	 */
 	public void setHeight(int height) {
+		if (this.height == height) {
+			return;
+		}
 		this.height = height;
+		requestLayout();
 	}
 
 	/**
@@ -111,7 +119,11 @@ public class Region extends Parent {
 	 * @param padding the padding of this region
 	 */
 	public void setPadding(Insets padding) {
+		if ((this.padding == null && padding == null) || (this.padding != null && this.padding.equals(padding))) {
+			return;
+		}
 		this.padding = padding;
+		requestLayout();
 	}
 
 }

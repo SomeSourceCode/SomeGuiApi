@@ -24,14 +24,9 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import io.github.somesourcecode.someguiapi.scene.lore.Lore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.function.Consumer;
 
@@ -43,169 +38,21 @@ import java.util.function.Consumer;
  */
 public class GuiItem extends Node {
 
-	private Material material;
+	private final Pixel pixel;
 
-	private int index;
-	private boolean glow;
-
-	private Component title;
-	private Lore lore;
+	/**
+	 * Constructs a new GuiItem with an empty pixel.
+	 */
+	public GuiItem() {
+		this.pixel = Pixel.empty();
+	}
 
 	/**
 	 * Constructs a new GuiItem with the specified material.
 	 * @param material the material of the item
 	 */
 	public GuiItem(Material material) {
-		this.material = material;
-	}
-
-	/**
-	 * Constructs a new GuiItem with the specified material and title.
-	 * @param material the material of the item
-	 * @param title the title of the item
-	 */
-	public GuiItem(Material material, Component title) {
-		this.material = material;
-		this.title = title;
-	}
-
-	/**
-	 * Constructs a new GuiItem with the specified material, title, and lore.
-	 * @param material the material of the item
-	 * @param title the title of the item
-	 * @param lore the lore of the item
-	 */
-	public GuiItem(Material material, Component title, Lore lore) {
-		this.material = material;
-		this.title = title;
-		this.lore = lore;
-	}
-
-	/**
-	 * Returns the {@link ItemStack} representation of this item.
-	 * @return the item stack
-	 */
-	public ItemStack asItemStack() {
-		if (material == null) {
-			throw new IllegalStateException("Material is not set");
-		}
-		if (material.isAir()) {
-			throw new IllegalStateException("Material cannot be AIR");
-		}
-		ItemStack item = new ItemStack(material);
-
-		if (index >= 1 && index <= 64) {
-			item.setAmount(index);
-		}
-
-		if (glow) {
-			item.addUnsafeEnchantment(Enchantment.LUCK, 1);
-			item.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		}
-
-		ItemMeta meta = item.getItemMeta();
-
-		if (title != null) {
-			meta.displayName(title);
-		}
-		if (lore != null) {
-			meta.lore(lore.generateLines(new RenderContext(getScene())));
-		}
-
-		item.setItemMeta(meta);
-
-		return item;
-	}
-
-	/**
-	 * Returns the material of this item.
-	 * @return the material
-	 */
-	public Material getMaterial() {
-		return material;
-	}
-
-	/**
-	 * Sets the material of this item.
-	 * @param material the new material
-	 */
-	public void setMaterial(Material material) {
-		this.material = material;
-	}
-
-	/**
-	 * Returns the index of this item.
-	 * @return the index
-	 */
-	public int getIndex() {
-		return index;
-	}
-
-	/**
-	 * Sets the index of this item.
-	 * @param index the new index
-	 */
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	/**
-	 * Returns whether this item should have a glow effect.
-	 * The glow effect is the effect applied to enchanted items.
-	 * @return whether this item should glow
-	 */
-	public boolean isGlow() {
-		return glow;
-	}
-
-	/**
-	 * Sets whether this item should have a glow effect.
-	 * The glow effect is the effect applied to enchanted items.
-	 * @param glow whether this item should glow
-	 */
-	public void setGlow(boolean glow) {
-		this.glow = glow;
-	}
-
-	/**
-	 * Returns the title of this item.
-	 * @return the title
-	 */
-	public Component getTitle() {
-		return title;
-	}
-
-	/**
-	 * Sets the title of this item.
-	 * @param title the new title
-	 */
-	public void setTitle(Component title) {
-		this.title = title;
-	}
-
-	/**
-	 * Sets the title of this item.
-	 * This method is a shorthand for {@link #setTitle(Component)}.
-	 * @param title the new title
-	 */
-	public void setTitle(String title) {
-		this.title = Component.text(title);
-	}
-
-	/**
-	 * Returns the lore of this item.
-	 * @return the lore
-	 */
-	public Lore getLore() {
-		return lore;
-	}
-
-	/**
-	 * Sets the lore of this item.
-	 * @param lore the new lore
-	 */
-	public void setLore(Lore lore) {
-		this.lore = lore;
+		this.pixel = new Pixel(material);
 	}
 
 	@Override
@@ -224,14 +71,102 @@ public class GuiItem extends Node {
 	}
 
 	/**
+	 * Returns the material of this item.
+	 * @return the material
+	 */
+	public Material getMaterial() {
+		return pixel.getMaterial();
+	}
+
+	/**
+	 * Sets the material of this item.
+	 * @param material the material
+	 */
+	public void setMaterial(Material material) {
+		pixel.setMaterial(material);
+	}
+
+	/**
+	 * Returns the title of this item.
+	 * @return the title
+	 */
+	public Component getTitle() {
+		return pixel.getTitle();
+	}
+
+	/**
+	 * Sets the title of this item.
+	 * @param title the title
+	 */
+	public void setTitle(Component title) {
+		pixel.setTitle(title);
+	}
+
+	/**
+	 * Returns the lore of this item.
+	 * @return the lore
+	 */
+	public Lore getLore() {
+		return pixel.getLore();
+	}
+
+	/**
+	 * Sets the lore of this item.
+	 * @param lore the lore
+	 */
+	public void setLore(Lore lore) {
+		pixel.setLore(lore);
+	}
+
+	/**
+	 * Returns the index of this item.
+	 * @return the index
+	 */
+	public int getIndex() {
+		return pixel.getIndex();
+	}
+
+	/**
+	 * Sets the index of this item.
+	 * @param index the index
+	 */
+	public void setIndex(int index) {
+		pixel.setIndex(index);
+	}
+
+	/**
+	 * Returns whether this item should glow.
+	 * @return whether this item should glow
+	 */
+	public boolean isGlow() {
+		return pixel.isGlow();
+	}
+
+	/**
+	 * Sets whether this item should glow.
+	 * @param glow whether this item should glow
+	 */
+	public void setGlow(boolean glow) {
+		pixel.setGlow(glow);
+	}
+
+	/**
+	 * Returns the pixel representation of this item.
+	 * @return the rendered ItemStack
+	 */
+	public Pixel getPixel() {
+		return isVisible() ? pixel : null;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * <b>NOTE:</b> This method implementation will always return the ItemStack constructed by
-	 * {@link #asItemStack()} if the given coordinates are within the bounds;
+	 * {@link #getPixel()} if the given coordinates are within the bounds;
 	 * null otherwise.
 	 */
 	@Override
-	public ItemStack pixelAt(int x, int y) {
+	public Pixel renderPixelAt(int x, int y) {
 		if (!isVisible()) {
 			return null;
 		}
@@ -239,7 +174,7 @@ public class GuiItem extends Node {
 		if (!isInBounds) {
 			return null;
 		}
-		return asItemStack();
+		return getPixel();
 	}
 
 	/**
@@ -261,6 +196,15 @@ public class GuiItem extends Node {
 	 **************************************************************************/
 
 	/**
+	 * Constructs a new empty GuiItem builder with the given pixel.
+	 * @param pixel the pixel of the item
+	 * @return the builder
+	 */
+	public static Builder create(Pixel pixel) {
+		return new Builder(pixel);
+	}
+
+	/**
 	 * Constructs a new empty GuiItem builder with the given material.
 	 * @param material the material of the item
 	 * @return the builder
@@ -275,10 +219,31 @@ public class GuiItem extends Node {
 	 */
 	public static class Builder {
 
-		private final GuiItem item;
+		private int layoutX;
+		private int layoutY;
+
+		private Consumer<NodeClickContext> onClick;
+		private Consumer<NodeClickContext> onLeftClick;
+		private Consumer<NodeClickContext> onRightClick;
+		private Consumer<NodeClickContext> onShiftClick;
+		private Consumer<NodeClickContext> onHotBarClick;
+
+		private Material material;
+		private Component title;
+		private Lore lore;
+		private int index = 1;
+		private boolean glow = false;
+
+		private Builder(Pixel pixel) {
+			this.material = pixel.getMaterial();
+			this.title = pixel.getTitle();
+			this.lore = pixel.getLore();
+			this.index = pixel.getIndex();
+			this.glow = pixel.isGlow();
+		}
 
 		private Builder(Material material) {
-			this.item = new GuiItem(material);
+			this.material = material;
 		}
 
 		/**
@@ -288,7 +253,8 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder at(int x, int y) {
-			item.relocate(x, y);
+			layoutX = x;
+			layoutY = y;
 			return this;
 		}
 
@@ -298,7 +264,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder atX(int x) {
-			item.setLayoutX(x);
+			layoutX = x;
 			return this;
 		}
 
@@ -308,7 +274,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder atY(int y) {
-			item.setLayoutY(y);
+			layoutY = y;
 			return this;
 		}
 
@@ -318,27 +284,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder withMaterial(Material material) {
-			item.setMaterial(material);
-			return this;
-		}
-
-		/**
-		 * Sets the index of the item.
-		 * @param index the index
-		 * @return the builder for method chaining
-		 */
-		public Builder withIndex(int index) {
-			item.setIndex(index);
-			return this;
-		}
-
-		/**
-		 * Sets whether the item should have a glow effect.
-		 * @param glow whether the item should glow
-		 * @return the builder for method chaining
-		 */
-		public Builder withGlow(boolean glow) {
-			item.setGlow(glow);
+			this.material = material;
 			return this;
 		}
 
@@ -348,18 +294,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder withTitle(Component title) {
-			item.setTitle(title);
-			return this;
-		}
-
-		/**
-		 * Sets the title of the item.
-		 * This method is a shorthand for {@link #withTitle(Component)}.
-		 * @param title the title
-		 * @return the builder for method chaining
-		 */
-		public Builder withTitle(String title) {
-			item.setTitle(title);
+			this.title = title;
 			return this;
 		}
 
@@ -369,8 +304,44 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder withLore(Lore lore) {
-			item.setLore(lore);
+			this.lore = lore;
 			return this;
+		}
+
+		/**
+		 * Sets the index of the item.
+		 * @param index the index
+		 * @return the builder for method chaining
+		 */
+		public Builder withIndex(int index) {
+			this.index = index;
+			return this;
+		}
+
+		/**
+		 * Sets whether the item should glow.
+		 * @param glow whether the item should glow
+		 * @return the builder for method chaining
+		 */
+		public Builder withGlow(boolean glow) {
+			this.glow = glow;
+			return this;
+		}
+
+		/**
+		 * Sets the glow of the item to true.
+		 * @return the builder for method chaining
+		 */
+		public Builder withGlow() {
+			return withGlow(true);
+		}
+
+		/**
+		 * Sets the glow of the item to false.
+		 * @return the builder for method chaining
+		 */
+		public Builder withoutGlow() {
+			return withGlow(false);
 		}
 
 		/**
@@ -381,7 +352,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder onClick(Consumer<NodeClickContext> onClick) {
-			item.setOnClick(onClick);
+			this.onClick = onClick;
 			return this;
 		}
 
@@ -391,7 +362,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder onLeftClick(Consumer<NodeClickContext> onLeftClick) {
-			item.setOnLeftClick(onLeftClick);
+			this.onLeftClick = onLeftClick;
 			return this;
 		}
 
@@ -401,7 +372,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder onRightClick(Consumer<NodeClickContext> onRightClick) {
-			item.setOnRightClick(onRightClick);
+			this.onRightClick = onRightClick;
 			return this;
 		}
 
@@ -411,7 +382,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder onShiftClick(Consumer<NodeClickContext> onShiftClick) {
-			item.setOnShiftClick(onShiftClick);
+			this.onShiftClick = onShiftClick;
 			return this;
 		}
 
@@ -421,7 +392,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 */
 		public Builder onHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
-			item.setOnHotBarClick(onHotBarClick);
+			this.onHotBarClick = onHotBarClick;
 			return this;
 		}
 
@@ -430,6 +401,18 @@ public class GuiItem extends Node {
 		 * @return the GuiItem object
 		 */
 		public GuiItem build() {
+			GuiItem item = new GuiItem();
+			item.setMaterial(material);
+			item.setTitle(title);
+			item.setLore(lore);
+			item.setIndex(index);
+			item.setGlow(glow);
+			item.relocate(layoutX, layoutY);
+			item.setOnClick(onClick);
+			item.setOnLeftClick(onLeftClick);
+			item.setOnRightClick(onRightClick);
+			item.setOnShiftClick(onShiftClick);
+			item.setOnHotBarClick(onHotBarClick);
 			return item;
 		}
 

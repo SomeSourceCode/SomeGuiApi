@@ -21,43 +21,15 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.action;
-
-import io.github.somesourcecode.someguiapi.scene.Scene;
-import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+package io.github.somesourcecode.someguiapi.scene;
 
 /**
- * The context in which a pixel is rendered.
+ * Contains flags that indicate what part of a GUI needs to be updated.
  */
-public class RenderContext {
+public enum DirtyFlag {
 
-	private final Gui gui;
-	private final Scene scene;
-
-	/**
-	 * Constructs a new render context.
-	 * @param gui the gui
-	 * @param scene the scene
-	 */
-	public RenderContext(Gui gui, Scene scene) {
-		this.gui = gui;
-		this.scene = scene;
-	}
-
-	/**
-	 * Returns the gui in which the pixel is rendered.
-	 * @return the gui
-	 */
-	public Gui getGui() {
-		return gui;
-	}
-
-	/**
-	 * Returns the scene in which the pixel is rendered.
-	 * @return the scene
-	 */
-	public Scene getScene() {
-		return scene;
-	}
+	GUI_TITLE,
+	GUI_ROWS,
+	GUI_CONTENT
 
 }

@@ -24,7 +24,6 @@
 package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -117,6 +116,17 @@ public abstract class Node {
 	}
 
 	/**
+	 * Requests a layout update for this node's parent.
+	 * Layout will be applied on the next layout pass.
+	 */
+	public void requestParentLayout() {
+		Parent parent = getParent();
+		if (parent != null) {
+			parent.requestLayout();
+		}
+	}
+
+	/**
 	 * Returns the x coordinate of the node's origin.
 	 * The origin is the top-left corner of the node.
 	 *
@@ -133,7 +143,11 @@ public abstract class Node {
 	 * @param layoutX the x coordinate of the node's origin
 	 */
 	public void setLayoutX(int layoutX) {
+		if (this.layoutX == layoutX) {
+			return;
+		}
 		this.layoutX = layoutX;
+		requestParentLayout();
 	}
 
 	/**
@@ -153,7 +167,11 @@ public abstract class Node {
 	 * @param layoutY the y coordinate of the node's origin
 	 */
 	public void setLayoutY(int layoutY) {
+		if (this.layoutY == layoutY) {
+			return;
+		}
 		this.layoutY = layoutY;
+		requestParentLayout();
 	}
 
 	/**
@@ -185,7 +203,11 @@ public abstract class Node {
 	 * @param translateX the x translation of the node
 	 */
 	public void setTranslateX(int translateX) {
+		if (this.translateX == translateX) {
+			return;
+		}
 		this.translateX = translateX;
+		requestParentLayout();
 	}
 
 	/**
@@ -205,7 +227,11 @@ public abstract class Node {
 	 * @param translateY the y translation of the node
 	 */
 	public void setTranslateY(int translateY) {
+		if (this.translateY == translateY) {
+			return;
+		}
 		this.translateY = translateY;
+		requestParentLayout();
 	}
 
 	/**
@@ -345,13 +371,13 @@ public abstract class Node {
 	}
 
 	/**
-	 * Returns an {@link ItemStack} representing the pixel at the given coordinates.
+	 * Returns a {@link Pixel} that should be rendered at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 * @return the ItemStack at the given coordinates, or null if there is no pixel at the given coordinates
+	 * @return the pixel at the given coordinates, or null if there is no pixel at the given coordinates
 	 */
-	public abstract ItemStack pixelAt(int x, int y);
+	public abstract Pixel renderPixelAt(int x, int y);
 
 	/**
 	 * Returns the node at the given coordinates.

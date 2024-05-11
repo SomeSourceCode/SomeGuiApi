@@ -24,7 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.action;
 
 import io.github.somesourcecode.someguiapi.scene.Scene;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 
 /**
@@ -40,7 +40,7 @@ public class NodeClickContext {
 
 	private final ClickType type;
 
-	private final Player player;
+	private final HumanEntity whoClicked;
 
 	private final int hotBarButton;
 
@@ -52,15 +52,15 @@ public class NodeClickContext {
 	 * @param x the x coordinate of the slot that was clicked
 	 * @param y the y coordinate of the slot that was clicked
 	 * @param type the type of click that was performed
-	 * @param player the player that clicked the node
+	 * @param whoClicked the human entity that clicked the node
 	 * @param hotBarButton the hot bar button that was clicked
 	 */
-	public NodeClickContext(Scene scene, int x, int y, ClickType type, Player player, int hotBarButton) {
+	public NodeClickContext(Scene scene, int x, int y, ClickType type, HumanEntity whoClicked, int hotBarButton) {
 		this.scene = scene;
 		this.slotX = x;
 		this.slotY = y;
 		this.type = type;
-		this.player = player;
+		this.whoClicked = whoClicked;
 		this.hotBarButton = hotBarButton;
 	}
 
@@ -134,11 +134,11 @@ public class NodeClickContext {
 	}
 
 	/**
-	 * Returns the player that clicked the node.
-	 * @return the player that clicked the node
+	 * Returns the human entity that clicked the node.
+	 * @return the human entity that clicked the node
 	 */
-	public Player getPlayer() {
-		return player;
+	public HumanEntity getWhoClicked() {
+		return whoClicked;
 	}
 
 	/**

@@ -23,10 +23,12 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
+import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -35,6 +37,8 @@ import java.util.List;
 public abstract class Gui {
 
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
+
+	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
 	protected Inventory inventory;
 
@@ -46,23 +50,47 @@ public abstract class Gui {
 		return dataHolder;
 	}
 
-	/**
-	 * Shows this GUI to the specified player.
-	 * @param player the player
-	 */
-	public abstract void show(Player player);
+	public EnumSet<DirtyFlag> getDirtyFlags() {
+		return EnumSet.copyOf(dirtyFlags);
+	}
+
+	public final void setDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.add(flag);
+	}
+
+	public final void clearDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.remove(flag);
+	}
+
+	public final void clearDirtyFlags() {
+		dirtyFlags.clear();
+	}
+
+	public final boolean isDirty() {
+		return !dirtyFlags.isEmpty();
+	}
+
+	public final boolean isDirty(DirtyFlag flag) {
+		return dirtyFlags.contains(flag);
+	}
 
 	/**
-	 * Returns a list of players that are currently viewing this GUI.
-	 * @return a list of players viewing this GUI
+	 * Shows this GUI to the specified human entity.
+	 * @param humanEntity the human entity
 	 */
-	public abstract List<Player> getViewers();
+	public abstract void show(HumanEntity humanEntity);
+
+	/**
+	 * Returns a list of human entities that are currently viewing this GUI.
+	 * @return a list of human entities viewing this GUI
+	 */
+	public abstract List<HumanEntity> getViewers();
 
 	/**
 	 * Updates the GUI for all viewers.
 	 */
 	public void update() {
-		for (Player viewer : getViewers()) {
+		for (HumanEntity viewer : getViewers()) {
 			show(viewer);
 		}
 	}
