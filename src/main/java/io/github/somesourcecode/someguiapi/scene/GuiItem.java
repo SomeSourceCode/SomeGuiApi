@@ -35,6 +35,7 @@ import java.util.function.Consumer;
  * <p>
  * GuiItems are used to represent singular items in a GUI and
  * provide handlers for click events.
+ * @since 1.0.0
  */
 public class GuiItem extends Node {
 
@@ -42,6 +43,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Constructs a new GuiItem with an empty pixel.
+	 * @since 2.0.0
 	 */
 	public GuiItem() {
 		this.pixel = Pixel.empty();
@@ -50,6 +52,7 @@ public class GuiItem extends Node {
 	/**
 	 * Constructs a new GuiItem with the specified material.
 	 * @param material the material of the item
+	 * @since 1.0.0
 	 */
 	public GuiItem(Material material) {
 		this.pixel = new Pixel(material);
@@ -73,6 +76,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns the material of this item.
 	 * @return the material
+	 * @since 1.0.0
 	 */
 	public Material getMaterial() {
 		return pixel.getMaterial();
@@ -81,6 +85,7 @@ public class GuiItem extends Node {
 	/**
 	 * Sets the material of this item.
 	 * @param material the material
+	 * @since 1.0.0
 	 */
 	public void setMaterial(Material material) {
 		pixel.setMaterial(material);
@@ -89,6 +94,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns the title of this item.
 	 * @return the title
+	 * @since 1.0.0
 	 */
 	public Component getTitle() {
 		return pixel.getTitle();
@@ -97,6 +103,7 @@ public class GuiItem extends Node {
 	/**
 	 * Sets the title of this item.
 	 * @param title the title
+	 * @since 1.0.0
 	 */
 	public void setTitle(Component title) {
 		pixel.setTitle(title);
@@ -105,6 +112,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns the lore of this item.
 	 * @return the lore
+	 * @since 2.0.0
 	 */
 	public Lore getLore() {
 		return pixel.getLore();
@@ -113,6 +121,7 @@ public class GuiItem extends Node {
 	/**
 	 * Sets the lore of this item.
 	 * @param lore the lore
+	 * @since 2.0.0
 	 */
 	public void setLore(Lore lore) {
 		pixel.setLore(lore);
@@ -121,6 +130,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns the index of this item.
 	 * @return the index
+	 * @since 1.0.0
 	 */
 	public int getIndex() {
 		return pixel.getIndex();
@@ -129,6 +139,7 @@ public class GuiItem extends Node {
 	/**
 	 * Sets the index of this item.
 	 * @param index the index
+	 * @since 1.0.0
 	 */
 	public void setIndex(int index) {
 		pixel.setIndex(index);
@@ -137,6 +148,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns whether this item should glow.
 	 * @return whether this item should glow
+	 * @since 1.0.0
 	 */
 	public boolean isGlow() {
 		return pixel.isGlow();
@@ -145,6 +157,7 @@ public class GuiItem extends Node {
 	/**
 	 * Sets whether this item should glow.
 	 * @param glow whether this item should glow
+	 * @since 1.0.0
 	 */
 	public void setGlow(boolean glow) {
 		pixel.setGlow(glow);
@@ -153,6 +166,7 @@ public class GuiItem extends Node {
 	/**
 	 * Returns the pixel representation of this item.
 	 * @return the rendered ItemStack
+	 * @since 2.0.0
 	 */
 	public Pixel getPixel() {
 		return isVisible() ? pixel : null;
@@ -199,6 +213,7 @@ public class GuiItem extends Node {
 	 * Constructs a new empty GuiItem builder with the given pixel.
 	 * @param pixel the pixel of the item
 	 * @return the builder
+	 * @since 2.0.0
 	 */
 	public static Builder create(Pixel pixel) {
 		return new Builder(pixel);
@@ -208,6 +223,7 @@ public class GuiItem extends Node {
 	 * Constructs a new empty GuiItem builder with the given material.
 	 * @param material the material of the item
 	 * @return the builder
+	 * @since 1.0.0
 	 */
 	public static Builder create(Material material) {
 		return new Builder(material);
@@ -251,6 +267,7 @@ public class GuiItem extends Node {
 		 * @param x the x coordinate
 		 * @param y the y coordinate
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder at(int x, int y) {
 			layoutX = x;
@@ -262,6 +279,7 @@ public class GuiItem extends Node {
 		 * Relocates the item to the given x coordinate.
 		 * @param x the x coordinate
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder atX(int x) {
 			layoutX = x;
@@ -272,6 +290,7 @@ public class GuiItem extends Node {
 		 * Relocates the item to the given y coordinate.
 		 * @param y the y coordinate
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder atY(int y) {
 			layoutY = y;
@@ -282,6 +301,7 @@ public class GuiItem extends Node {
 		 * Sets the material of the item.
 		 * @param material the material
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder withMaterial(Material material) {
 			this.material = material;
@@ -292,6 +312,7 @@ public class GuiItem extends Node {
 		 * Sets the title of the item.
 		 * @param title the title
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder withTitle(Component title) {
 			this.title = title;
@@ -302,6 +323,7 @@ public class GuiItem extends Node {
 		 * Sets the lore of the item.
 		 * @param lore the lore
 		 * @return the builder for method chaining
+		 * @since 2.0.0
 		 */
 		public Builder withLore(Lore lore) {
 			this.lore = lore;
@@ -312,6 +334,7 @@ public class GuiItem extends Node {
 		 * Sets the index of the item.
 		 * @param index the index
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder withIndex(int index) {
 			this.index = index;
@@ -322,6 +345,7 @@ public class GuiItem extends Node {
 		 * Sets whether the item should glow.
 		 * @param glow whether the item should glow
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder withGlow(boolean glow) {
 			this.glow = glow;
@@ -331,6 +355,7 @@ public class GuiItem extends Node {
 		/**
 		 * Sets the glow of the item to true.
 		 * @return the builder for method chaining
+		 * @since 2.0.0
 		 */
 		public Builder withGlow() {
 			return withGlow(true);
@@ -339,6 +364,7 @@ public class GuiItem extends Node {
 		/**
 		 * Sets the glow of the item to false.
 		 * @return the builder for method chaining
+		 * @since 2.0.0
 		 */
 		public Builder withoutGlow() {
 			return withGlow(false);
@@ -350,6 +376,7 @@ public class GuiItem extends Node {
 		 * This consumer will be called when the node is clicked, regardless of the type of click.
 		 * @param onClick the consumer that is called when the node is clicked
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder onClick(Consumer<NodeClickContext> onClick) {
 			this.onClick = onClick;
@@ -360,6 +387,7 @@ public class GuiItem extends Node {
 		 * Sets the consumer that is called when the node is left-clicked.
 		 * @param onLeftClick the consumer that is called when the node is left-clicked
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder onLeftClick(Consumer<NodeClickContext> onLeftClick) {
 			this.onLeftClick = onLeftClick;
@@ -370,6 +398,7 @@ public class GuiItem extends Node {
 		 * Sets the consumer that is called when the node is right-clicked.
 		 * @param onRightClick the consumer that is called when the node is right-clicked
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder onRightClick(Consumer<NodeClickContext> onRightClick) {
 			this.onRightClick = onRightClick;
@@ -380,6 +409,7 @@ public class GuiItem extends Node {
 		 * Sets the consumer that is called when the node is shift-clicked.
 		 * @param onShiftClick the consumer that is called when the node is shift-clicked
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder onShiftClick(Consumer<NodeClickContext> onShiftClick) {
 			this.onShiftClick = onShiftClick;
@@ -390,6 +420,7 @@ public class GuiItem extends Node {
 		 * Sets the consumer that is called when the node receives a hot bar click.
 		 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
 		 * @return the builder for method chaining
+		 * @since 1.0.0
 		 */
 		public Builder onHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
 			this.onHotBarClick = onHotBarClick;
@@ -399,6 +430,7 @@ public class GuiItem extends Node {
 		/**
 		 * Builds the GuiItem object.
 		 * @return the GuiItem object
+		 * @since 1.0.0
 		 */
 		public GuiItem build() {
 			GuiItem item = new GuiItem();

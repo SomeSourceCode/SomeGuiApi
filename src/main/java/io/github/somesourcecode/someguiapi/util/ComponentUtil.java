@@ -4,6 +4,7 @@ import net.kyori.adventure.text.*;
 
 /**
  * Utility class for components.
+ * @since 2.0.0
  */
 public class ComponentUtil {
 

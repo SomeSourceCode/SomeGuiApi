@@ -29,6 +29,7 @@ import java.util.Optional;
 /**
  * A container for context data. It is used to register, store and retrieve context data.
  * The data is represented by {@link ContextData} objects and can be accessed by their id.
+ * @since 2.0.0
  */
 public class ContextDataHolder {
 
@@ -40,6 +41,7 @@ public class ContextDataHolder {
 	 * If the id is already registered, this method will fail silently.
 	 * @param data the data to register
 	 * @return the holder for method chaining
+	 * @since 2.0.0
 	 */
 	public ContextDataHolder register(ContextData<?> data) {
 		if (data == null || data.getId() == null) {
@@ -58,6 +60,7 @@ public class ContextDataHolder {
 	 * @param type the type of the data
 	 * @return the holder for method chaining
 	 * @param <T> the type of the data
+	 * @since 2.0.0
 	 */
 	public <T> ContextDataHolder register(String id, Class<T> type) {
 		return this.register(new ContextData<>(id, type));
@@ -73,6 +76,7 @@ public class ContextDataHolder {
 	 * @param data the initial data
 	 * @return the holder for method chaining
 	 * @param <T> the type of the data
+	 * @since 2.0.0
 	 */
 	public <T> ContextDataHolder register(String id, Class<T> type, T data) {
 		return this.register(new ContextData<>(id, type, data));
@@ -82,6 +86,7 @@ public class ContextDataHolder {
 	 * Returns the context data with the given id.
 	 * @param id the id of the data
 	 * @return the data with the given id, or null if no data with the given id is registered
+	 * @since 2.0.0
 	 */
 	public ContextData<?> getData(String id) {
 		return this.idToData.get(id);
@@ -93,6 +98,7 @@ public class ContextDataHolder {
 	 * @param id the id of the data
 	 * @return the data with the given id
 	 * @throws ClassCastException if the data is not of the correct type
+	 * @since 2.0.0
 	 */
 	public <T> ContextData<T> getDataUnchecked(String id) {
 		return (ContextData<T>) this.idToData.get(id);
@@ -102,6 +108,7 @@ public class ContextDataHolder {
 	 * Returns the context data with the given id as an optional.
 	 * @param id the id of the data
 	 * @return the data with the given id as an optional
+	 * @since 2.0.0
 	 */
 	public Optional<ContextData<?>> getOptionalData(String id) {
 		return Optional.ofNullable(this.idToData.get(id));
@@ -111,6 +118,7 @@ public class ContextDataHolder {
 	 * Unregisters the context data with the given id.
 	 * @param id the id of the data
 	 * @return the holder for method chaining
+	 * @since 2.0.0
 	 */
 	public ContextDataHolder unregister(String id) {
 		this.idToData.remove(id);
@@ -120,6 +128,7 @@ public class ContextDataHolder {
 	/**
 	 * Unregisters all context data.
 	 * @return the holder for method chaining
+	 * @since 2.0.0
 	 */
 	public ContextDataHolder unregisterAll() {
 		this.idToData.clear();

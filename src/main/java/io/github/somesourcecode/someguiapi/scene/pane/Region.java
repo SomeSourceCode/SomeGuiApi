@@ -31,6 +31,7 @@ import io.github.somesourcecode.someguiapi.scene.Parent;
  * <p>
  * This class handles the size of the node and its children, as well as padding.
  * To create layout panes, you probably want to extend {@link Pane} instead.
+ * @since 1.0.0
  */
 public class Region extends Parent {
 
@@ -41,6 +42,7 @@ public class Region extends Parent {
 
 	/**
 	 * Constructs a new region with a width and height of 0.
+	 * @since 1.0.0
 	 */
 	public Region() {
 		super();
@@ -54,6 +56,7 @@ public class Region extends Parent {
 	/**
 	 * Sets the width of this region.
 	 * @param width the width of this region
+	 * @since 1.0.0
 	 */
 	public void setWidth(int width) {
 		if (this.width == width) {
@@ -71,6 +74,7 @@ public class Region extends Parent {
 	/**
 	 * Sets the height of this region.
 	 * @param height the height of this region
+	 * @since 1.0.0
 	 */
 	public void setHeight(int height) {
 		if (this.height == height) {
@@ -86,6 +90,7 @@ public class Region extends Parent {
 	 * This is equivalent to calling {@link #setWidth(int)} and {@link #setHeight(int)}.
 	 * @param width the new width of this region
 	 * @param height the new height of this region
+	 * @since 1.0.0
 	 */
 	public void resize(int width, int height) {
 		setWidth(width);
@@ -100,6 +105,7 @@ public class Region extends Parent {
 	 * @param layoutY the new layoutY of this region
 	 * @param width the new width of this region
 	 * @param height the new height of this region
+	 * @since 1.0.0
 	 */
 	public void resizeRelocate(int layoutX, int layoutY, int width, int height) {
 		relocate(layoutX, layoutY);
@@ -109,6 +115,7 @@ public class Region extends Parent {
 	/**
 	 * Returns the padding of this region.
 	 * @return the padding of this region
+	 * @since 1.0.0
 	 */
 	public Insets getPadding() {
 		return padding == null ? Insets.EMPTY : padding;
@@ -117,6 +124,7 @@ public class Region extends Parent {
 	/**
 	 * Sets the padding of this region.
 	 * @param padding the padding of this region
+	 * @since 1.0.0
 	 */
 	public void setPadding(Insets padding) {
 		if ((this.padding == null && padding == null) || (this.padding != null && this.padding.equals(padding))) {

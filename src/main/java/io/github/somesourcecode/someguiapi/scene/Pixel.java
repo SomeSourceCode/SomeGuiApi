@@ -33,12 +33,14 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * An instance of Pixel contains all the information needed to render a single item in a GUI.
+ * @since 2.0.0
  */
 public class Pixel {
 
 	/**
 	 * Creates an empty pixel. Empty pixels will be rendered as air.
 	 * @return the empty pixel
+	 * @since 2.0.0
 	 */
 	public static Pixel empty() {
 		return new Pixel(Material.AIR);
@@ -48,6 +50,7 @@ public class Pixel {
 	 * Creates a pixel with the specified material and empty title and lore.
 	 * @param material the material
 	 * @return the blank pixel
+	 * @since 2.0.0
 	 */
 	public static Pixel blank(Material material) {
 		return new Pixel(material, Component.empty());
@@ -57,6 +60,7 @@ public class Pixel {
 	 * Creates a pixel with the specified material.
 	 * @param material the material
 	 * @return the pixel
+	 * @since 2.0.0
 	 */
 	public static Pixel of(Material material) {
 		return new Pixel(material);
@@ -72,6 +76,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new empty pixel.
+	 * @since 2.0.0
 	 */
 	public Pixel() {
 
@@ -80,6 +85,7 @@ public class Pixel {
 	/**
 	 * Constructs a new pixel with the specified material.
 	 * @param material the material
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material) {
 		this.material = material;
@@ -89,6 +95,7 @@ public class Pixel {
 	 * Constructs a new pixel with the specified material and title.
 	 * @param material the material
 	 * @param index the index
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index) {
 		this.material = material;
@@ -100,6 +107,7 @@ public class Pixel {
 	 * @param material the material
 	 * @param index the index
 	 * @param title the title
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title) {
 		this.material = material;
@@ -113,6 +121,7 @@ public class Pixel {
 	 * @param index the index
 	 * @param title the title
 	 * @param lore the lore
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title, Lore lore) {
 		this.material = material;
@@ -128,6 +137,7 @@ public class Pixel {
 	 * @param title the title
 	 * @param lore the lore
 	 * @param glow whether the pixel should glow
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title, Lore lore, boolean glow) {
 		this.material = material;
@@ -141,6 +151,7 @@ public class Pixel {
 	 * Constructs a new pixel with the specified material and title.
 	 * @param material the material
 	 * @param title the title
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title) {
 		this.material = material;
@@ -152,6 +163,7 @@ public class Pixel {
 	 * @param material the material
 	 * @param title the title
 	 * @param lore the lore
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title, Lore lore) {
 		this.material = material;
@@ -165,6 +177,7 @@ public class Pixel {
 	 * @param title the title
 	 * @param lore the lore
 	 * @param glow whether the pixel should glow
+	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title, Lore lore, boolean glow) {
 		this.material = material;
@@ -176,6 +189,7 @@ public class Pixel {
 	/**
 	 * Returns the material of this pixel.
 	 * @return the material
+	 * @since 2.0.0
 	 */
 	public Material getMaterial() {
 		return material;
@@ -185,6 +199,7 @@ public class Pixel {
 	 * Sets the material of this pixel.
 	 * @param material the material
 	 * @return the pixel for method chaining
+	 * @since 2.0.0
 	 */
 	public Pixel setMaterial(Material material) {
 		this.material = material;
@@ -194,6 +209,7 @@ public class Pixel {
 	/**
 	 * Returns the title of this pixel.
 	 * @return the title
+	 * @since 2.0.0
 	 */
 	public Component getTitle() {
 		return title;
@@ -203,6 +219,7 @@ public class Pixel {
 	 * Sets the title of this pixel.
 	 * @param title the title
 	 * @return the pixel for method chaining
+	 * @since 2.0.0
 	 */
 	public Pixel setTitle(Component title) {
 		this.title = title;
@@ -212,6 +229,7 @@ public class Pixel {
 	/**
 	 * Returns the lore of this pixel.
 	 * @return the lore
+	 * @since 2.0.0
 	 */
 	public Lore getLore() {
 		return lore;
@@ -221,6 +239,7 @@ public class Pixel {
 	 * Sets the lore of this pixel.
 	 * @param lore the lore
 	 * @return the pixel for method chaining
+	 * @since 2.0.0
 	 */
 	public Pixel setLore(Lore lore) {
 		this.lore = lore;
@@ -230,6 +249,7 @@ public class Pixel {
 	/**
 	 * Returns the index of this pixel.
 	 * @return the index
+	 * @since 2.0.0
 	 */
 	public int getIndex() {
 		return index;
@@ -239,6 +259,7 @@ public class Pixel {
 	 * Sets the index of this pixel.
 	 * @param index the index
 	 * @return the pixel for method chaining
+	 * @since 2.0.0
 	 */
 	public Pixel setIndex(int index) {
 		this.index = index;
@@ -248,6 +269,7 @@ public class Pixel {
 	/**
 	 * Returns whether this pixel should glow.
 	 * @return whether this pixel should glow
+	 * @since 2.0.0
 	 */
 	public boolean isGlow() {
 		return glow;
@@ -257,6 +279,7 @@ public class Pixel {
 	 * Sets whether this pixel should glow.
 	 * @param glow whether this pixel should glow
 	 * @return the pixel for method chaining
+	 * @since 2.0.0
 	 */
 	public Pixel setGlow(boolean glow) {
 		this.glow = glow;
@@ -268,6 +291,7 @@ public class Pixel {
 	 * considered empty if its material is null or air
 	 * or if its index is less than or equal to 0.
 	 * @return whether this pixel is empty
+	 * @since 2.0.0
 	 */
 	public boolean isEmpty() {
 		return material == null || material.isAir() || index <= 0;
@@ -277,6 +301,7 @@ public class Pixel {
 	 * Renders this pixel as an ItemStack.
 	 * @param renderContext the render context
 	 * @return the rendered ItemStack
+	 * @since 2.0.0
 	 */
 	public ItemStack renderItemStack(RenderContext renderContext) {
 		if (isEmpty()) {

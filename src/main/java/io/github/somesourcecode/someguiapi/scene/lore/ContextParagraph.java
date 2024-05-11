@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 /**
  * The basic implementation of a {@link ReloadableParagraph}.
+ * @since 2.0.0
  */
 public class ContextParagraph implements ReloadableParagraph {
 
@@ -17,6 +18,7 @@ public class ContextParagraph implements ReloadableParagraph {
 
 	/**
 	 * Constructs a new empty context paragraph.
+	 * @since 2.0.0
 	 */
 	public ContextParagraph() {
 
@@ -25,6 +27,7 @@ public class ContextParagraph implements ReloadableParagraph {
 	/**
 	 * Constructs a new context paragraph with the given content generator.
 	 * @param contentGenerator the content generator
+	 * @since 2.0.0
 	 */
 	public ContextParagraph(Function<RenderContext, Paragraph> contentGenerator) {
 		this.contentGenerator = contentGenerator;
@@ -34,6 +37,7 @@ public class ContextParagraph implements ReloadableParagraph {
 	 * Sets the content generator of the paragraph.
 	 * @param paragraphGenerator the content generator
 	 * @return the paragraph for method chaining
+	 * @since 2.0.0
 	 */
 	public ContextParagraph setContentGenerator(Function<RenderContext, Paragraph> paragraphGenerator) {
 		this.contentGenerator = paragraphGenerator;

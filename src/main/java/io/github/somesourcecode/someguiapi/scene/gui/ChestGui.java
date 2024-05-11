@@ -42,6 +42,7 @@ import java.util.List;
 
 /**
  * Represents a GUI that can be shown to players.
+ * @since 1.0.0
  */
 public class ChestGui extends Gui implements InventoryHolder {
 
@@ -54,6 +55,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * Constructs a new ChestGui with the specified title and number of rows.
 	 * @param title the title
 	 * @param rows the number of rows
+	 * @since 1.0.0
 	 */
 	public ChestGui(Component title, int rows) {
 		this.title = title;
@@ -143,6 +145,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * Note that the display won't be updated until {@link #update()}
 	 * is called.
 	 * @see #requestRender(boolean)
+	 * @since 2.0.0
 	 */
 	public void requestRender() {
 		requestRender(false);
@@ -155,6 +158,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * the change of a lore.
 	 * @param update whether to update the GUI after requesting the render
 	 * @see #requestRender()
+	 * @since 2.0.0
 	 */
 	public void requestRender(boolean update) {
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
@@ -166,6 +170,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Returns the {@link Scene} of this GUI.
 	 * @return the scene
+	 * @since 1.0.0
 	 */
 	public Scene getScene() {
 		return scene;
@@ -174,6 +179,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Sets the {@link Scene} of this GUI.
 	 * @param scene the scene
+	 * @since 1.0.0
 	 */
 	public void setScene(Scene scene) {
 		if (this.scene == scene) {
@@ -193,6 +199,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Returns the title of this GUI.
 	 * @return the title
+	 * @since 1.0.0
 	 */
 	public Component getTitle() {
 		return title;
@@ -201,6 +208,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Sets the title of this GUI.
 	 * @param title the title
+	 * @since 1.0.0
 	 */
 	public void setTitle(Component title) {
 		if (this.title.equals(title)) {
@@ -214,6 +222,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Returns the number of rows of this GUI.
 	 * @return the number of rows
+	 * @since 1.0.0
 	 */
 	public int getRows() {
 		return rows;
@@ -222,6 +231,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Sets the number of rows of this GUI.
 	 * @param rows the number of rows
+	 * @since 1.0.0
 	 */
 	public void setRows(int rows) {
 		if (this.rows == rows) {

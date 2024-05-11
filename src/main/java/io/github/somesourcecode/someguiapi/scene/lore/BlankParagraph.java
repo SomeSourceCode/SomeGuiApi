@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * A paragraph that contains just blank lines.
+ * @since 2.0.0
+ * @since 2.0.0
  */
 public class BlankParagraph implements Paragraph {
 
@@ -14,6 +16,7 @@ public class BlankParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new blank paragraph with a single blank line.
+	 * @since 2.0.0
 	 */
 	public BlankParagraph() {
 		this.space = 1;
@@ -22,6 +25,7 @@ public class BlankParagraph implements Paragraph {
 	/**
 	 * Constructs a new blank paragraph with the given amount of blank lines.
 	 * @param space the amount of blank lines
+	 * @since 2.0.0
 	 */
 	public BlankParagraph(int space) {
 		this.space = space;
@@ -30,6 +34,7 @@ public class BlankParagraph implements Paragraph {
 	/**
 	 * Returns the amount of blank lines.
 	 * @return the amount of blank lines
+	 * @since 2.0.0
 	 */
 	public int getSpace() {
 		return space;
@@ -39,6 +44,7 @@ public class BlankParagraph implements Paragraph {
 	 * Sets the amount of blank lines.
 	 * @param space the amount of blank lines
 	 * @return the paragraph for method chaining
+	 * @since 2.0.0
 	 */
 	public BlankParagraph setSpace(int space) {
 		this.space = space;

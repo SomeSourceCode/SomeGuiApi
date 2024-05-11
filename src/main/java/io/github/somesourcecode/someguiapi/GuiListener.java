@@ -31,6 +31,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 /**
  * A listener that listens for GUI interactions.
+ * @since 1.0.0
  */
 public class GuiListener implements Listener {
 

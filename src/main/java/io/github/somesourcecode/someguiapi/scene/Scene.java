@@ -34,6 +34,7 @@ import java.util.ArrayList;
  * The background of the scene is filled as specified by the background property.
  * <p>
  * For content to be rendered the application must specify a root Node by setting the root property.
+ * @since 1.0.0
  */
 public class Scene {
 
@@ -46,6 +47,7 @@ public class Scene {
 
 	/**
 	 * Constructs a new empty scene.
+	 * @since 1.0.0
 	 */
 	public Scene() {
 
@@ -54,6 +56,7 @@ public class Scene {
 	/**
 	 * Constructs a new scene with the given root.
 	 * @param root the root of the scene
+	 * @since 1.0.0
 	 */
 	public Scene(Parent root) {
 		setRoot(root);
@@ -62,6 +65,7 @@ public class Scene {
 	/**
 	 * Returns the data holder of this scene.
 	 * @return the data holder of this scene
+	 * @since 2.0.0
 	 */
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
@@ -70,6 +74,7 @@ public class Scene {
 	/**
 	 * Returns the GUI that this scene is attached to.
 	 * @return the GUI that this scene is attached to
+	 * @since 2.0.0
 	 */
 	public Gui getGui() {
 		return gui;
@@ -80,6 +85,7 @@ public class Scene {
 	 * <b>This method is part of the internal API and should not be called by users.</b>
 	 * If you want to attach a scene to a GUI, use methods provided by the respective gui class.
 	 * @param gui the GUI that this scene is attached to
+	 * @since 2.0.0
 	 */
 	public void setGui(Gui gui) {
 		this.gui = gui;
@@ -89,6 +95,7 @@ public class Scene {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 * @param context the click context
+	 * @since 1.0.0
 	 */
 	public void fireOnClick(NodeClickContext context) {
 		if (root == null) {
@@ -143,6 +150,7 @@ public class Scene {
 	/**
 	 * Returns the root of the scene.
 	 * @return the root of the scene
+	 * @since 1.0.0
 	 */
 	public Parent getRoot() {
 		return root;
@@ -151,6 +159,7 @@ public class Scene {
 	/**
 	 * Sets the root of the scene.
 	 * @param root the new root of the scene
+	 * @since 1.0.0
 	 */
 	public void setRoot(Parent root) {
 		if (this.root == root) {
@@ -168,6 +177,7 @@ public class Scene {
 	/**
 	 * Returns the background of the scene.
 	 * @return the background of the scene
+	 * @since 1.0.0
 	 */
 	public Background getBackground() {
 		return background;
@@ -176,6 +186,7 @@ public class Scene {
 	/**
 	 * Sets the background of the scene.
 	 * @param background the new background of the scene
+	 * @since 1.0.0
 	 */
 	public void setBackground(Background background) {
 		this.background = background;

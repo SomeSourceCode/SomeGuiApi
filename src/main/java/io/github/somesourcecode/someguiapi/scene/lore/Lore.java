@@ -9,6 +9,7 @@ import java.util.*;
 
 /**
  * Represents the text which is shown below the title on hover.
+ * @since 2.0.0
  */
 public class Lore {
 
@@ -22,6 +23,7 @@ public class Lore {
 	 * @param decoration the decoration
 	 * @param value the value
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore setDecoration(TextDecoration decoration, boolean value) {
 		decorations.put(decoration, value);
@@ -32,6 +34,7 @@ public class Lore {
 	 * Removes a decoration override from the lore.
 	 * @param decoration the decoration
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore unsetDecoration(TextDecoration decoration) {
 		decorations.remove(decoration);
@@ -43,6 +46,7 @@ public class Lore {
 	 * Previous paragraphs will be overwritten.
 	 * @param paragraphs the paragraphs
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore setParagraphs(List<Paragraph> paragraphs) {
 		this.paragraphs.clear();
@@ -55,6 +59,7 @@ public class Lore {
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a line paragraph.
 	 * @param line the line to append
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendLine(Component line) {
 		return appendParagraph(Paragraph.line(line));
@@ -64,6 +69,7 @@ public class Lore {
 	 * Appends a paragraph to the lore.
 	 * @param paragraph the paragraph to append
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendParagraph(Paragraph paragraph) {
 		paragraphs.add(paragraph);
@@ -74,6 +80,7 @@ public class Lore {
 	 * Appends multiple paragraphs to the lore.
 	 * @param paragraphs the paragraphs to append
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendParagraphs(Paragraph... paragraphs) {
 		for (Paragraph paragraph : paragraphs) {
@@ -86,6 +93,7 @@ public class Lore {
 	 * Appends multiple paragraphs to the lore.
 	 * @param paragraphs the paragraphs to append
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendParagraphs(List<Paragraph> paragraphs) {
 		this.paragraphs.addAll(paragraphs);
@@ -96,6 +104,7 @@ public class Lore {
 	 * Appends a blank line to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a blank paragraph.
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendBlank() {
 		return appendParagraph(Paragraph.blank());
@@ -107,6 +116,7 @@ public class Lore {
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a blank paragraph.
 	 * @param space the amount of blank lines to append
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendBlank(int space) {
 		return appendParagraph(Paragraph.blank(space));
@@ -118,6 +128,7 @@ public class Lore {
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendDivider(int length, NamedTextColor color) {
 		return appendParagraph(Paragraph.divider(length, color));
@@ -130,6 +141,7 @@ public class Lore {
 	 * @param color the color of the divider
 	 * @param bold whether the divider should be bold
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore appendDivider(int length, NamedTextColor color, boolean bold) {
 		return appendParagraph(Paragraph.divider(length, color, bold));
@@ -138,6 +150,7 @@ public class Lore {
 	/**
 	 * Removes all paragraphs from the lore.
 	 * @return the lore for method chaining
+	 * @since 2.0.0
 	 */
 	public Lore clear() {
 		paragraphs.clear();
@@ -148,6 +161,7 @@ public class Lore {
 	 * Generates the lines of the lore. This is used for the rendering process.
 	 * @param context the render context
 	 * @return the lines of the lore
+	 * @since 2.0.0
 	 */
 	public List<Component> generateLines(RenderContext context) {
 		paragraphs.stream()

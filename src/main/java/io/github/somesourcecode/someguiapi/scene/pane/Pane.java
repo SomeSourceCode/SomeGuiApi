@@ -37,11 +37,13 @@ import io.github.somesourcecode.someguiapi.scene.Node;
  * {@link io.github.somesourcecode.someguiapi.scene.pane.VBox},
  * {@link io.github.somesourcecode.someguiapi.scene.pane.HBox},
  * {@link io.github.somesourcecode.someguiapi.scene.pane.FlowPane}, etc.
+ * @since 1.0.0
  */
 public class Pane extends Region {
 
 	/**
 	 * Constructs a new pane empty.
+	 * @since 1.0.0
 	 */
 	public Pane() {
 		super();
@@ -50,6 +52,7 @@ public class Pane extends Region {
 	/**
 	 * Constructs a new pane with the given children.
 	 * @param children the children of the pane
+	 * @since 1.0.0
 	 */
 	public Pane(Node... children) {
 		super();

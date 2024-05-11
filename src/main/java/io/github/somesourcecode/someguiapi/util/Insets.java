@@ -25,11 +25,13 @@ package io.github.somesourcecode.someguiapi.util;
 
 /**
  * Represents the distance from the edges of a container to its content.
+ * @since 1.0.0
  */
 public class Insets {
 
 	/**
 	 * Empty insets. An {@code Insets} instance with all insets set to 0.
+	 * @since 1.0.0
 	 */
 	public static final Insets EMPTY = new Insets(0, 0, 0, 0);
 
@@ -44,6 +46,7 @@ public class Insets {
 	 * @param right the right inset
 	 * @param bottom the bottom inset
 	 * @param left the left inset
+	 * @since 1.0.0
 	 */
 	public Insets(int top, int right, int bottom, int left) {
 		this.top = top;
@@ -56,6 +59,7 @@ public class Insets {
 	 * Constructs a new Insets instance with same value for top and bottom, and for right and left.
 	 * @param topBottom the top and bottom insets
 	 * @param rightLeft the right and left insets
+	 * @since 1.0.0
 	 */
 	public Insets(int topBottom, int rightLeft) {
 		this.top = topBottom;
@@ -67,6 +71,7 @@ public class Insets {
 	/**
 	 * Constructs a new Insets instance with same value for all four offsets.
 	 * @param topRightBottomLeft the top, right, bottom, and left insets
+	 * @since 1.0.0
 	 */
 	public Insets(int topRightBottomLeft) {
 		this.top = topRightBottomLeft;
@@ -78,6 +83,7 @@ public class Insets {
 	/**
 	 * Returns the top inset.
 	 * @return the top inset
+	 * @since 1.0.0
 	 */
 	public int getTop() {
 		return top;
@@ -86,6 +92,7 @@ public class Insets {
 	/**
 	 * Returns the right inset.
 	 * @return the right inset
+	 * @since 1.0.0
 	 */
 	public int getRight() {
 		return right;
@@ -94,6 +101,7 @@ public class Insets {
 	/**
 	 * Returns the bottom inset.
 	 * @return the bottom inset
+	 * @since 1.0.0
 	 */
 	public int getBottom() {
 		return bottom;
@@ -102,6 +110,7 @@ public class Insets {
 	/**
 	 * Returns the left inset.
 	 * @return the left inset
+	 * @since 1.0.0
 	 */
 	public int getLeft() {
 		return left;
@@ -112,6 +121,7 @@ public class Insets {
 	 *
 	 * @param obj the reference object with which to compare.
 	 * @return true if this object is the same as the obj argument; false otherwise.
+	 * @since 1.0.0
 	 */
 	@Override
 	public boolean equals(Object obj) {
