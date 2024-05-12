@@ -232,6 +232,7 @@ public class GuiItem extends Node {
 	/**
 	 * The builder for the GuiItem class. Allows for easy construction of GuiItem objects,
 	 * by making use of a fluent API.
+	 * @since 1.0.0
 	 */
 	public static class Builder {
 
