@@ -56,6 +56,7 @@ import java.util.function.Consumer;
  * Translation coordinates are specified in integer pixels, and move the node's origin by the
  * specified amount in the x and y directions. The translation is applied after the layout
  * has been computed, but before the node is rendered.
+ *
  * @since 1.0.0
  */
 public abstract class Node {
@@ -81,6 +82,7 @@ public abstract class Node {
 	/**
 	 * Returns the scene that this node is in.
 	 * If this node is not in a scene, this method returns null.
+	 *
 	 * @return the scene that this node is in
 	 * @since 2.0.0
 	 */
@@ -92,6 +94,7 @@ public abstract class Node {
 	 * Sets the scene that this node is in.
 	 * <b>This method is part of the internal API and should not be called by users.</b>
 	 * If you want to set the scene of a node, use {@link Scene#setRoot(Parent)}.
+	 *
 	 * @param scene the scene that this node is in
 	 * @since 2.0.0
 	 */
@@ -122,6 +125,7 @@ public abstract class Node {
 	/**
 	 * Requests a layout update for this node's parent.
 	 * Layout will be applied on the next layout pass.
+	 *
 	 * @since 2.0.0
 	 */
 	public void requestParentLayout() {
@@ -250,6 +254,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the width of the node.
+	 *
 	 * @return the width of the node
 	 * @since 1.0.0
 	 */
@@ -257,6 +262,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the height of the node.
+	 *
 	 * @return the height of the node
 	 * @since 1.0.0
 	 */
@@ -266,6 +272,7 @@ public abstract class Node {
 	 * Returns whether the node is visible.
 	 * If a node is not visible, it will not be rendered, but it
 	 * will still be considered for layout calculations.
+	 *
 	 * @return whether the node is visible
 	 * @since 1.0.0
 	 */
@@ -277,6 +284,7 @@ public abstract class Node {
 	 * Sets whether the node is visible.
 	 * If a node is not visible, it will not be rendered, but it
 	 * will still be considered for layout calculations.
+	 *
 	 * @param visible whether the node is visible
 	 * @since 1.0.0
 	 */
@@ -288,6 +296,7 @@ public abstract class Node {
 	 * Returns whether the node is clipping its children.
 	 * If a node is clipping its children, children that are outside
 	 * the bounds of the node will not be rendered.
+	 *
 	 * @return whether the node is clipping its children
 	 * @since 1.0.0
 	 */
@@ -299,6 +308,7 @@ public abstract class Node {
 	 * Sets whether the node is clipping its children.
 	 * If a node is clipping its children, children that are outside
 	 * the bounds of the node will not be rendered.
+	 *
 	 * @param clipping whether the node is clipping its children
 	 * @since 1.0.0
 	 */
@@ -310,6 +320,7 @@ public abstract class Node {
 	 * Returns the consumer that is called when the node is clicked.
 	 * <p>
 	 * This consumer will be called when the node is clicked, regardless of the type of click.
+	 *
 	 * @return the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
@@ -321,6 +332,7 @@ public abstract class Node {
 	 * Sets the consumer that is called when the node is clicked.
 	 * <p>
 	 * This consumer will be called when the node is clicked, regardless of the type of click.
+	 *
 	 * @param onClick the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
@@ -330,6 +342,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is left-clicked.
+	 *
 	 * @return the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
@@ -339,6 +352,7 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is left-clicked.
+	 *
 	 * @param onLeftClick the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
@@ -348,6 +362,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is right-clicked.
+	 *
 	 * @return the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
@@ -357,6 +372,7 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is right-clicked.
+	 *
 	 * @param onRightClick the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
@@ -366,6 +382,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is shift-clicked.
+	 *
 	 * @return the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
@@ -375,6 +392,7 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is shift-clicked.
+	 *
 	 * @param onShiftClick the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
@@ -384,6 +402,7 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node receives a hot bar click.
+	 *
 	 * @return the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
@@ -393,6 +412,7 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node receives a hot bar click.
+	 *
 	 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
@@ -403,6 +423,7 @@ public abstract class Node {
 	/**
 	 * Returns a {@link Pixel} that should be rendered at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @return the pixel at the given coordinates, or null if there is no pixel at the given coordinates
@@ -413,6 +434,7 @@ public abstract class Node {
 	/**
 	 * Returns the node at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @return the node at the given coordinates, or null if there is no node at the given coordinates

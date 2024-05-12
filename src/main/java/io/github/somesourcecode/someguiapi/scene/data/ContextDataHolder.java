@@ -29,6 +29,7 @@ import java.util.Optional;
 /**
  * A container for context data. It is used to register, store and retrieve context data.
  * The data is represented by {@link ContextData} objects and can be accessed by their id.
+ *
  * @since 2.0.0
  */
 public class ContextDataHolder {
@@ -39,6 +40,7 @@ public class ContextDataHolder {
 	 * Registers the given context data.
 	 * <p>
 	 * If the id is already registered, this method will fail silently.
+	 *
 	 * @param data the data to register
 	 * @return the holder for method chaining
 	 * @since 2.0.0
@@ -56,6 +58,7 @@ public class ContextDataHolder {
 	 * This method is a shorthand for {@link #register(ContextData)}.
 	 * <p>
 	 * If the id is already registered, this method will fail silently.
+	 *
 	 * @param id the id of the data
 	 * @param type the type of the data
 	 * @return the holder for method chaining
@@ -71,6 +74,7 @@ public class ContextDataHolder {
 	 * This method is a shorthand for {@link #register(ContextData)}.
 	 * <p>
 	 * If the id is already registered, this method will fail silently.
+	 *
 	 * @param id the id of the data
 	 * @param type the type of the data
 	 * @param data the initial data
@@ -84,6 +88,7 @@ public class ContextDataHolder {
 
 	/**
 	 * Returns the context data with the given id.
+	 *
 	 * @param id the id of the data
 	 * @return the data with the given id, or null if no data with the given id is registered
 	 * @since 2.0.0
@@ -95,6 +100,7 @@ public class ContextDataHolder {
 	/**
 	 * Returns the context data with the given id and an unchecked data type.
 	 * This is useful if the type of the data is known.
+	 *
 	 * @param id the id of the data
 	 * @return the data with the given id
 	 * @throws ClassCastException if the data is not of the correct type
@@ -106,6 +112,7 @@ public class ContextDataHolder {
 
 	/**
 	 * Returns the context data with the given id as an optional.
+	 *
 	 * @param id the id of the data
 	 * @return the data with the given id as an optional
 	 * @since 2.0.0
@@ -116,6 +123,7 @@ public class ContextDataHolder {
 
 	/**
 	 * Unregisters the context data with the given id.
+	 *
 	 * @param id the id of the data
 	 * @return the holder for method chaining
 	 * @since 2.0.0
@@ -127,6 +135,7 @@ public class ContextDataHolder {
 
 	/**
 	 * Unregisters all context data.
+	 *
 	 * @return the holder for method chaining
 	 * @since 2.0.0
 	 */

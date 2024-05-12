@@ -30,6 +30,7 @@ import java.util.List;
  * <p>
  * A change will be fired whenever elements are added or removed from the list
  * and can be listened to by adding a {@link ListChangeListener}.
+ *
  * @param <E> the type of elements in the list
  * @since 1.0.0
  */
@@ -37,6 +38,7 @@ public interface ObservableList<E> extends List<E> {
 
 	/**
 	 * Adds a listener that is called whenever the list changes.
+	 *
 	 * @param listener the listener
 	 * @since 1.0.0
 	 */
@@ -44,6 +46,7 @@ public interface ObservableList<E> extends List<E> {
 
 	/**
 	 * Removes a listener.
+	 *
 	 * @param listener the listener
 	 * @since 1.0.0
 	 */
@@ -51,6 +54,7 @@ public interface ObservableList<E> extends List<E> {
 
 	/**
 	 * A convenience method to add varargs elements to the list.
+	 *
 	 * @param elements the elements to add
 	 * @return true if the list was changed as a result of this call
 	 * @since 1.0.0
@@ -59,6 +63,7 @@ public interface ObservableList<E> extends List<E> {
 
 	/**
 	 * A convenience method to remove varargs elements from the list.
+	 *
 	 * @param elements the elements to remove
 	 * @return true if the list was changed as a result of this call
 	 * @since 1.0.0

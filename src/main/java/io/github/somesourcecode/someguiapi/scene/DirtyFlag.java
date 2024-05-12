@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene;
 
 /**
  * Contains flags that indicate what part of a GUI needs to be updated.
+ *
  * @since 2.0.0
  */
 public enum DirtyFlag {

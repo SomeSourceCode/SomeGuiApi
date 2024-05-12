@@ -140,6 +140,7 @@ public class ContextData<T> {
 	/**
 	 * Returns the stored data as the given type.
 	 * If the data is not of the given type, this method will throw a {@link ClassCastException}.
+	 *
 	 * @param type the type of the data
 	 * @param <E> the type of the data
 	 * @return the stored data as the given type
@@ -153,6 +154,7 @@ public class ContextData<T> {
 	/**
 	 * Returns the stored data as a string.
 	 * If the data is not a string, it will automatically be converted.
+	 *
 	 * @return the stored data as a string
 	 * @since 2.0.0
 	 */
@@ -162,6 +164,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as an integer.
+	 *
 	 * @return the stored data as an integer
 	 * @throws ClassCastException if the data cannot be converted to an integer
 	 * @since 2.0.0
@@ -172,6 +175,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a long.
+	 *
 	 * @return the stored data as a long
 	 * @throws ClassCastException if the data cannot be converted to a long
 	 * @since 2.0.0
@@ -182,6 +186,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a double.
+	 *
 	 * @return the stored data as a double
 	 * @throws ClassCastException if the data cannot be converted to a double
 	 * @since 2.0.0
@@ -192,6 +197,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a float.
+	 *
 	 * @return the stored data as a float
 	 * @throws ClassCastException if the data cannot be converted to a float
 	 * @since 2.0.0
@@ -202,6 +208,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a boolean.
+	 *
 	 * @return the stored data as a boolean
 	 * @throws ClassCastException if the data cannot be converted to a boolean
 	 * @since 2.0.0
@@ -212,6 +219,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a byte.
+	 *
 	 * @return the stored data as a byte
 	 * @throws ClassCastException if the data cannot be converted to a byte
 	 * @since 2.0.0
@@ -222,6 +230,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a short.
+	 *
 	 * @return the stored data as a short
 	 * @throws ClassCastException if the data cannot be converted to a short
 	 * @since 2.0.0
@@ -232,6 +241,7 @@ public class ContextData<T> {
 
 	/**
 	 * Returns the stored data as a char.
+	 *
 	 * @return the stored data as a char
 	 * @throws ClassCastException if the data cannot be converted to a char
 	 * @since 2.0.0

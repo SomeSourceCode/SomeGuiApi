@@ -4,12 +4,14 @@ import net.kyori.adventure.text.*;
 
 /**
  * Utility class for components.
+ *
  * @since 2.0.0
  */
 public class ComponentUtil {
 
 	/**
 	 * Copies a component.
+	 *
 	 * @param component the component to copy
 	 * @param copyChildren whether to copy the children of the component
 	 * @return the copied component

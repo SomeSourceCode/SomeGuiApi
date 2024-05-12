@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * A paragraph that contains a single line.
+ *
  * @since 2.0.0
  */
 public class LineParagraph implements Paragraph {
@@ -15,6 +16,7 @@ public class LineParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new line paragraph with the given line.
+	 *
 	 * @since 2.0.0
 	 */
 	public LineParagraph(Component line) {
@@ -23,6 +25,7 @@ public class LineParagraph implements Paragraph {
 
 	/**
 	 * Returns the line of the paragraph.
+	 *
 	 * @return the line of the paragraph
 	 * @since 2.0.0
 	 */
@@ -32,6 +35,7 @@ public class LineParagraph implements Paragraph {
 
 	/**
 	 * Sets the line of the paragraph.
+	 *
 	 * @param line the line of the paragraph
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0

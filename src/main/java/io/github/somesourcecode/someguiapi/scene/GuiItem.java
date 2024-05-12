@@ -35,6 +35,7 @@ import java.util.function.Consumer;
  * <p>
  * GuiItems are used to represent singular items in a GUI and
  * provide handlers for click events.
+ *
  * @since 1.0.0
  */
 public class GuiItem extends Node {
@@ -43,6 +44,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Constructs a new GuiItem with an empty pixel.
+	 *
 	 * @since 2.0.0
 	 */
 	public GuiItem() {
@@ -51,6 +53,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Constructs a new GuiItem with the specified material.
+	 *
 	 * @param material the material of the item
 	 * @since 1.0.0
 	 */
@@ -75,6 +78,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns the material of this item.
+	 *
 	 * @return the material
 	 * @since 1.0.0
 	 */
@@ -84,6 +88,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Sets the material of this item.
+	 *
 	 * @param material the material
 	 * @since 1.0.0
 	 */
@@ -93,6 +98,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns the title of this item.
+	 *
 	 * @return the title
 	 * @since 1.0.0
 	 */
@@ -102,6 +108,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Sets the title of this item.
+	 *
 	 * @param title the title
 	 * @since 1.0.0
 	 */
@@ -111,6 +118,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns the lore of this item.
+	 *
 	 * @return the lore
 	 * @since 2.0.0
 	 */
@@ -120,6 +128,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Sets the lore of this item.
+	 *
 	 * @param lore the lore
 	 * @since 2.0.0
 	 */
@@ -129,6 +138,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns the index of this item.
+	 *
 	 * @return the index
 	 * @since 1.0.0
 	 */
@@ -138,6 +148,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Sets the index of this item.
+	 *
 	 * @param index the index
 	 * @since 1.0.0
 	 */
@@ -147,6 +158,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns whether this item should glow.
+	 *
 	 * @return whether this item should glow
 	 * @since 1.0.0
 	 */
@@ -156,6 +168,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Sets whether this item should glow.
+	 *
 	 * @param glow whether this item should glow
 	 * @since 1.0.0
 	 */
@@ -165,6 +178,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Returns the pixel representation of this item.
+	 *
 	 * @return the rendered ItemStack
 	 * @since 2.0.0
 	 */
@@ -211,6 +225,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Constructs a new empty GuiItem builder with the given pixel.
+	 *
 	 * @param pixel the pixel of the item
 	 * @return the builder
 	 * @since 2.0.0
@@ -221,6 +236,7 @@ public class GuiItem extends Node {
 
 	/**
 	 * Constructs a new empty GuiItem builder with the given material.
+	 *
 	 * @param material the material of the item
 	 * @return the builder
 	 * @since 1.0.0
@@ -232,6 +248,7 @@ public class GuiItem extends Node {
 	/**
 	 * The builder for the GuiItem class. Allows for easy construction of GuiItem objects,
 	 * by making use of a fluent API.
+	 *
 	 * @since 1.0.0
 	 */
 	public static class Builder {
@@ -265,6 +282,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Relocates the item to the given coordinates.
+		 *
 		 * @param x the x coordinate
 		 * @param y the y coordinate
 		 * @return the builder for method chaining
@@ -278,6 +296,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Relocates the item to the given x coordinate.
+		 *
 		 * @param x the x coordinate
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -289,6 +308,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Relocates the item to the given y coordinate.
+		 *
 		 * @param y the y coordinate
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -300,6 +320,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the material of the item.
+		 *
 		 * @param material the material
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -311,6 +332,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the title of the item.
+		 *
 		 * @param title the title
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -322,6 +344,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the lore of the item.
+		 *
 		 * @param lore the lore
 		 * @return the builder for method chaining
 		 * @since 2.0.0
@@ -333,6 +356,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the index of the item.
+		 *
 		 * @param index the index
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -344,6 +368,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets whether the item should glow.
+		 *
 		 * @param glow whether the item should glow
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -355,6 +380,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the glow of the item to true.
+		 *
 		 * @return the builder for method chaining
 		 * @since 2.0.0
 		 */
@@ -364,6 +390,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the glow of the item to false.
+		 *
 		 * @return the builder for method chaining
 		 * @since 2.0.0
 		 */
@@ -375,6 +402,7 @@ public class GuiItem extends Node {
 		 * Sets the consumer that is called when the node is clicked.
 		 * <p>
 		 * This consumer will be called when the node is clicked, regardless of the type of click.
+		 *
 		 * @param onClick the consumer that is called when the node is clicked
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -386,6 +414,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the consumer that is called when the node is left-clicked.
+		 *
 		 * @param onLeftClick the consumer that is called when the node is left-clicked
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -397,6 +426,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the consumer that is called when the node is right-clicked.
+		 *
 		 * @param onRightClick the consumer that is called when the node is right-clicked
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -408,6 +438,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the consumer that is called when the node is shift-clicked.
+		 *
 		 * @param onShiftClick the consumer that is called when the node is shift-clicked
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -419,6 +450,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Sets the consumer that is called when the node receives a hot bar click.
+		 *
 		 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
 		 * @return the builder for method chaining
 		 * @since 1.0.0
@@ -430,6 +462,7 @@ public class GuiItem extends Node {
 
 		/**
 		 * Builds the GuiItem object.
+		 *
 		 * @return the GuiItem object
 		 * @since 1.0.0
 		 */

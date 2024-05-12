@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * A paragraph that acts as a divider.
+ *
  * @since 2.0.0
  */
 public class DividerParagraph implements Paragraph {
@@ -19,6 +20,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph.
+	 *
 	 * @since 2.0.0
 	 */
 	public DividerParagraph() {
@@ -27,6 +29,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length.
+	 *
 	 * @param length the length of the divider
 	 * @since 2.0.0
 	 */
@@ -36,6 +39,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length and color.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @since 2.0.0
@@ -47,6 +51,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length, color and boldness.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @param bold whether the divider is bold
@@ -60,6 +65,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Returns the length of the divider.
+	 *
 	 * @return the length of the divider
 	 * @since 2.0.0
 	 */
@@ -69,6 +75,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Sets the length of the divider.
+	 *
 	 * @param length the length of the divider
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
@@ -80,6 +87,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Returns the color of the divider.
+	 *
 	 * @return the color of the divider
 	 * @since 2.0.0
 	 */
@@ -89,6 +97,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Sets the color of the divider.
+	 *
 	 * @param color the color of the divider
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
@@ -100,6 +109,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Returns whether the divider is bold.
+	 *
 	 * @return whether the divider is bold
 	 * @since 2.0.0
 	 */
@@ -109,6 +119,7 @@ public class DividerParagraph implements Paragraph {
 
 	/**
 	 * Sets whether the divider is bold.
+	 *
 	 * @param bold whether the divider is bold
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0

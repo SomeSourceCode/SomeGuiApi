@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * The base class for GUIs that can be shown to players.
+ *
  * @since 1.0.0
  */
 public abstract class Gui {
@@ -45,6 +46,7 @@ public abstract class Gui {
 
 	/**
 	 * Returns the {@link ContextDataHolder} of this GUI.
+	 *
 	 * @return the data holder
 	 * @since 2.0.0
 	 */
@@ -78,6 +80,7 @@ public abstract class Gui {
 
 	/**
 	 * Shows this GUI to the specified human entity.
+	 *
 	 * @param humanEntity the human entity
 	 * @since 1.0.0
 	 */
@@ -85,6 +88,7 @@ public abstract class Gui {
 
 	/**
 	 * Returns a list of human entities that are currently viewing this GUI.
+	 *
 	 * @return a list of human entities viewing this GUI
 	 * @since 1.0.0
 	 */
@@ -92,6 +96,7 @@ public abstract class Gui {
 
 	/**
 	 * Updates the GUI for all viewers.
+	 *
 	 * @since 1.0.0
 	 */
 	public void update() {

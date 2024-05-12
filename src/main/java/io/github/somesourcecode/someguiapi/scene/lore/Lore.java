@@ -9,6 +9,7 @@ import java.util.*;
 
 /**
  * Represents the text which is shown below the title on hover.
+ *
  * @since 2.0.0
  */
 public class Lore {
@@ -20,6 +21,7 @@ public class Lore {
 	/**
 	 * Adds a decoration override to the lore.
 	 * Every line will have the given decoration applied.
+	 *
 	 * @param decoration the decoration
 	 * @param value the value
 	 * @return the lore for method chaining
@@ -32,6 +34,7 @@ public class Lore {
 
 	/**
 	 * Removes a decoration override from the lore.
+	 *
 	 * @param decoration the decoration
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -44,6 +47,7 @@ public class Lore {
 	/**
 	 * Sets the paragraphs of the lore.
 	 * Previous paragraphs will be overwritten.
+	 *
 	 * @param paragraphs the paragraphs
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -57,6 +61,7 @@ public class Lore {
 	/**
 	 * Appends a line to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a line paragraph.
+	 *
 	 * @param line the line to append
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -67,6 +72,7 @@ public class Lore {
 
 	/**
 	 * Appends a paragraph to the lore.
+	 *
 	 * @param paragraph the paragraph to append
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -78,6 +84,7 @@ public class Lore {
 
 	/**
 	 * Appends multiple paragraphs to the lore.
+	 *
 	 * @param paragraphs the paragraphs to append
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -91,6 +98,7 @@ public class Lore {
 
 	/**
 	 * Appends multiple paragraphs to the lore.
+	 *
 	 * @param paragraphs the paragraphs to append
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -103,6 +111,7 @@ public class Lore {
 	/**
 	 * Appends a blank line to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a blank paragraph.
+	 *
 	 * @return the lore for method chaining
 	 * @since 2.0.0
 	 */
@@ -114,6 +123,7 @@ public class Lore {
 	 * Appends a blank lines to the lore.
 	 * The amount of lines is determined by the space parameter.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a blank paragraph.
+	 *
 	 * @param space the amount of blank lines to append
 	 * @return the lore for method chaining
 	 * @since 2.0.0
@@ -125,6 +135,7 @@ public class Lore {
 	/**
 	 * Appends a divider with the given length and color to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a divider paragraph.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @return the lore for method chaining
@@ -137,6 +148,7 @@ public class Lore {
 	/**
 	 * Appends a divider with the given length, color and boldness to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a divider paragraph.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @param bold whether the divider should be bold
@@ -149,6 +161,7 @@ public class Lore {
 
 	/**
 	 * Removes all paragraphs from the lore.
+	 *
 	 * @return the lore for method chaining
 	 * @since 2.0.0
 	 */
@@ -159,6 +172,7 @@ public class Lore {
 
 	/**
 	 * Generates the lines of the lore. This is used for the rendering process.
+	 *
 	 * @param context the render context
 	 * @return the lines of the lore
 	 * @since 2.0.0

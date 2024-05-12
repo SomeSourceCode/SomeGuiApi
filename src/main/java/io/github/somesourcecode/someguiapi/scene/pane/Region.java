@@ -31,6 +31,7 @@ import io.github.somesourcecode.someguiapi.scene.Parent;
  * <p>
  * This class handles the size of the node and its children, as well as padding.
  * To create layout panes, you probably want to extend {@link Pane} instead.
+ *
  * @since 1.0.0
  */
 public class Region extends Parent {
@@ -42,6 +43,7 @@ public class Region extends Parent {
 
 	/**
 	 * Constructs a new region with a width and height of 0.
+	 *
 	 * @since 1.0.0
 	 */
 	public Region() {
@@ -55,6 +57,7 @@ public class Region extends Parent {
 
 	/**
 	 * Sets the width of this region.
+	 *
 	 * @param width the width of this region
 	 * @since 1.0.0
 	 */
@@ -73,6 +76,7 @@ public class Region extends Parent {
 
 	/**
 	 * Sets the height of this region.
+	 *
 	 * @param height the height of this region
 	 * @since 1.0.0
 	 */
@@ -88,6 +92,7 @@ public class Region extends Parent {
 	 * Resizes this region to the specified width and height.
 	 * <p>
 	 * This is equivalent to calling {@link #setWidth(int)} and {@link #setHeight(int)}.
+	 *
 	 * @param width the new width of this region
 	 * @param height the new height of this region
 	 * @since 1.0.0
@@ -101,6 +106,7 @@ public class Region extends Parent {
 	 * Resizes and relocates this region to the specified layoutX, layoutY, width, and height.
 	 * <p>
 	 * This is equivalent to calling {@link #relocate(int, int)} and {@link #resize(int, int)}.
+	 *
 	 * @param layoutX the new layoutX of this region
 	 * @param layoutY the new layoutY of this region
 	 * @param width the new width of this region
@@ -114,6 +120,7 @@ public class Region extends Parent {
 
 	/**
 	 * Returns the padding of this region.
+	 *
 	 * @return the padding of this region
 	 * @since 1.0.0
 	 */
@@ -123,6 +130,7 @@ public class Region extends Parent {
 
 	/**
 	 * Sets the padding of this region.
+	 *
 	 * @param padding the padding of this region
 	 * @since 1.0.0
 	 */

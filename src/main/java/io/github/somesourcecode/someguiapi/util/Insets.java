@@ -25,12 +25,14 @@ package io.github.somesourcecode.someguiapi.util;
 
 /**
  * Represents the distance from the edges of a container to its content.
+ *
  * @since 1.0.0
  */
 public class Insets {
 
 	/**
 	 * Empty insets. An {@code Insets} instance with all insets set to 0.
+	 *
 	 * @since 1.0.0
 	 */
 	public static final Insets EMPTY = new Insets(0, 0, 0, 0);
@@ -42,6 +44,7 @@ public class Insets {
 
 	/**
 	 * Constructs a new Insets instance with four different offsets.
+	 *
 	 * @param top the top inset
 	 * @param right the right inset
 	 * @param bottom the bottom inset
@@ -57,6 +60,7 @@ public class Insets {
 
 	/**
 	 * Constructs a new Insets instance with same value for top and bottom, and for right and left.
+	 *
 	 * @param topBottom the top and bottom insets
 	 * @param rightLeft the right and left insets
 	 * @since 1.0.0
@@ -70,6 +74,7 @@ public class Insets {
 
 	/**
 	 * Constructs a new Insets instance with same value for all four offsets.
+	 *
 	 * @param topRightBottomLeft the top, right, bottom, and left insets
 	 * @since 1.0.0
 	 */
@@ -82,6 +87,7 @@ public class Insets {
 
 	/**
 	 * Returns the top inset.
+	 *
 	 * @return the top inset
 	 * @since 1.0.0
 	 */
@@ -91,6 +97,7 @@ public class Insets {
 
 	/**
 	 * Returns the right inset.
+	 *
 	 * @return the right inset
 	 * @since 1.0.0
 	 */
@@ -100,6 +107,7 @@ public class Insets {
 
 	/**
 	 * Returns the bottom inset.
+	 *
 	 * @return the bottom inset
 	 * @since 1.0.0
 	 */
@@ -109,6 +117,7 @@ public class Insets {
 
 	/**
 	 * Returns the left inset.
+	 *
 	 * @return the left inset
 	 * @since 1.0.0
 	 */

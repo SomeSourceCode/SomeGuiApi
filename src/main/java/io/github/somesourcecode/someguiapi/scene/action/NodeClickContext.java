@@ -30,6 +30,7 @@ import org.bukkit.event.inventory.ClickType;
 /**
  * Represents the context of a node click.
  * It contains information about the type of click that was performed and the player that clicked.
+ *
  * @since 1.0.0
  */
 public class NodeClickContext {
@@ -49,6 +50,7 @@ public class NodeClickContext {
 
 	/**
 	 * Creates a new node click context.
+	 *
 	 * @param scene the scene the click occurred in
 	 * @param x the x coordinate of the slot that was clicked
 	 * @param y the y coordinate of the slot that was clicked
@@ -68,6 +70,7 @@ public class NodeClickContext {
 
 	/**
 	 * Returns the scene the click occurred in.
+	 *
 	 * @return the scene the click occurred in
 	 * @since 1.0.0
 	 */
@@ -78,6 +81,7 @@ public class NodeClickContext {
 	/**
 	 * Returns the x coordinate of the slot that was clicked.
 	 * This is the slot's x coordinate in the inventory, and not relative to the nodes bounds.
+	 *
 	 * @return the x coordinate of the slot that was clicked
 	 * @since 1.0.0
 	 */
@@ -88,6 +92,7 @@ public class NodeClickContext {
 	/**
 	 * Returns the y coordinate of the slot that was clicked.
 	 * This is the slot's y coordinate in the inventory, and not relative to the nodes bounds.
+	 *
 	 * @return the y coordinate of the slot that was clicked
 	 * @since 1.0.0
 	 */
@@ -97,6 +102,7 @@ public class NodeClickContext {
 
 	/**
 	 * Returns the type of click that was performed.
+	 *
 	 * @return the type of click that was performed
 	 * @since 1.0.0
 	 */
@@ -107,6 +113,7 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a left click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isLeftClick()}.
+	 *
 	 * @return whether the click was a left click
 	 * @since 1.0.0
 	 */
@@ -117,6 +124,7 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a right click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isRightClick()}.
+	 *
 	 * @return whether the click was a right click
 	 * @since 1.0.0
 	 */
@@ -127,6 +135,7 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a shift click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isShiftClick()}.
+	 *
 	 * @return whether the click was a shift click
 	 * @since 1.0.0
 	 */
@@ -136,6 +145,7 @@ public class NodeClickContext {
 
 	/**
 	 * Return true if the click was a hot bar click; false otherwise.
+	 *
 	 * @return whether the click was a hot bar click
 	 * @since 1.0.0
 	 */
@@ -145,6 +155,7 @@ public class NodeClickContext {
 
 	/**
 	 * Returns the human entity that clicked the node.
+	 *
 	 * @return the human entity that clicked the node
 	 * @since 1.0.0
 	 */
@@ -155,6 +166,7 @@ public class NodeClickContext {
 	/**
 	 * Returns the hot bar button that was clicked.
 	 * If the click was not a hot bar click, this method returns -1.
+	 *
 	 * @return the hot bar button that was clicked
 	 * @since 1.0.0
 	 */
@@ -164,6 +176,7 @@ public class NodeClickContext {
 
 	/**
 	 * Returns true if the click has been consumed; false otherwise.
+	 *
 	 * @return whether the click has been consumed
 	 * @since 1.0.0
 	 */
@@ -174,6 +187,7 @@ public class NodeClickContext {
 	/**
 	 * Consumes the click.
 	 * Once a click has been consumed, {@link #isConsumed()} will return {@code true}.
+	 *
 	 * @since 1.0.0
 	 */
 	public void consume() {

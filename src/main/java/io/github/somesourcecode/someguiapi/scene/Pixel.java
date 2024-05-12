@@ -33,12 +33,14 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * An instance of Pixel contains all the information needed to render a single item in a GUI.
+ *
  * @since 2.0.0
  */
 public class Pixel {
 
 	/**
 	 * Creates an empty pixel. Empty pixels will be rendered as air.
+	 *
 	 * @return the empty pixel
 	 * @since 2.0.0
 	 */
@@ -48,6 +50,7 @@ public class Pixel {
 
 	/**
 	 * Creates a pixel with the specified material and empty title and lore.
+	 *
 	 * @param material the material
 	 * @return the blank pixel
 	 * @since 2.0.0
@@ -58,6 +61,7 @@ public class Pixel {
 
 	/**
 	 * Creates a pixel with the specified material.
+	 *
 	 * @param material the material
 	 * @return the pixel
 	 * @since 2.0.0
@@ -76,6 +80,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new empty pixel.
+	 *
 	 * @since 2.0.0
 	 */
 	public Pixel() {
@@ -84,6 +89,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material.
+	 *
 	 * @param material the material
 	 * @since 2.0.0
 	 */
@@ -93,6 +99,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material and title.
+	 *
 	 * @param material the material
 	 * @param index the index
 	 * @since 2.0.0
@@ -104,6 +111,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material and title.
+	 *
 	 * @param material the material
 	 * @param index the index
 	 * @param title the title
@@ -117,6 +125,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material, index, title, and lore.
+	 *
 	 * @param material the material
 	 * @param index the index
 	 * @param title the title
@@ -132,6 +141,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material, index, title, lore, and glow.
+	 *
 	 * @param material the material
 	 * @param index the index
 	 * @param title the title
@@ -149,6 +159,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material and title.
+	 *
 	 * @param material the material
 	 * @param title the title
 	 * @since 2.0.0
@@ -160,6 +171,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material, title, and lore.
+	 *
 	 * @param material the material
 	 * @param title the title
 	 * @param lore the lore
@@ -173,6 +185,7 @@ public class Pixel {
 
 	/**
 	 * Constructs a new pixel with the specified material, title, lore, and glow.
+	 *
 	 * @param material the material
 	 * @param title the title
 	 * @param lore the lore
@@ -188,6 +201,7 @@ public class Pixel {
 
 	/**
 	 * Returns the material of this pixel.
+	 *
 	 * @return the material
 	 * @since 2.0.0
 	 */
@@ -197,6 +211,7 @@ public class Pixel {
 
 	/**
 	 * Sets the material of this pixel.
+	 *
 	 * @param material the material
 	 * @return the pixel for method chaining
 	 * @since 2.0.0
@@ -208,6 +223,7 @@ public class Pixel {
 
 	/**
 	 * Returns the title of this pixel.
+	 *
 	 * @return the title
 	 * @since 2.0.0
 	 */
@@ -217,6 +233,7 @@ public class Pixel {
 
 	/**
 	 * Sets the title of this pixel.
+	 *
 	 * @param title the title
 	 * @return the pixel for method chaining
 	 * @since 2.0.0
@@ -228,6 +245,7 @@ public class Pixel {
 
 	/**
 	 * Returns the lore of this pixel.
+	 *
 	 * @return the lore
 	 * @since 2.0.0
 	 */
@@ -237,6 +255,7 @@ public class Pixel {
 
 	/**
 	 * Sets the lore of this pixel.
+	 *
 	 * @param lore the lore
 	 * @return the pixel for method chaining
 	 * @since 2.0.0
@@ -248,6 +267,7 @@ public class Pixel {
 
 	/**
 	 * Returns the index of this pixel.
+	 *
 	 * @return the index
 	 * @since 2.0.0
 	 */
@@ -257,6 +277,7 @@ public class Pixel {
 
 	/**
 	 * Sets the index of this pixel.
+	 *
 	 * @param index the index
 	 * @return the pixel for method chaining
 	 * @since 2.0.0
@@ -268,6 +289,7 @@ public class Pixel {
 
 	/**
 	 * Returns whether this pixel should glow.
+	 *
 	 * @return whether this pixel should glow
 	 * @since 2.0.0
 	 */
@@ -277,6 +299,7 @@ public class Pixel {
 
 	/**
 	 * Sets whether this pixel should glow.
+	 *
 	 * @param glow whether this pixel should glow
 	 * @return the pixel for method chaining
 	 * @since 2.0.0
@@ -290,6 +313,7 @@ public class Pixel {
 	 * Returns whether this pixel is empty. A pixel is
 	 * considered empty if its material is null or air
 	 * or if its index is less than or equal to 0.
+	 *
 	 * @return whether this pixel is empty
 	 * @since 2.0.0
 	 */
@@ -299,6 +323,7 @@ public class Pixel {
 
 	/**
 	 * Renders this pixel as an ItemStack.
+	 *
 	 * @param renderContext the render context
 	 * @return the rendered ItemStack
 	 * @since 2.0.0

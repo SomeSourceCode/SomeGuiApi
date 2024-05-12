@@ -33,6 +33,7 @@ import io.github.somesourcecode.someguiapi.util.Orientation;
  * of the pane. A vertical FlowPane will lay out nodes in columns, wrapping at the height
  * of the pane. If the FlowPane has padding set, the nodes will be laid out within
  * those insets.
+ *
  * @since 1.0.0
  */
 public class FlowPane extends Pane {
@@ -44,6 +45,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with horizontal orientation.
+	 *
 	 * @since 1.0.0
 	 */
 	public FlowPane() {
@@ -52,6 +54,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given orientation.
+	 *
 	 * @param orientation the orientation of the flow pane
 	 * @since 1.0.0
 	 */
@@ -62,6 +65,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given horizontal and vertical gaps.
+	 *
 	 * @param hGap the horizontal gap between nodes
 	 * @param vGap the vertical gap between nodes
 	 * @since 1.0.0
@@ -74,6 +78,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given orientation, horizontal and vertical gaps.
+	 *
 	 * @param orientation the orientation of the flow pane
 	 * @param hGap the horizontal gap between nodes
 	 * @param vGap the vertical gap between nodes
@@ -88,6 +93,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given children.
+	 *
 	 * @param children the children of the flow pane
 	 * @since 1.0.0
 	 */
@@ -97,6 +103,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given orientation and children.
+	 *
 	 * @param orientation the orientation of the flow pane
 	 * @param children the children of the flow pane
 	 * @since 1.0.0
@@ -108,6 +115,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given horizontal and vertical gaps and children.
+	 *
 	 * @param hGap the horizontal gap between nodes
 	 * @param vGap the vertical gap between nodes
 	 * @param children the children of the flow pane
@@ -121,6 +129,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Constructs a new FlowPane with the given orientation, horizontal and vertical gaps, and children.
+	 *
 	 * @param orientation the orientation of the flow pane
 	 * @param hGap the horizontal gap between nodes
 	 * @param vGap the vertical gap between nodes
@@ -136,6 +145,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Returns the orientation of the flow pane.
+	 *
 	 * @return the orientation of the flow pane
 	 * @since 1.0.0
 	 */
@@ -145,6 +155,7 @@ public class FlowPane extends Pane {
 
 	/**
 	 * Sets the orientation of the flow pane.
+	 *
 	 * @param orientation the orientation of the flow pane
 	 * @since 1.0.0
 	 */
@@ -155,6 +166,7 @@ public class FlowPane extends Pane {
 	/**
 	 * Returns the amount of space between each node in a horizontal FlowPane
 	 * or the space between each column in a vertical FlowPane.
+	 *
 	 * @return the horizontal gap between nodes
 	 * @since 1.0.0
 	 */
@@ -165,6 +177,7 @@ public class FlowPane extends Pane {
 	/**
 	 * Sets the amount of space between each node in a horizontal FlowPane
 	 * or the space between each column in a vertical FlowPane.
+	 *
 	 * @param hGap the horizontal gap between nodes
 	 * @since 1.0.0
 	 */
@@ -175,6 +188,7 @@ public class FlowPane extends Pane {
 	/**
 	 * Returns the amount of space between each node in a vertical FlowPane
 	 * or the space between each row in a horizontal FlowPane.
+	 *
 	 * @return the vertical gap between nodes
 	 * @since 1.0.0
 	 */
@@ -185,6 +199,7 @@ public class FlowPane extends Pane {
 	/**
 	 * Sets the amount of space between each node in a vertical FlowPane
 	 * or the space between each row in a horizontal FlowPane.
+	 *
 	 * @param vGap the vertical gap between nodes
 	 * @since 1.0.0
 	 */

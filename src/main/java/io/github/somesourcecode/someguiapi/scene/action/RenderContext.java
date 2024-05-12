@@ -28,6 +28,7 @@ import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 /**
  * The context in which a pixel is rendered.
+ *
  * @since 2.0.0
  */
 public class RenderContext {
@@ -37,6 +38,7 @@ public class RenderContext {
 
 	/**
 	 * Constructs a new render context.
+	 *
 	 * @param gui the gui
 	 * @param scene the scene
 	 * @since 2.0.0
@@ -48,6 +50,7 @@ public class RenderContext {
 
 	/**
 	 * Returns the gui in which the pixel is rendered.
+	 *
 	 * @return the gui
 	 * @since 2.0.0
 	 */
@@ -57,6 +60,7 @@ public class RenderContext {
 
 	/**
 	 * Returns the scene in which the pixel is rendered.
+	 *
 	 * @return the scene
 	 * @since 2.0.0
 	 */

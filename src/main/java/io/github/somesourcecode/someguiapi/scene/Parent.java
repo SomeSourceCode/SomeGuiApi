@@ -33,6 +33,7 @@ import java.util.ArrayList;
  * <p>
  * This class handles all hierarchy-related operations, such as adding and removing child nodes,
  * layout and rendering.
+ *
  * @since 1.0.0
  */
 public abstract class Parent extends Node {
@@ -45,6 +46,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Constructs a new parent node.
+	 *
 	 * @since 1.0.0
 	 */
 	protected Parent() {
@@ -74,6 +76,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Returns the list of children of this parent.
+	 *
 	 * @return the list of children
 	 * @since 1.0.0
 	 */
@@ -83,6 +86,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Returns whether this parent is the root of a scene.
+	 *
 	 * @return whether this parent is the root of a scene
 	 * @since 2.0.0
 	 */
@@ -93,6 +97,7 @@ public abstract class Parent extends Node {
 	/**
 	 * Requests a layout update for this parent.
 	 * Layout will be applied on the next layout pass.
+	 *
 	 * @since 2.0.0
 	 */
 	public void requestLayout() {
@@ -105,6 +110,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Returns whether this parent needs a layout update.
+	 *
 	 * @return whether this parent needs a layout update
 	 * @see #requestLayout()
 	 * @since 2.0.0
@@ -117,6 +123,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Recursively applies the layout to all children and itself.
+	 *
 	 * @since 1.0.0
 	 */
 	public final void layout() {
@@ -142,6 +149,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Returns the background of this parent.
+	 *
 	 * @return the background
 	 * @since 1.0.0
 	 */
@@ -151,6 +159,7 @@ public abstract class Parent extends Node {
 
 	/**
 	 * Sets the background of this parent. It will be rendered behind all children.
+	 *
 	 * @param background the new background
 	 * @since 1.0.0
 	 */

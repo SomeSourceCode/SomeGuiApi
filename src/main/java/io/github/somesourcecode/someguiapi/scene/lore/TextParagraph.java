@@ -12,17 +12,20 @@ import java.util.Stack;
 /**
  * A paragraph that contains text in form of a component.
  * The content of the paragraph can be wrapped to fit a certain width.
+ *
  * @since 2.0.0
  */
 public class TextParagraph implements Paragraph {
 
 	/**
 	 * The default width at which the text should be wrapped.
+	 *
 	 * @since 2.0.0
 	 */
 	public static final int DEFAULT_WRAP_WIDTH = 30;
 	/**
 	 * The default type of wrapping.
+	 *
 	 * @since 2.0.0
 	 */
 	public static final WrapType DEFAULT_WRAP_TYPE = WrapType.WORD;
@@ -34,6 +37,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new empty text paragraph.
+	 *
 	 * @since 2.0.0
 	 */
 	public TextParagraph() {
@@ -42,6 +46,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Constructs a new text paragraph with the given content.
+	 *
 	 * @param content the content of the paragraph
 	 * @since 2.0.0
 	 */
@@ -51,6 +56,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Returns the content of the paragraph.
+	 *
 	 * @return the content of the paragraph
 	 * @since 2.0.0
 	 */
@@ -62,6 +68,7 @@ public class TextParagraph implements Paragraph {
 	 * Sets the content of the paragraph.
 	 * Previous content will be overwritten. To append content,
 	 * use {@link #append(Component)}.
+	 *
 	 * @param content the content of the paragraph
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
@@ -73,6 +80,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Appends a component to the content of the paragraph.
+	 *
 	 * @param component the component to append
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
@@ -84,6 +92,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Returns the type of wrapping that is applied to the paragraph.
+	 *
 	 * @return the type of wrapping
 	 * @since 2.0.0
 	 */
@@ -93,6 +102,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Sets the type of wrapping that should be applied to the paragraph.
+	 *
 	 * @param wrapType the type of wrapping
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
@@ -104,6 +114,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Returns the width at which the text should be wrapped.
+	 *
 	 * @return the wrap width
 	 * @since 2.0.0
 	 */
@@ -113,6 +124,7 @@ public class TextParagraph implements Paragraph {
 
 	/**
 	 * Sets the width at which the text should be wrapped.
+	 *
 	 * @param wrapWidth the wrap width
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0

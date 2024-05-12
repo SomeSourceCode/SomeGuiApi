@@ -25,12 +25,14 @@ package io.github.somesourcecode.someguiapi.scene;
 
 /**
  * Represents a background for a node or scene.
+ *
  * @since 1.0.0
  */
 public interface Background {
 
 	/**
 	 * Returns the item stack that should be displayed at the given layout coordinates.
+	 *
 	 * @param layoutX the x coordinate of the layout
 	 * @param layoutY the y coordinate of the layout
 	 * @return the item stack that should be displayed at the given layout coordinates
@@ -40,6 +42,7 @@ public interface Background {
 
 	/**
 	 * Creates a background that fills the background with the given pixel.
+	 *
 	 * @param pixel the item to fill the background with
 	 * @return the background
 	 * @since 2.0.0
@@ -50,6 +53,7 @@ public interface Background {
 
 	/**
 	 * Creates a checkerboard background with the given primary and secondary pixels.
+	 *
 	 * @param primary the primary item
 	 * @param secondary the secondary item
 	 * @return the background

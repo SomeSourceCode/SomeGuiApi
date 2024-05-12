@@ -9,12 +9,14 @@ import java.util.function.Function;
 
 /**
  * Represents a paragraph in a lore.
+ *
  * @since 2.0.0
  */
 public interface Paragraph {
 
 	/**
 	 * Returns a list representing the lines of the paragraph.
+	 *
 	 * @return the lines of the paragraph
 	 * @since 2.0.0
 	 */
@@ -22,6 +24,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new text paragraph with the given content.
+	 *
 	 * @param content the content of the paragraph
 	 * @return the text paragraph
 	 * @since 2.0.0
@@ -32,6 +35,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new line paragraph with the given line.
+	 *
 	 * @param line the line of the paragraph
 	 * @return the line paragraph
 	 * @since 2.0.0
@@ -42,6 +46,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph.
+	 *
 	 * @return the divider paragraph
 	 * @since 2.0.0
 	 */
@@ -51,6 +56,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length.
+	 *
 	 * @param length the length of the divider
 	 * @return the divider paragraph
 	 * @since 2.0.0
@@ -61,6 +67,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length and color.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @return the divider paragraph
@@ -72,6 +79,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new divider paragraph with the given length, color and boldness.
+	 *
 	 * @param length the length of the divider
 	 * @param color the color of the divider
 	 * @param bold whether the divider is bold
@@ -84,6 +92,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new blank paragraph.
+	 *
 	 * @return the blank paragraph
 	 * @since 2.0.0
 	 */
@@ -93,6 +102,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new blank paragraph with the given amount of blank lines.
+	 *
 	 * @param space the amount of blank lines
 	 * @return the blank paragraph
 	 * @since 2.0.0
@@ -103,6 +113,7 @@ public interface Paragraph {
 
 	/**
 	 * Constructs a new context paragraph with the given paragraph generator.
+	 *
 	 * @param paragraphGenerator the paragraph generator
 	 * @return the context paragraph
 	 * @since 2.0.0

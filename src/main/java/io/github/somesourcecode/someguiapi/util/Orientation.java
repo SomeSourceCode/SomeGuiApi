@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.util;
 
 /**
  * Represents the orientation of a control or layout.
+ *
  * @since 1.0.0
  */
 public enum Orientation {

@@ -27,6 +27,7 @@ import io.github.somesourcecode.someguiapi.scene.Node;
 
 /**
  * A layout pane that arranges its children in a horizontal row.
+ *
  * @since 1.0.0
  */
 public class HBox extends Pane {
@@ -35,6 +36,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Constructs a new HBox with a spacing of 0.
+	 *
 	 * @since 1.0.0
 	 */
 	public HBox() {
@@ -43,6 +45,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Constructs a new HBox with the given spacing.
+	 *
 	 * @param spacing the horizontal spacing between children
 	 * @since 1.0.0
 	 */
@@ -53,6 +56,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Constructs a new HBox with the given children.
+	 *
 	 * @param children the children of the HBox
 	 * @since 1.0.0
 	 */
@@ -62,6 +66,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Constructs a new HBox with the given spacing and children.
+	 *
 	 * @param spacing the horizontal spacing between children
 	 * @param children the children of the HBox
 	 * @since 1.0.0
@@ -73,6 +78,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Returns the amount of horizontal space between each child node.
+	 *
 	 * @return the horizontal spacing between children
 	 * @since 1.0.0
 	 */
@@ -82,6 +88,7 @@ public class HBox extends Pane {
 
 	/**
 	 * Sets the amount of horizontal space between each child node.
+	 *
 	 * @param spacing the horizontal spacing between children
 	 * @since 1.0.0
 	 */
