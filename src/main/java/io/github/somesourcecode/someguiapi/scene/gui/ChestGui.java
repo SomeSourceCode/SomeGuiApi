@@ -105,11 +105,14 @@ public class ChestGui extends Gui implements InventoryHolder {
 		}
 
 		RenderContext renderContext = new RenderContext(this, scene);
-		if (scene.getRoot() == null && scene.getBackground() != null) {
-			for (int i = 0; i < inventory.getSize(); i++) {
-				Pixel pixel = scene.getBackground().backgroundAt(i % 9, i / 9);
-				inventory.setItem(i, pixel == null ? null : pixel.renderItemStack(renderContext));
+		if (scene.getRoot() == null) {
+			if (scene.getBackground() != null) {
+				for (int i = 0; i < inventory.getSize(); i++) {
+					Pixel pixel = scene.getBackground().backgroundAt(i % 9, i / 9);
+					inventory.setItem(i, pixel == null ? null : pixel.renderItemStack(renderContext));
+				}
 			}
+			return;
 		}
 
 		ItemStack[][] pixels = new ItemStack[9][rows];
@@ -122,7 +125,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
 				Pixel pixel = root.renderPixelAt(x - rootLayoutX, y - rootLayoutY);
-				if (pixel == null) {
+				if (pixel == null && scene.getBackground() != null) {
 					pixel = scene.getBackground().backgroundAt(x, y);
 				}
 				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(renderContext);
