@@ -27,6 +27,7 @@ import io.github.somesourcecode.someguiapi.scene.Node;
 
 /**
  * A layout pane that arranges its children in a vertical column.
+ * @since 1.0.0
  */
 public class VBox extends Pane {
 
