@@ -229,7 +229,7 @@ public class FlowPane extends Pane {
 		for (Node child : getChildren()) {
 			final int childLength = orientation == Orientation.HORIZONTAL ? child.getWidth() : child.getHeight();
 			final int childWidth = orientation == Orientation.HORIZONTAL ? child.getHeight() : child.getWidth();
-			if ((orientation == Orientation.HORIZONTAL ? x : y) + childLength > maxLength && length > 0) {
+			if (length + childLength > maxLength && length > 0) {
 				if (orientation == Orientation.HORIZONTAL) {
 					x = leftPadding;
 					y += width + vGap;
