@@ -17,6 +17,7 @@ public class LineParagraph implements Paragraph {
 	/**
 	 * Constructs a new line paragraph with the given line.
 	 *
+	 * @param line the line of the paragraph
 	 * @since 2.0.0
 	 */
 	public LineParagraph(Component line) {
