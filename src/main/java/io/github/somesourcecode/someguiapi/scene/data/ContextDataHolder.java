@@ -59,10 +59,10 @@ public class ContextDataHolder {
 	 * <p>
 	 * If the id is already registered, this method will fail silently.
 	 *
+	 * @param <T> the type of data
 	 * @param id the id of the data
 	 * @param type the type of the data
 	 * @return the holder for method chaining
-	 * @param <T> the type of the data
 	 * @since 2.0.0
 	 */
 	public <T> ContextDataHolder register(String id, Class<T> type) {
@@ -101,6 +101,7 @@ public class ContextDataHolder {
 	 * Returns the context data with the given id and an unchecked data type.
 	 * This is useful if the type of the data is known.
 	 *
+	 * @param <T> the type the data is cast to
 	 * @param id the id of the data
 	 * @return the data with the given id
 	 * @throws ClassCastException if the data is not of the correct type
