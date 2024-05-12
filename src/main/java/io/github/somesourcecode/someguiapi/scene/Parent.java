@@ -172,7 +172,7 @@ public abstract class Parent extends Node {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
 
 		if (children.isEmpty()) {
-			return null;
+			return background != null && isInBounds ? background.backgroundAt(x, y) : null;
 		}
 
 		if (!isInBounds && isClipping()) {
