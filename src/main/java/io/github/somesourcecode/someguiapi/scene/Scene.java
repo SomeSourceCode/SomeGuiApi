@@ -175,11 +175,11 @@ public class Scene {
 			return;
 		}
 		if (this.root != null) {
-			this.root.setScene(null);
+			NodeHelper.setScene(this.root, null);
 		}
 		this.root = root;
 		if (root != null) {
-			root.setScene(this);
+			NodeHelper.setScene(root, this);
 		}
 	}
 

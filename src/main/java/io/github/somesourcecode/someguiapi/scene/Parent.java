@@ -60,13 +60,13 @@ public abstract class Parent extends Node {
 					if (oldParent != null) {
 						oldParent.getChildren().remove(child);
 					}
-					child.setParent(this);
+					NodeHelper.setParent(child, this);
 				}
 			}
 			if (change.wasRemoved()) {
 				for (Node child : change.getRemovedSubList()) {
 					if (child.getParent() == this) {
-						child.setParent(null);
+						NodeHelper.setParent(child, null);
 					}
 				}
 			}

@@ -61,6 +61,20 @@ import java.util.function.Consumer;
  */
 public abstract class Node {
 
+	static {
+		NodeHelper.setNodeAccessor(new NodeHelper.NodeAccessor() {
+			@Override
+			public void setScene(Node node, Scene scene) {
+				node.setScene(scene);
+			}
+
+			@Override
+			public void setParent(Node node, Parent parent) {
+				node.setParent(parent);
+			}
+		});
+	}
+
 	private Scene scene;
 	private Parent parent;
 
@@ -92,13 +106,11 @@ public abstract class Node {
 
 	/**
 	 * Sets the scene that this node is in.
-	 * <b>This method is part of the internal API and should not be called by users.</b>
-	 * If you want to set the scene of a node, use {@link Scene#setRoot(Parent)}.
 	 *
 	 * @param scene the scene that this node is in
 	 * @since 2.0.0
 	 */
-	public final void setScene(Scene scene) {
+	private void setScene(Scene scene) {
 		this.scene = scene;
 		if (this instanceof Parent asParent) {
 			for (Node child : asParent.getChildren()) {
@@ -118,7 +130,13 @@ public abstract class Node {
 		return parent;
 	}
 
-	protected final void setParent(Parent parent) {
+	/**
+	 * Sets the parent of this node.
+	 *
+	 * @param parent the parent of this node
+	 * @since 1.0.0
+	 */
+	private void setParent(Parent parent) {
 		this.parent = parent;
 	}
 
