@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
+import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
 
 import java.util.ArrayList;
 
@@ -60,13 +61,13 @@ public abstract class Parent extends Node {
 					if (oldParent != null) {
 						oldParent.getChildren().remove(child);
 					}
-					child.setParent(this);
+					NodeHelper.setParent(child, this);
 				}
 			}
 			if (change.wasRemoved()) {
 				for (Node child : change.getRemovedSubList()) {
 					if (child.getParent() == this) {
-						child.setParent(null);
+						NodeHelper.setParent(child, null);
 					}
 				}
 			}
@@ -103,7 +104,7 @@ public abstract class Parent extends Node {
 	public void requestLayout() {
 		needsLayout = true;
 		if (isSceneRoot()) {
-			getScene().getGui().setDirtyFlag(DirtyFlag.GUI_CONTENT);
+			GuiHelper.setDirtyFlag(getScene().getGui(), DirtyFlag.GUI_CONTENT);
 		}
 		requestParentLayout();
 	}

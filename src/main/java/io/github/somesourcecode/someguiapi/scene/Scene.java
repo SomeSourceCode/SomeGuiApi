@@ -39,6 +39,15 @@ import java.util.ArrayList;
  */
 public class Scene {
 
+	static {
+		SceneHelper.setSceneAccessor(new SceneHelper.SceneAccessor() {
+			@Override
+			public void setGui(Scene scene, Gui gui) {
+				scene.setGui(gui);
+			}
+		});
+	}
+
 	private final ContextDataHolder dataHolder = new ContextDataHolder();
 
 	private Gui gui;
@@ -87,13 +96,11 @@ public class Scene {
 
 	/**
 	 * Sets the GUI that this scene is attached to.
-	 * <b>This method is part of the internal API and should not be called by users.</b>
-	 * If you want to attach a scene to a GUI, use methods provided by the respective gui class.
 	 *
 	 * @param gui the GUI that this scene is attached to
 	 * @since 2.0.0
 	 */
-	public void setGui(Gui gui) {
+	private void setGui(Gui gui) {
 		this.gui = gui;
 	}
 
@@ -175,11 +182,11 @@ public class Scene {
 			return;
 		}
 		if (this.root != null) {
-			this.root.setScene(null);
+			NodeHelper.setScene(this.root, null);
 		}
 		this.root = root;
 		if (root != null) {
-			root.setScene(this);
+			NodeHelper.setScene(root, this);
 		}
 	}
 

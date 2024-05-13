@@ -39,6 +39,25 @@ import java.util.List;
  */
 public abstract class Gui {
 
+	static {
+		GuiHelper.setGuiAccessor(new GuiHelper.GuiAccessor() {
+			@Override
+			public void setDirtyFlag(Gui gui, DirtyFlag flag) {
+				gui.setDirtyFlag(flag);
+			}
+
+			@Override
+			public void clearDirtyFlag(Gui gui, DirtyFlag flag) {
+				gui.clearDirtyFlag(flag);
+			}
+
+			@Override
+			public void clearDirtyFlags(Gui gui) {
+				gui.clearDirtyFlags();
+			}
+		});
+	}
+
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
@@ -55,26 +74,62 @@ public abstract class Gui {
 		return dataHolder;
 	}
 
+	/**
+	 * Returns a set of dirty flags that indicate which
+	 * parts of the GUI need to be updated.
+	 *
+	 * @return the dirty flags
+	 * @since 2.0.0
+	 */
 	public EnumSet<DirtyFlag> getDirtyFlags() {
 		return EnumSet.copyOf(dirtyFlags);
 	}
 
-	public final void setDirtyFlag(DirtyFlag flag) {
+	/**
+	 * Sets the specified dirty flag.
+	 *
+	 * @param flag the dirty flag
+	 * @since 2.0.0
+	 */
+	protected void setDirtyFlag(DirtyFlag flag) {
 		dirtyFlags.add(flag);
 	}
 
-	public final void clearDirtyFlag(DirtyFlag flag) {
+	/**
+	 * Clears the specified dirty flag.
+	 *
+	 * @param flag the dirty flag
+	 * @since 2.0.0
+	 */
+	protected void clearDirtyFlag(DirtyFlag flag) {
 		dirtyFlags.remove(flag);
 	}
 
-	public final void clearDirtyFlags() {
+	/**
+	 * Clears all dirty flags.
+	 * @since 2.0.0
+	 */
+	protected void clearDirtyFlags() {
 		dirtyFlags.clear();
 	}
 
+	/**
+	 * Returns whether this GUI is dirty.
+	 *
+	 * @return whether this GUI is dirty
+	 * @since 2.0.0
+	 */
 	public final boolean isDirty() {
 		return !dirtyFlags.isEmpty();
 	}
 
+	/**
+	 * Returns whether the specified dirty flag is set.
+	 *
+	 * @param flag the dirty flag
+	 * @return whether the dirty flag is set
+	 * @since 2.0.0
+	 */
 	public final boolean isDirty(DirtyFlag flag) {
 		return dirtyFlags.contains(flag);
 	}

@@ -23,10 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
-import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
-import io.github.somesourcecode.someguiapi.scene.Parent;
-import io.github.somesourcecode.someguiapi.scene.Pixel;
-import io.github.somesourcecode.someguiapi.scene.Scene;
+import io.github.somesourcecode.someguiapi.scene.*;
 import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -195,11 +192,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 		if (this.scene != null) {
-			this.scene.setGui(null);
+			SceneHelper.setGui(this.scene, null);
 		}
 		this.scene = scene;
 		if (scene != null) {
-			scene.setGui(this);
+			SceneHelper.setGui(scene, this);
 		}
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
 		update();
