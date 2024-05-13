@@ -27,6 +27,7 @@ import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -101,7 +102,12 @@ public abstract class Gui {
 	 */
 	public void update() {
 		for (HumanEntity viewer : getViewers()) {
+			ItemStack cursor = viewer.getItemOnCursor();
+			viewer.setItemOnCursor(null);
+
 			show(viewer);
+
+			viewer.setItemOnCursor(cursor);
 		}
 	}
 
