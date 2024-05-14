@@ -78,6 +78,8 @@ public abstract class Node {
 	private Scene scene;
 	private Parent parent;
 
+	private String id;
+
 	private int layoutX;
 	private int layoutY;
 
@@ -138,6 +140,26 @@ public abstract class Node {
 	 */
 	private void setParent(Parent parent) {
 		this.parent = parent;
+	}
+
+	/**
+	 * Returns the id of this node.
+	 *
+	 * @return the id of this node
+	 * @since 2.0.0
+	 */
+	public final String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the id of this node.
+	 *
+	 * @param id the id of this node
+	 * @since 2.0.0
+	 */
+	public final void setId(String id) {
+		this.id = id;
 	}
 
 	/**
