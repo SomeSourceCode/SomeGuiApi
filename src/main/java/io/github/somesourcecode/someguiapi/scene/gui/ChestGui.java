@@ -53,10 +53,14 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * Constructs a new ChestGui with the specified title and number of rows.
 	 *
 	 * @param title the title
-	 * @param rows the number of rows
+	 * @param rows the number of rows (in range 1-6)
 	 * @since 1.0.0
 	 */
 	public ChestGui(Component title, int rows) {
+		if (rows < 1 || rows > 6) {
+			throw new IllegalArgumentException("Rows must be between 1 and 6");
+		}
+
 		this.title = title;
 		this.rows = rows;
 
@@ -240,10 +244,13 @@ public class ChestGui extends Gui implements InventoryHolder {
 	/**
 	 * Sets the number of rows of this GUI.
 	 *
-	 * @param rows the number of rows
+	 * @param rows the number of rows (in range 1-6)
 	 * @since 1.0.0
 	 */
 	public void setRows(int rows) {
+		if (rows < 1 || rows > 6) {
+			throw new IllegalArgumentException("Rows must be between 1 and 6");
+		}
 		if (this.rows == rows) {
 			return;
 		}
