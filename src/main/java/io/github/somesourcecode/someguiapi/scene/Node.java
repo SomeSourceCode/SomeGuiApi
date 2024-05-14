@@ -174,7 +174,7 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	public Node lookup(String selector) {
-		if (selector == null) {
+		if (selector == null || id == null) {
 			return null;
 		}
 		if (selector.equals("#" + id)) {
