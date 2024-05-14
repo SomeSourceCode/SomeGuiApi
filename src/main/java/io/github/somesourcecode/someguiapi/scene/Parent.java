@@ -95,6 +95,20 @@ public abstract class Parent extends Node {
 		return getParent() == null && getScene() != null;
 	}
 
+	@Override
+	public Node lookup(String selector) {
+		Node result = super.lookup(selector);
+		if (result == null) {
+			for (Node child : children) {
+				result = child.lookup(selector);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Requests a layout update for this parent.
 	 * Layout will be applied on the next layout pass.

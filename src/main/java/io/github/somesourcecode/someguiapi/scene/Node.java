@@ -154,12 +154,33 @@ public abstract class Node {
 
 	/**
 	 * Sets the id of this node.
+	 * While the id should be unique, this uniqueness not enforced.
 	 *
 	 * @param id the id of this node
 	 * @since 2.0.0
 	 */
 	public final void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Finds this {@code Node} or the first sub-node by the given selector.
+	 * <p>
+	 * For example, to find a node with the id "my-node", the method can be
+	 * used like this: {@code scene.lookup("#my-node")}.
+	 *
+	 * @param selector the selector
+	 * @return the first node that matches the selector, null if none is found
+	 * @since 2.0.0
+	 */
+	public Node lookup(String selector) {
+		if (selector == null) {
+			return null;
+		}
+		if (selector.equals("#" + id)) {
+			return this;
+		}
+		return null;
 	}
 
 	/**

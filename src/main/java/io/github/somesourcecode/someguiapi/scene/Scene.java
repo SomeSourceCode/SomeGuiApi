@@ -191,6 +191,23 @@ public class Scene {
 	}
 
 	/**
+	 * Looks for any node in the scene that matches the given selector.
+	 * If multiple nodes are found, the first one found is returned.
+	 * If no node is found, null is returned.
+	 *
+	 * @param selector the selector
+	 * @return the first node on the scene graph that matches the selector,
+	 * null if no node matches the selector
+	 * @see Node#lookup(String)
+	 */
+	public Node lookup(String selector) {
+		if (root == null) {
+			return null;
+		}
+		return root.lookup(selector);
+	}
+
+	/**
 	 * Returns the background of the scene.
 	 *
 	 * @return the background of the scene
