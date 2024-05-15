@@ -28,6 +28,8 @@ import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * The Scene class is the container for all content in a scene graph.
@@ -205,6 +207,21 @@ public class Scene {
 			return null;
 		}
 		return root.lookup(selector);
+	}
+
+	/**
+	 * Looks for all nodes in the scene that match the given selector.
+	 * If no node is found, an empty set is returned.
+	 *
+	 * @param selector the selector
+	 * @return a set of nodes that match the selector. This is always non-null and unmodifiable.
+	 * @see Node#lookupAll(String)
+	 */
+	public Set<Node> lookupAll(String selector) {
+		if (root == null) {
+			return Collections.emptySet();
+		}
+		return root.lookupAll(selector);
 	}
 
 	/**
