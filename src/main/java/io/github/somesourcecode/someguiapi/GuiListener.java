@@ -23,7 +23,7 @@
 
 package io.github.somesourcecode.someguiapi;
 
-import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

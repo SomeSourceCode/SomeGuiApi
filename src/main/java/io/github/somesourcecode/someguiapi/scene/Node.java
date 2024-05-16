@@ -23,7 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 
 import java.util.*;
 import java.util.function.Consumer;
