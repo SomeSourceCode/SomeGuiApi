@@ -93,7 +93,11 @@ public class VBox extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setSpacing(int spacing) {
+		if (this.spacing == spacing) {
+			return;
+		}
 		this.spacing = spacing;
+		requestLayout();
 	}
 
 	@Override

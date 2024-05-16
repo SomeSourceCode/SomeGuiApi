@@ -160,7 +160,11 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setOrientation(Orientation orientation) {
+		if (this.orientation == orientation) {
+			return;
+		}
 		this.orientation = orientation;
+		requestLayout();
 	}
 
 	/**
@@ -182,7 +186,11 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setHGap(int hGap) {
+		if (this.hGap == hGap) {
+			return;
+		}
 		this.hGap = hGap;
+		requestLayout();
 	}
 
 	/**
@@ -204,7 +212,11 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setVGap(int vGap) {
+		if (this.vGap == vGap) {
+			return;
+		}
 		this.vGap = vGap;
+		requestLayout();
 	}
 
 	@Override
