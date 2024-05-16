@@ -21,16 +21,50 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.util;
+package io.github.somesourcecode.someguiapi.scene.layout;
+
+import io.github.somesourcecode.someguiapi.collections.ObservableList;
+import io.github.somesourcecode.someguiapi.scene.Node;
 
 /**
- * Represents the orientation of a control or layout.
+ * Pane does not modify the layout of its children in any way.
+ * However, it is exposing the children list, so child nodes
+ * can be added and removed freely.
+ * <p>
+ * Layout panes should extend this class.
+ * <p>
+ * For more complex layouts, use different panes, e.g.
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.VBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.HBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.FlowPane}, etc.
  *
  * @since 1.0.0
  */
-public enum Orientation {
+public class Pane extends Region {
 
-	HORIZONTAL,
-	VERTICAL;
+	/**
+	 * Constructs a new pane empty.
+	 *
+	 * @since 1.0.0
+	 */
+	public Pane() {
+		super();
+	}
+
+	/**
+	 * Constructs a new pane with the given children.
+	 *
+	 * @param children the children of the pane
+	 * @since 1.0.0
+	 */
+	public Pane(Node... children) {
+		super();
+		getChildren().addAll(children);
+	}
+
+	@Override
+	public ObservableList<Node> getChildren() {
+		return super.getChildren();
+	}
 
 }

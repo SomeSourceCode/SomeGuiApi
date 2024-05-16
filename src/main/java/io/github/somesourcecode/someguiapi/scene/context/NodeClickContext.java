@@ -21,7 +21,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.action;
+package io.github.somesourcecode.someguiapi.scene.context;
 
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import org.bukkit.entity.HumanEntity;

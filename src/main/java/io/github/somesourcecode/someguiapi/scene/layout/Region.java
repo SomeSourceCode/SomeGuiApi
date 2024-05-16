@@ -21,9 +21,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.pane;
+package io.github.somesourcecode.someguiapi.scene.layout;
 
-import io.github.somesourcecode.someguiapi.util.Insets;
+import io.github.somesourcecode.someguiapi.scene.util.Insets;
 import io.github.somesourcecode.someguiapi.scene.Parent;
 
 /**

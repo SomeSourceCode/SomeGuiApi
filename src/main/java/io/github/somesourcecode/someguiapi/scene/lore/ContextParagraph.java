@@ -1,6 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
-import io.github.somesourcecode.someguiapi.scene.action.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 
 import java.util.Collections;

@@ -23,7 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 

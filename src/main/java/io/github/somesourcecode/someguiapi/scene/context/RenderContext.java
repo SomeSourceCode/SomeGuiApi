@@ -21,50 +21,51 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.pane;
+package io.github.somesourcecode.someguiapi.scene.context;
 
-import io.github.somesourcecode.someguiapi.collections.ObservableList;
-import io.github.somesourcecode.someguiapi.scene.Node;
+import io.github.somesourcecode.someguiapi.scene.Scene;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 /**
- * Pane does not modify the layout of its children in any way.
- * However, it is exposing the children list, so child nodes
- * can be added and removed freely.
- * <p>
- * Layout panes should extend this class.
- * <p>
- * For more complex layouts, use different panes, e.g.
- * {@link io.github.somesourcecode.someguiapi.scene.pane.VBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.HBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.FlowPane}, etc.
+ * The context in which a pixel is rendered.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class Pane extends Region {
+public class RenderContext {
+
+	private final Gui gui;
+	private final Scene scene;
 
 	/**
-	 * Constructs a new pane empty.
+	 * Constructs a new render context.
 	 *
-	 * @since 1.0.0
+	 * @param gui the gui
+	 * @param scene the scene
+	 * @since 2.0.0
 	 */
-	public Pane() {
-		super();
+	public RenderContext(Gui gui, Scene scene) {
+		this.gui = gui;
+		this.scene = scene;
 	}
 
 	/**
-	 * Constructs a new pane with the given children.
+	 * Returns the gui in which the pixel is rendered.
 	 *
-	 * @param children the children of the pane
-	 * @since 1.0.0
+	 * @return the gui
+	 * @since 2.0.0
 	 */
-	public Pane(Node... children) {
-		super();
-		getChildren().addAll(children);
+	public Gui getGui() {
+		return gui;
 	}
 
-	@Override
-	public ObservableList<Node> getChildren() {
-		return super.getChildren();
+	/**
+	 * Returns the scene in which the pixel is rendered.
+	 *
+	 * @return the scene
+	 * @since 2.0.0
+	 */
+	public Scene getScene() {
+		return scene;
 	}
 
 }
