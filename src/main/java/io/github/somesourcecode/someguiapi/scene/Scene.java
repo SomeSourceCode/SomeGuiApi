@@ -201,6 +201,7 @@ public class Scene {
 	 * @return the first node on the scene graph that matches the selector,
 	 * null if no node matches the selector
 	 * @see Node#lookup(String)
+	 * @since 2.0.0
 	 */
 	public Node lookup(String selector) {
 		if (root == null) {
@@ -216,6 +217,7 @@ public class Scene {
 	 * @param selector the selector
 	 * @return a set of nodes that match the selector. This is always non-null and unmodifiable.
 	 * @see Node#lookupAll(String)
+	 * @since 2.0.0
 	 */
 	public Set<Node> lookupAll(String selector) {
 		if (root == null) {
