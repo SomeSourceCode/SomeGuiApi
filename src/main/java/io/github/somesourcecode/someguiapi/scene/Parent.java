@@ -28,6 +28,8 @@ import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
 import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The base class for all nodes that can have children.
@@ -93,6 +95,36 @@ public abstract class Parent extends Node {
 	 */
 	public boolean isSceneRoot() {
 		return getParent() == null && getScene() != null;
+	}
+
+	@Override
+	public Node lookup(String selector) {
+		Node result = super.lookup(selector);
+		if (result == null) {
+			for (Node child : children) {
+				result = child.lookup(selector);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>
+	 * Note: This method should never create the result set. That should be
+	 * done by the Node class implementation.
+	 */
+	@Override
+	protected Set<Node> lookupAll(String selector, Set<Node> results) {
+		results = super.lookupAll(selector, results);
+		for (Node child : children) {
+			results = child.lookupAll(selector, results);
+		}
+		return results;
 	}
 
 	/**

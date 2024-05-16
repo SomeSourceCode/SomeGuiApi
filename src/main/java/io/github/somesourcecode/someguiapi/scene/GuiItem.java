@@ -255,6 +255,7 @@ public class GuiItem extends Node {
 
 		private int layoutX;
 		private int layoutY;
+		private String id;
 
 		private Consumer<NodeClickContext> onClick;
 		private Consumer<NodeClickContext> onLeftClick;
@@ -315,6 +316,18 @@ public class GuiItem extends Node {
 		 */
 		public Builder atY(int y) {
 			layoutY = y;
+			return this;
+		}
+
+		/**
+		 * Sets the id of the item.
+		 *
+		 * @param id the id
+		 * @return the builder for method chaining
+		 * @since 2.0.0
+		 */
+		public Builder withId(String id) {
+			this.id = id;
 			return this;
 		}
 
@@ -470,6 +483,7 @@ public class GuiItem extends Node {
 			GuiItem item = new GuiItem();
 			item.setMaterial(material);
 			item.setTitle(title);
+			item.setId(id);
 			item.setLore(lore);
 			item.setIndex(index);
 			item.setGlow(glow);

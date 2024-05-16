@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
 
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -77,6 +78,8 @@ public abstract class Node {
 
 	private Scene scene;
 	private Parent parent;
+
+	private String id;
 
 	private int layoutX;
 	private int layoutY;
@@ -138,6 +141,89 @@ public abstract class Node {
 	 */
 	private void setParent(Parent parent) {
 		this.parent = parent;
+	}
+
+	/**
+	 * Returns the id of this node.
+	 *
+	 * @return the id of this node
+	 * @since 2.0.0
+	 */
+	public final String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the id of this node.
+	 * While the id should be unique, this uniqueness not enforced.
+	 *
+	 * @param id the id of this node
+	 * @since 2.0.0
+	 */
+	public final void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Finds this {@code Node} or the first sub-node by the given selector.
+	 * <p>
+	 * For example, to find a node with the id "my-node", the method can be
+	 * used like this: {@code scene.lookup("#my-node")}.
+	 *
+	 * @param selector the selector
+	 * @return the first node that matches the selector, null if none is found
+	 * @since 2.0.0
+	 */
+	public Node lookup(String selector) {
+		if (selector == null || id == null) {
+			return null;
+		}
+		if (selector.equals("#" + id)) {
+			return this;
+		}
+		return null;
+	}
+
+	/**
+	 * Finds all nodes that match the given selector.
+	 * <p>
+	 * For example, to find all nodes with the class "my-class", the method can be
+	 * used like this: {@code scene.lookupAll(".my-class")}.
+	 *
+	 * @param selector the selector
+	 * @return a set of nodes that match the selector. This is always non-null and unmodifiable.
+	 * @since 2.0.0
+	 */
+	public Set<Node> lookupAll(String selector) {
+		final Set<Node> empty = Collections.emptySet();
+		if (selector == null) {
+			return empty;
+		}
+		Set<Node> results = lookupAll(selector, null);
+		return results == null ? empty : Collections.unmodifiableSet(results);
+	}
+
+	/**
+	 * Used by Node and Parent to traverse the scene graph to find
+	 * all nodes that match the given selector.
+	 *
+	 * @param selector the selector
+	 * @param results the results
+	 * @return a set of nodes that match the selector; null if none is found
+	 * @since 2.0.0
+	 */
+	protected Set<Node> lookupAll(String selector, Set<Node> results) {
+		if (selector == null || id == null) {
+			return results;
+		}
+
+		if (selector.equals("#" + id)) {
+			if (results == null) {
+				results = new HashSet<>();
+			}
+			results.add(this);
+		}
+		return results;
 	}
 
 	/**
