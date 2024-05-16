@@ -15,6 +15,7 @@ public class ComponentUtil {
 	 * @param component the component to copy
 	 * @param copyChildren whether to copy the children of the component
 	 * @return the copied component
+	 * @since 2.0.0
 	 */
 	public static Component copyComponent(Component component, boolean copyChildren) {
 		if (component == null) {
