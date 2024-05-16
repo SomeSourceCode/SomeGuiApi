@@ -21,7 +21,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.pane;
+package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.scene.Node;
@@ -34,9 +34,9 @@ import io.github.somesourcecode.someguiapi.scene.Node;
  * Layout panes should extend this class.
  * <p>
  * For more complex layouts, use different panes, e.g.
- * {@link io.github.somesourcecode.someguiapi.scene.pane.VBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.HBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.FlowPane}, etc.
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.VBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.HBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.FlowPane}, etc.
  *
  * @since 1.0.0
  */
