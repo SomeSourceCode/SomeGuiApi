@@ -24,7 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.scene.Node;
-import io.github.somesourcecode.someguiapi.util.Orientation;
+import io.github.somesourcecode.someguiapi.scene.util.Orientation;
 
 /**
  * A layout pane that arranges its children in a flow, wrapping at the pane's bounds.

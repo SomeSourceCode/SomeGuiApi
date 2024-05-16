@@ -21,7 +21,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.util;
+package io.github.somesourcecode.someguiapi.scene.util;
 
 /**
  * Represents the distance from the edges of a container to its content.
