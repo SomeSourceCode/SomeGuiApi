@@ -1,3 +1,5 @@
+![Cover](images/cover.png)
+
 # SomeGuiApi
 
 SomeGuiApi is a versatile Java library designed for effortless creation and management 
@@ -15,7 +17,12 @@ player experience within their Minecraft worlds.
 
 ### Plugin
 
-Download the SomeGuiApi plugin from the releases page and place it in your server's `plugins` folder.
+1. **Download the Plugin**: Download the SomeGuiApi plugin from the [releases page](https://github.com/SomeSourceCode/SomeGuiApi/releases).
+2. **Install the Plugin**: Place the downloaded JAR file in your server's `plugins` folder.
+3. **Configure Your Plugin**: Ensure that any plugins using SomeGuiApi include it in the `depend` section of their `plugin.yml` file:
+    ```yaml
+    depend: [SomeGuiApi]
+    ```
 
 ### Maven
 
@@ -25,7 +32,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.github.somesourcecode</groupId>
     <artifactId>someguiapi</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -41,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.github.somesourcecode:someguiapi:1.0.0'
+    compileOnly 'io.github.somesourcecode:someguiapi:2.0.0'
 }
 ```
 
@@ -61,7 +68,7 @@ Creating a new GUI with SomeGuiApi is straightforward. Below is an example of cr
 ChestGui gui = new ChestGui(Component.text("My GUI"), 3);
 gui.show(player);
 ```
-This code snippet creates a new ChestGui with the `title My GUI` and `3 rows`, and then displays
+This code snippet creates a new `ChestGui` with the title "My GUI" and 3 rows, and then displays
 it to the specified player.
 
 ### GuiItem
@@ -70,14 +77,17 @@ A `GuiItem` represents a clickable item within the GUI. You can customize its ap
 using various properties such as `material`, `title`, `lore`, and `click events`.
 
 ```java
+// Create a new GuiItem
 GuiItem item = new GuiItem();
+
+// Set properties of the GuiItem
 item.setMaterial(Material.DIAMOND_SWORD);
 item.setTitle("Sword");
-item.setLore(new Lore()
-        .appendLine("A powerful weapon"));
+item.setLore(new Lore().appendLine("A powerful weapon"));
+
+// Set click event handler
 item.setOnClick(context -> {
-    Player player = context.getPlayer();
-    player.sendMessage("You clicked the sword!");
+    context.getWhoClicked().sendMessage("You clicked the sword!");
 });
 ```
 
@@ -87,6 +97,7 @@ To add content to the GUI, you need to define a `Scene` containing a `root` Pare
 Here's how you can do it:
 
 ```java
+// Create a new ChestGui
 ChestGui gui = new ChestGui(Component.text("My GUI"), 3);
 
 // Create a layout pane to hold the content
@@ -100,7 +111,7 @@ GuiItem item2 = createGuiItem(/* Item details */);
 // Add the items to the layout
 root.getChildren().addAll(item1, item2);
 
-// create and set a Scene with the root node for the GUI
+// Create and set a Scene with the root node for the GUI
 Scene scene = new Scene(root);
 gui.setScene(scene);
 
@@ -108,8 +119,8 @@ gui.setScene(scene);
 gui.show(player);
 ```
 
-In this example, we create a Pane layout pane to hold the content of the GUI.
-We add GuiItems or other nodes to the layout, and then we set the `root` node for the GUI using a `Scene`.
+In this example, we create a `Pane` layout pane to hold the content of the GUI.
+We add `GuiItems` or other nodes to the layout, and then we set the `root` node for the GUI using a `Scene`.
 Finally, we show the GUI to the player.
 
 ### Layout Panes
@@ -123,6 +134,7 @@ SomeGuiApi provides several layout panes to assist with organizing and positioni
 ### Nesting
 
 You can nest layout panes within each other to achieve more complex GUI designs. For example:
+
 ```java
 ChestGui gui = new ChestGui(Component.text("Nested GUI"), 3);
 
@@ -173,6 +185,7 @@ Nodes that extend `Region` (e.g. the [layout panes](#layout-panes)) also have th
 SomeGuiApi provides support for handling various types of click events. When a player clicks an item 
 a click event will be fired. The top-most clicked node will receive the click first, followed by all of its
 parent nodes, if the click occurs within their bounds.
+
 ```java
 item.setOnClick(context -> {
     // Handle click
@@ -200,6 +213,36 @@ and the `click type` (e.g., left-click, right-click).
 <br>
 It also can be consumed using `context.consume()` to prevent further processing of the click event. Other listeners can
 check if the context is consumed before handling the event using `context.isConsumed()`.
+
+### Updating a Gui
+
+When the gui is updated, e.g. a content, title, or size change, those changes are not automatically reflected in the
+displayed gui. To update the gui, you can use the `update` method:
+    
+```java
+gui.setTitle(Component.text("New Title"));
+gui.update();
+```
+
+To reduce the amount of calculations, layout is only computed for `Parents` marked as needing layout.
+For most changes, an update is automatically requested; if that's not the case you can manually request it using
+the `Parent#requestLayout` method.
+<br>
+Some non-layout related changes cannot be picked up by the system (e.g. lore changes). Just calling `update` won't
+update the lore, because a render has to be manually requested. This can be done using the `ChestGui#requestRender` method:
+
+```java
+// Update the lore of an item
+item.setLore(new Lore().appendLine("Updated Lore"));
+
+// Request a render to reflect the lore change
+// Rendering happens when the gui is updated
+gui.requestRender();
+gui.update();
+
+// Alternatively, you can combine the two calls into one
+gui.requestRender(true);
+```
 
 ## License
 
