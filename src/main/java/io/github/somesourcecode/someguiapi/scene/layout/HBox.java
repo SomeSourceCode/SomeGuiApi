@@ -21,75 +21,93 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.pane;
+package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.scene.Node;
 
 /**
- * A layout pane that arranges its children in a vertical column.
+ * A layout pane that arranges its children in a horizontal row.
+ *
+ * @since 1.0.0
  */
-public class VBox extends Pane {
+public class HBox extends Pane {
 
 	private int spacing;
 
 	/**
-	 * Constructs a new VBox with a spacing of 0.
+	 * Constructs a new HBox with a spacing of 0.
+	 *
+	 * @since 1.0.0
 	 */
-	public VBox() {
+	public HBox() {
 		super();
 	}
 
 	/**
-	 * Constructs a new VBox with the given spacing.
-	 * @param spacing the vertical spacing between children
+	 * Constructs a new HBox with the given spacing.
+	 *
+	 * @param spacing the horizontal spacing between children
+	 * @since 1.0.0
 	 */
-	public VBox(int spacing) {
+	public HBox(int spacing) {
 		super();
 		this.spacing = spacing;
 	}
 
 	/**
-	 * Constructs a new VBox with the given children.
-	 * @param children the children of the VBox
+	 * Constructs a new HBox with the given children.
+	 *
+	 * @param children the children of the HBox
+	 * @since 1.0.0
 	 */
-	public VBox(Node... children) {
+	public HBox(Node... children) {
 		super(children);
 	}
 
 	/**
-	 * Constructs a new VBox with the given spacing and children.
-	 * @param spacing the vertical spacing between children
-	 * @param children the children of the VBox
+	 * Constructs a new HBox with the given spacing and children.
+	 *
+	 * @param spacing the horizontal spacing between children
+	 * @param children the children of the HBox
+	 * @since 1.0.0
 	 */
-	public VBox(int spacing, Node... children) {
+	public HBox(int spacing, Node... children) {
 		super(children);
 		this.spacing = spacing;
 	}
 
 	/**
-	 * Returns the amount of vertical space between each child node.
-	 * @return the vertical spacing between children
+	 * Returns the amount of horizontal space between each child node.
+	 *
+	 * @return the horizontal spacing between children
+	 * @since 1.0.0
 	 */
 	public int getSpacing() {
 		return spacing;
 	}
 
 	/**
-	 * Sets the amount of vertical space between each child node.
-	 * @param spacing the vertical spacing between children
+	 * Sets the amount of horizontal space between each child node.
+	 *
+	 * @param spacing the horizontal spacing between children
+	 * @since 1.0.0
 	 */
 	public void setSpacing(int spacing) {
+		if (this.spacing == spacing) {
+			return;
+		}
 		this.spacing = spacing;
+		requestLayout();
 	}
 
 	@Override
 	protected void layoutChildren() {
-		final int leftPadding = getPadding().getLeft();
+		final int topPadding = getPadding().getTop();
 
-		int y = getPadding().getTop();
+		int x = getPadding().getLeft();
 		for (Node child : getChildren()) {
-			child.relocate(leftPadding + child.getTranslateX(), y + child.getTranslateY());
-			y += child.getHeight() + spacing;
+			child.relocate(x + child.getTranslateX(), topPadding + child.getTranslateY());
+			x += child.getWidth() + spacing;
 		}
 	}
 

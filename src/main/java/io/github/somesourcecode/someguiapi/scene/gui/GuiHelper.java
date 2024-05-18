@@ -21,36 +21,57 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi;
+package io.github.somesourcecode.someguiapi.scene.gui;
 
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 
 /**
- * A listener that listens for GUI interactions.
+ * A helper class for GUIs to access internal methods.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class GuiListener implements Listener {
+public class GuiHelper {
 
-	@EventHandler
-	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
-			return;
+	private static GuiAccessor guiAccessor;
+
+	private GuiHelper() {
+
+	}
+
+	public static void setGuiAccessor(final GuiAccessor newAccessor) {
+		if (guiAccessor != null) {
+			throw new IllegalStateException();
 		}
-		event.setCancelled(true);
+		guiAccessor = newAccessor;
+	}
 
-		if (gui.getScene() == null) {
-			return;
+	public static GuiAccessor getGuiAccessor() {
+		if (guiAccessor == null) {
+			throw new IllegalStateException();
 		}
+		return guiAccessor;
+	}
 
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
+	public static void setDirtyFlag(Gui gui, DirtyFlag flag) {
+		guiAccessor.setDirtyFlag(gui, flag);
+	}
 
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
+	public static void clearDirtyFlag(Gui gui, DirtyFlag flag) {
+		guiAccessor.clearDirtyFlag(gui, flag);
+	}
+
+	public static void clearDirtyFlags(Gui gui) {
+		guiAccessor.clearDirtyFlags(gui);
+	}
+
+	public interface GuiAccessor {
+
+		void setDirtyFlag(Gui gui, DirtyFlag flag);
+
+		void clearDirtyFlag(Gui gui, DirtyFlag flag);
+
+		void clearDirtyFlags(Gui gui);
+
 	}
 
 }

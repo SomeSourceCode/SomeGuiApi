@@ -23,36 +23,146 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
-import org.bukkit.entity.Player;
+import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
+import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.EnumSet;
 import java.util.List;
 
 /**
  * The base class for GUIs that can be shown to players.
+ *
+ * @since 1.0.0
  */
 public abstract class Gui {
+
+	static {
+		GuiHelper.setGuiAccessor(new GuiHelper.GuiAccessor() {
+			@Override
+			public void setDirtyFlag(Gui gui, DirtyFlag flag) {
+				gui.setDirtyFlag(flag);
+			}
+
+			@Override
+			public void clearDirtyFlag(Gui gui, DirtyFlag flag) {
+				gui.clearDirtyFlag(flag);
+			}
+
+			@Override
+			public void clearDirtyFlags(Gui gui) {
+				gui.clearDirtyFlags();
+			}
+		});
+	}
+
+	protected final ContextDataHolder dataHolder = new ContextDataHolder();
+
+	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
 	protected Inventory inventory;
 
 	/**
-	 * Shows this GUI to the specified player.
-	 * @param player the player
+	 * Returns the {@link ContextDataHolder} of this GUI.
+	 *
+	 * @return the data holder
+	 * @since 2.0.0
 	 */
-	public abstract void show(Player player);
+	public ContextDataHolder getDataHolder() {
+		return dataHolder;
+	}
 
 	/**
-	 * Returns a list of players that are currently viewing this GUI.
-	 * @return a list of players viewing this GUI
+	 * Returns a set of dirty flags that indicate which
+	 * parts of the GUI need to be updated.
+	 *
+	 * @return the dirty flags
+	 * @since 2.0.0
 	 */
-	public abstract List<Player> getViewers();
+	public EnumSet<DirtyFlag> getDirtyFlags() {
+		return EnumSet.copyOf(dirtyFlags);
+	}
+
+	/**
+	 * Sets the specified dirty flag.
+	 *
+	 * @param flag the dirty flag
+	 * @since 2.0.0
+	 */
+	protected void setDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.add(flag);
+	}
+
+	/**
+	 * Clears the specified dirty flag.
+	 *
+	 * @param flag the dirty flag
+	 * @since 2.0.0
+	 */
+	protected void clearDirtyFlag(DirtyFlag flag) {
+		dirtyFlags.remove(flag);
+	}
+
+	/**
+	 * Clears all dirty flags.
+	 * @since 2.0.0
+	 */
+	protected void clearDirtyFlags() {
+		dirtyFlags.clear();
+	}
+
+	/**
+	 * Returns whether this GUI is dirty.
+	 *
+	 * @return whether this GUI is dirty
+	 * @since 2.0.0
+	 */
+	public final boolean isDirty() {
+		return !dirtyFlags.isEmpty();
+	}
+
+	/**
+	 * Returns whether the specified dirty flag is set.
+	 *
+	 * @param flag the dirty flag
+	 * @return whether the dirty flag is set
+	 * @since 2.0.0
+	 */
+	public final boolean isDirty(DirtyFlag flag) {
+		return dirtyFlags.contains(flag);
+	}
+
+	/**
+	 * Shows this GUI to the specified human entity.
+	 *
+	 * @param humanEntity the human entity
+	 * @since 1.0.0
+	 */
+	public abstract void show(HumanEntity humanEntity);
+
+	/**
+	 * Returns a list of human entities that are currently viewing this GUI.
+	 *
+	 * @return a list of human entities viewing this GUI
+	 * @since 1.0.0
+	 */
+	public abstract List<HumanEntity> getViewers();
 
 	/**
 	 * Updates the GUI for all viewers.
+	 *
+	 * @since 1.0.0
 	 */
 	public void update() {
-		for (Player viewer : getViewers()) {
+		for (HumanEntity viewer : getViewers()) {
+			ItemStack cursor = viewer.getItemOnCursor();
+			viewer.setItemOnCursor(null);
+
 			show(viewer);
+
+			viewer.setItemOnCursor(cursor);
 		}
 	}
 

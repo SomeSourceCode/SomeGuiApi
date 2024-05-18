@@ -21,14 +21,51 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.util;
+package io.github.somesourcecode.someguiapi.scene.context;
+
+import io.github.somesourcecode.someguiapi.scene.Scene;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 /**
- * Represents the orientation of a control or layout.
+ * The context in which a pixel is rendered.
+ *
+ * @since 2.0.0
  */
-public enum Orientation {
+public class RenderContext {
 
-	HORIZONTAL,
-	VERTICAL;
+	private final Gui gui;
+	private final Scene scene;
+
+	/**
+	 * Constructs a new render context.
+	 *
+	 * @param gui the gui
+	 * @param scene the scene
+	 * @since 2.0.0
+	 */
+	public RenderContext(Gui gui, Scene scene) {
+		this.gui = gui;
+		this.scene = scene;
+	}
+
+	/**
+	 * Returns the gui in which the pixel is rendered.
+	 *
+	 * @return the gui
+	 * @since 2.0.0
+	 */
+	public Gui getGui() {
+		return gui;
+	}
+
+	/**
+	 * Returns the scene in which the pixel is rendered.
+	 *
+	 * @return the scene
+	 * @since 2.0.0
+	 */
+	public Scene getScene() {
+		return scene;
+	}
 
 }

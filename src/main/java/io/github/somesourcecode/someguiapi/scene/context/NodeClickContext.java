@@ -21,23 +21,28 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.action;
+package io.github.somesourcecode.someguiapi.scene.context;
 
-import org.bukkit.entity.Player;
+import io.github.somesourcecode.someguiapi.scene.Scene;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 
 /**
  * Represents the context of a node click.
  * It contains information about the type of click that was performed and the player that clicked.
+ *
+ * @since 1.0.0
  */
 public class NodeClickContext {
+
+	private final Scene scene;
 
 	private final int slotX;
 	private final int slotY;
 
 	private final ClickType type;
 
-	private final Player player;
+	private final HumanEntity whoClicked;
 
 	private final int hotBarButton;
 
@@ -45,24 +50,40 @@ public class NodeClickContext {
 
 	/**
 	 * Creates a new node click context.
+	 *
+	 * @param scene the scene the click occurred in
 	 * @param x the x coordinate of the slot that was clicked
 	 * @param y the y coordinate of the slot that was clicked
 	 * @param type the type of click that was performed
-	 * @param player the player that clicked the node
+	 * @param whoClicked the human entity that clicked the node
 	 * @param hotBarButton the hot bar button that was clicked
+	 * @since 1.0.0
 	 */
-	public NodeClickContext(int x, int y, ClickType type, Player player, int hotBarButton) {
+	public NodeClickContext(Scene scene, int x, int y, ClickType type, HumanEntity whoClicked, int hotBarButton) {
+		this.scene = scene;
 		this.slotX = x;
 		this.slotY = y;
 		this.type = type;
-		this.player = player;
+		this.whoClicked = whoClicked;
 		this.hotBarButton = hotBarButton;
+	}
+
+	/**
+	 * Returns the scene the click occurred in.
+	 *
+	 * @return the scene the click occurred in
+	 * @since 1.0.0
+	 */
+	public Scene getScene() {
+		return scene;
 	}
 
 	/**
 	 * Returns the x coordinate of the slot that was clicked.
 	 * This is the slot's x coordinate in the inventory, and not relative to the nodes bounds.
+	 *
 	 * @return the x coordinate of the slot that was clicked
+	 * @since 1.0.0
 	 */
 	public int getSlotX() {
 		return slotX;
@@ -71,7 +92,9 @@ public class NodeClickContext {
 	/**
 	 * Returns the y coordinate of the slot that was clicked.
 	 * This is the slot's y coordinate in the inventory, and not relative to the nodes bounds.
+	 *
 	 * @return the y coordinate of the slot that was clicked
+	 * @since 1.0.0
 	 */
 	public int getSlotY() {
 		return slotY;
@@ -79,7 +102,9 @@ public class NodeClickContext {
 
 	/**
 	 * Returns the type of click that was performed.
+	 *
 	 * @return the type of click that was performed
+	 * @since 1.0.0
 	 */
 	public ClickType getType() {
 		return type;
@@ -88,7 +113,9 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a left click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isLeftClick()}.
+	 *
 	 * @return whether the click was a left click
+	 * @since 1.0.0
 	 */
 	public boolean isLeftClick() {
 		return type.isLeftClick();
@@ -97,7 +124,9 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a right click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isRightClick()}.
+	 *
 	 * @return whether the click was a right click
+	 * @since 1.0.0
 	 */
 	public boolean isRightClick() {
 		return type.isRightClick();
@@ -106,7 +135,9 @@ public class NodeClickContext {
 	/**
 	 * Return true if the click was a shift click; false otherwise.
 	 * This method is equivalent to calling {@code getType().isShiftClick()}.
+	 *
 	 * @return whether the click was a shift click
+	 * @since 1.0.0
 	 */
 	public boolean isShiftClick() {
 		return type.isShiftClick();
@@ -114,24 +145,30 @@ public class NodeClickContext {
 
 	/**
 	 * Return true if the click was a hot bar click; false otherwise.
+	 *
 	 * @return whether the click was a hot bar click
+	 * @since 1.0.0
 	 */
 	public boolean isHotBarClick() {
 		return hotBarButton != -1;
 	}
 
 	/**
-	 * Returns the player that clicked the node.
-	 * @return the player that clicked the node
+	 * Returns the human entity that clicked the node.
+	 *
+	 * @return the human entity that clicked the node
+	 * @since 1.0.0
 	 */
-	public Player getPlayer() {
-		return player;
+	public HumanEntity getWhoClicked() {
+		return whoClicked;
 	}
 
 	/**
 	 * Returns the hot bar button that was clicked.
 	 * If the click was not a hot bar click, this method returns -1.
+	 *
 	 * @return the hot bar button that was clicked
+	 * @since 1.0.0
 	 */
 	public int getHotBarButton() {
 		return hotBarButton;
@@ -139,7 +176,9 @@ public class NodeClickContext {
 
 	/**
 	 * Returns true if the click has been consumed; false otherwise.
+	 *
 	 * @return whether the click has been consumed
+	 * @since 1.0.0
 	 */
 	public boolean isConsumed() {
 		return consumed;
@@ -148,6 +187,8 @@ public class NodeClickContext {
 	/**
 	 * Consumes the click.
 	 * Once a click has been consumed, {@link #isConsumed()} will return {@code true}.
+	 *
+	 * @since 1.0.0
 	 */
 	public void consume() {
 		consumed = true;

@@ -21,44 +21,17 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.pane;
-
-import io.github.somesourcecode.someguiapi.collections.ObservableList;
-import io.github.somesourcecode.someguiapi.scene.Node;
+package io.github.somesourcecode.someguiapi.scene;
 
 /**
- * Pane does not modify the layout of its children in any way.
- * However, it is exposing the children list, so child nodes
- * can be added and removed freely.
- * <p>
- * Layout panes should extend this class.
- * <p>
- * For more complex layouts, use different panes, e.g.
- * {@link io.github.somesourcecode.someguiapi.scene.pane.VBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.HBox},
- * {@link io.github.somesourcecode.someguiapi.scene.pane.FlowPane}, etc.
+ * Contains flags that indicate what part of a GUI needs to be updated.
+ *
+ * @since 2.0.0
  */
-public class Pane extends Region {
+public enum DirtyFlag {
 
-	/**
-	 * Constructs a new pane empty.
-	 */
-	public Pane() {
-		super();
-	}
-
-	/**
-	 * Constructs a new pane with the given children.
-	 * @param children the children of the pane
-	 */
-	public Pane(Node... children) {
-		super();
-		getChildren().addAll(children);
-	}
-
-	@Override
-	public ObservableList<Node> getChildren() {
-		return super.getChildren();
-	}
+	GUI_TITLE,
+	GUI_ROWS,
+	GUI_CONTENT
 
 }

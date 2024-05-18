@@ -21,36 +21,50 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi;
+package io.github.somesourcecode.someguiapi.scene.layout;
 
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import io.github.somesourcecode.someguiapi.collections.ObservableList;
+import io.github.somesourcecode.someguiapi.scene.Node;
 
 /**
- * A listener that listens for GUI interactions.
+ * Pane does not modify the layout of its children in any way.
+ * However, it is exposing the children list, so child nodes
+ * can be added and removed freely.
+ * <p>
+ * Layout panes should extend this class.
+ * <p>
+ * For more complex layouts, use different panes, e.g.
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.VBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.HBox},
+ * {@link io.github.somesourcecode.someguiapi.scene.layout.FlowPane}, etc.
  *
  * @since 1.0.0
  */
-public class GuiListener implements Listener {
+public class Pane extends Region {
 
-	@EventHandler
-	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
-			return;
-		}
-		event.setCancelled(true);
+	/**
+	 * Constructs a new pane empty.
+	 *
+	 * @since 1.0.0
+	 */
+	public Pane() {
+		super();
+	}
 
-		if (gui.getScene() == null) {
-			return;
-		}
+	/**
+	 * Constructs a new pane with the given children.
+	 *
+	 * @param children the children of the pane
+	 * @since 1.0.0
+	 */
+	public Pane(Node... children) {
+		super();
+		getChildren().addAll(children);
+	}
 
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
-
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
+	@Override
+	public ObservableList<Node> getChildren() {
+		return super.getChildren();
 	}
 
 }

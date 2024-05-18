@@ -30,7 +30,9 @@ import java.util.List;
  * Represents a change in a list. It contains a list of elements that were added and
  * a list of elements that were removed. If no elements were added or removed, the
  * corresponding lists will be empty.
+ *
  * @param <E> the type of elements in the list
+ * @since 1.0.0
  */
 public class Change<E> {
 
@@ -42,8 +44,10 @@ public class Change<E> {
 
 	/**
 	 * Constructs a new change with the specified added and removed sublists.
+	 *
 	 * @param addedSubList the added sublist
 	 * @param removedSubList the removed sublist
+	 * @since 1.0.0
 	 */
 	public Change(List<? extends E> addedSubList, List<? extends E> removedSubList) {
 		this.wasAdded = addedSubList != null && !addedSubList.isEmpty();
@@ -56,7 +60,9 @@ public class Change<E> {
 	/**
 	 * Returns the list of elements that were added.
 	 * If no elements were added, the list will be empty.
+	 *
 	 * @return the list of elements that were added
+	 * @since 1.0.0
 	 */
 	public List<? extends E> getAddedSubList() {
 		return addedSubList;
@@ -65,7 +71,9 @@ public class Change<E> {
 	/**
 	 * Returns the list of elements that were removed.
 	 * If no elements were removed, the list will be empty.
+	 *
 	 * @return the list of elements that were removed
+	 * @since 1.0.0
 	 */
 	public List<? extends E> getRemovedSubList() {
 		return removedSubList;
@@ -73,7 +81,9 @@ public class Change<E> {
 
 	/**
 	 * Returns whether elements were added.
+	 *
 	 * @return whether elements were added
+	 * @since 1.0.0
 	 */
 	public boolean wasAdded() {
 		return wasAdded;
@@ -81,7 +91,9 @@ public class Change<E> {
 
 	/**
 	 * Returns whether elements were removed.
+	 *
 	 * @return whether elements were removed
+	 * @since 1.0.0
 	 */
 	public boolean wasRemoved() {
 		return wasRemoved;

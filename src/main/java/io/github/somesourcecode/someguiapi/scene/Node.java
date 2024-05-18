@@ -23,9 +23,9 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.action.NodeClickContext;
-import org.bukkit.inventory.ItemStack;
+import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -57,10 +57,29 @@ import java.util.function.Consumer;
  * Translation coordinates are specified in integer pixels, and move the node's origin by the
  * specified amount in the x and y directions. The translation is applied after the layout
  * has been computed, but before the node is rendered.
+ *
+ * @since 1.0.0
  */
 public abstract class Node {
 
+	static {
+		NodeHelper.setNodeAccessor(new NodeHelper.NodeAccessor() {
+			@Override
+			public void setScene(Node node, Scene scene) {
+				node.setScene(scene);
+			}
+
+			@Override
+			public void setParent(Node node, Parent parent) {
+				node.setParent(parent);
+			}
+		});
+	}
+
+	private Scene scene;
 	private Parent parent;
+
+	private String id;
 
 	private int layoutX;
 	private int layoutY;
@@ -78,17 +97,146 @@ public abstract class Node {
 	private Consumer<NodeClickContext> onHotBarClick;
 
 	/**
+	 * Returns the scene that this node is in.
+	 * If this node is not in a scene, this method returns null.
+	 *
+	 * @return the scene that this node is in
+	 * @since 2.0.0
+	 */
+	public Scene getScene() {
+		return scene;
+	}
+
+	/**
+	 * Sets the scene that this node is in.
+	 *
+	 * @param scene the scene that this node is in
+	 * @since 2.0.0
+	 */
+	private void setScene(Scene scene) {
+		this.scene = scene;
+		if (this instanceof Parent asParent) {
+			for (Node child : asParent.getChildren()) {
+				child.setScene(scene);
+			}
+		}
+	}
+
+	/**
 	 * Returns the parent of this node.
 	 * If this node has no parent, this method returns null.
 	 *
 	 * @return the parent of this node
+	 * @since 1.0.0
 	 */
 	public Parent getParent() {
 		return parent;
 	}
 
-	protected final void setParent(Parent parent) {
+	/**
+	 * Sets the parent of this node.
+	 *
+	 * @param parent the parent of this node
+	 * @since 1.0.0
+	 */
+	private void setParent(Parent parent) {
 		this.parent = parent;
+	}
+
+	/**
+	 * Returns the id of this node.
+	 *
+	 * @return the id of this node
+	 * @since 2.0.0
+	 */
+	public final String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the id of this node.
+	 * While the id should be unique, this uniqueness not enforced.
+	 *
+	 * @param id the id of this node
+	 * @since 2.0.0
+	 */
+	public final void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Finds this {@code Node} or the first sub-node by the given selector.
+	 * <p>
+	 * For example, to find a node with the id "my-node", the method can be
+	 * used like this: {@code scene.lookup("#my-node")}.
+	 *
+	 * @param selector the selector
+	 * @return the first node that matches the selector, null if none is found
+	 * @since 2.0.0
+	 */
+	public Node lookup(String selector) {
+		if (selector == null || id == null) {
+			return null;
+		}
+		if (selector.equals("#" + id)) {
+			return this;
+		}
+		return null;
+	}
+
+	/**
+	 * Finds all nodes that match the given selector.
+	 * <p>
+	 * For example, to find all nodes with the class "my-class", the method can be
+	 * used like this: {@code scene.lookupAll(".my-class")}.
+	 *
+	 * @param selector the selector
+	 * @return a set of nodes that match the selector. This is always non-null and unmodifiable.
+	 * @since 2.0.0
+	 */
+	public Set<Node> lookupAll(String selector) {
+		final Set<Node> empty = Collections.emptySet();
+		if (selector == null) {
+			return empty;
+		}
+		Set<Node> results = lookupAll(selector, null);
+		return results == null ? empty : Collections.unmodifiableSet(results);
+	}
+
+	/**
+	 * Used by Node and Parent to traverse the scene graph to find
+	 * all nodes that match the given selector.
+	 *
+	 * @param selector the selector
+	 * @param results the results
+	 * @return a set of nodes that match the selector; null if none is found
+	 * @since 2.0.0
+	 */
+	protected Set<Node> lookupAll(String selector, Set<Node> results) {
+		if (selector == null || id == null) {
+			return results;
+		}
+
+		if (selector.equals("#" + id)) {
+			if (results == null) {
+				results = new HashSet<>();
+			}
+			results.add(this);
+		}
+		return results;
+	}
+
+	/**
+	 * Requests a layout update for this node's parent.
+	 * Layout will be applied on the next layout pass.
+	 *
+	 * @since 2.0.0
+	 */
+	public void requestParentLayout() {
+		Parent parent = getParent();
+		if (parent != null) {
+			parent.requestLayout();
+		}
 	}
 
 	/**
@@ -96,6 +244,7 @@ public abstract class Node {
 	 * The origin is the top-left corner of the node.
 	 *
 	 * @return the x coordinate of the node's origin
+	 * @since 1.0.0
 	 */
 	public int getLayoutX() {
 		return layoutX;
@@ -106,9 +255,14 @@ public abstract class Node {
 	 * The origin is the top-left corner of the node.
 	 *
 	 * @param layoutX the x coordinate of the node's origin
+	 * @since 1.0.0
 	 */
 	public void setLayoutX(int layoutX) {
+		if (this.layoutX == layoutX) {
+			return;
+		}
 		this.layoutX = layoutX;
+		requestParentLayout();
 	}
 
 	/**
@@ -116,6 +270,7 @@ public abstract class Node {
 	 * The origin is the top-left corner of the node.
 	 *
 	 * @return the y coordinate of the node's origin
+	 * @since 1.0.0
 	 */
 	public int getLayoutY() {
 		return layoutY;
@@ -126,9 +281,14 @@ public abstract class Node {
 	 * The origin is the top-left corner of the node.
 	 *
 	 * @param layoutY the y coordinate of the node's origin
+	 * @since 1.0.0
 	 */
 	public void setLayoutY(int layoutY) {
+		if (this.layoutY == layoutY) {
+			return;
+		}
 		this.layoutY = layoutY;
+		requestParentLayout();
 	}
 
 	/**
@@ -137,6 +297,7 @@ public abstract class Node {
 	 *
 	 * @param layoutX the x coordinate of the node's origin
 	 * @param layoutY the y coordinate of the node's origin
+	 * @since 1.0.0
 	 */
 	public void relocate(int layoutX, int layoutY) {
 		setLayoutX(layoutX);
@@ -148,6 +309,7 @@ public abstract class Node {
 	 * The translation is applied after the layout has been computed, but before the node is rendered.
 	 *
 	 * @return the x translation of the node
+	 * @since 1.0.0
 	 */
 	public int getTranslateX() {
 		return translateX;
@@ -158,9 +320,14 @@ public abstract class Node {
 	 * The translation is applied after the layout has been computed, but before the node is rendered.
 	 *
 	 * @param translateX the x translation of the node
+	 * @since 1.0.0
 	 */
 	public void setTranslateX(int translateX) {
+		if (this.translateX == translateX) {
+			return;
+		}
 		this.translateX = translateX;
+		requestParentLayout();
 	}
 
 	/**
@@ -168,6 +335,7 @@ public abstract class Node {
 	 * The translation is applied after the layout has been computed, but before the node is rendered.
 	 *
 	 * @return the y translation of the node
+	 * @since 1.0.0
 	 */
 	public int getTranslateY() {
 		return translateY;
@@ -178,20 +346,29 @@ public abstract class Node {
 	 * The translation is applied after the layout has been computed, but before the node is rendered.
 	 *
 	 * @param translateY the y translation of the node
+	 * @since 1.0.0
 	 */
 	public void setTranslateY(int translateY) {
+		if (this.translateY == translateY) {
+			return;
+		}
 		this.translateY = translateY;
+		requestParentLayout();
 	}
 
 	/**
 	 * Returns the width of the node.
+	 *
 	 * @return the width of the node
+	 * @since 1.0.0
 	 */
 	public abstract int getWidth();
 
 	/**
 	 * Returns the height of the node.
+	 *
 	 * @return the height of the node
+	 * @since 1.0.0
 	 */
 	public abstract int getHeight();
 
@@ -199,7 +376,9 @@ public abstract class Node {
 	 * Returns whether the node is visible.
 	 * If a node is not visible, it will not be rendered, but it
 	 * will still be considered for layout calculations.
+	 *
 	 * @return whether the node is visible
+	 * @since 1.0.0
 	 */
 	public boolean isVisible() {
 		return visible;
@@ -209,7 +388,9 @@ public abstract class Node {
 	 * Sets whether the node is visible.
 	 * If a node is not visible, it will not be rendered, but it
 	 * will still be considered for layout calculations.
+	 *
 	 * @param visible whether the node is visible
+	 * @since 1.0.0
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
@@ -219,7 +400,9 @@ public abstract class Node {
 	 * Returns whether the node is clipping its children.
 	 * If a node is clipping its children, children that are outside
 	 * the bounds of the node will not be rendered.
+	 *
 	 * @return whether the node is clipping its children
+	 * @since 1.0.0
 	 */
 	public boolean isClipping() {
 		return clipping;
@@ -229,7 +412,9 @@ public abstract class Node {
 	 * Sets whether the node is clipping its children.
 	 * If a node is clipping its children, children that are outside
 	 * the bounds of the node will not be rendered.
+	 *
 	 * @param clipping whether the node is clipping its children
+	 * @since 1.0.0
 	 */
 	public void setClipping(boolean clipping) {
 		this.clipping = clipping;
@@ -239,7 +424,9 @@ public abstract class Node {
 	 * Returns the consumer that is called when the node is clicked.
 	 * <p>
 	 * This consumer will be called when the node is clicked, regardless of the type of click.
+	 *
 	 * @return the consumer that is called when the node is clicked
+	 * @since 1.0.0
 	 */
 	public Consumer<NodeClickContext> getOnClick() {
 		return onClick;
@@ -249,7 +436,9 @@ public abstract class Node {
 	 * Sets the consumer that is called when the node is clicked.
 	 * <p>
 	 * This consumer will be called when the node is clicked, regardless of the type of click.
+	 *
 	 * @param onClick the consumer that is called when the node is clicked
+	 * @since 1.0.0
 	 */
 	public void setOnClick(Consumer<NodeClickContext> onClick) {
 		this.onClick = onClick;
@@ -257,7 +446,9 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is left-clicked.
+	 *
 	 * @return the consumer that is called when the node is left-clicked
+	 * @since 1.0.0
 	 */
 	public Consumer<NodeClickContext> getOnLeftClick() {
 		return onLeftClick;
@@ -265,7 +456,9 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is left-clicked.
+	 *
 	 * @param onLeftClick the consumer that is called when the node is left-clicked
+	 * @since 1.0.0
 	 */
 	public void setOnLeftClick(Consumer<NodeClickContext> onLeftClick) {
 		this.onLeftClick = onLeftClick;
@@ -273,7 +466,9 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is right-clicked.
+	 *
 	 * @return the consumer that is called when the node is right-clicked
+	 * @since 1.0.0
 	 */
 	public Consumer<NodeClickContext> getOnRightClick() {
 		return onRightClick;
@@ -281,7 +476,9 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is right-clicked.
+	 *
 	 * @param onRightClick the consumer that is called when the node is right-clicked
+	 * @since 1.0.0
 	 */
 	public void setOnRightClick(Consumer<NodeClickContext> onRightClick) {
 		this.onRightClick = onRightClick;
@@ -289,7 +486,9 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node is shift-clicked.
+	 *
 	 * @return the consumer that is called when the node is shift-clicked
+	 * @since 1.0.0
 	 */
 	public Consumer<NodeClickContext> getOnShiftClick() {
 		return onShiftClick;
@@ -297,7 +496,9 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node is shift-clicked.
+	 *
 	 * @param onShiftClick the consumer that is called when the node is shift-clicked
+	 * @since 1.0.0
 	 */
 	public void setOnShiftClick(Consumer<NodeClickContext> onShiftClick) {
 		this.onShiftClick = onShiftClick;
@@ -305,7 +506,9 @@ public abstract class Node {
 
 	/**
 	 * Returns the consumer that is called when the node receives a hot bar click.
+	 *
 	 * @return the consumer that is called when the node receives a hot bar click
+	 * @since 1.0.0
 	 */
 	public Consumer<NodeClickContext> getOnHotBarClick() {
 		return onHotBarClick;
@@ -313,27 +516,33 @@ public abstract class Node {
 
 	/**
 	 * Sets the consumer that is called when the node receives a hot bar click.
+	 *
 	 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
+	 * @since 1.0.0
 	 */
 	public void setOnHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
 		this.onHotBarClick = onHotBarClick;
 	}
 
 	/**
-	 * Returns an {@link ItemStack} representing the pixel at the given coordinates.
+	 * Returns a {@link Pixel} that should be rendered at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 * @return the ItemStack at the given coordinates, or null if there is no pixel at the given coordinates
+	 * @return the pixel at the given coordinates, or null if there is no pixel at the given coordinates
+	 * @since 2.0.0
 	 */
-	public abstract ItemStack pixelAt(int x, int y);
+	public abstract Pixel renderPixelAt(int x, int y);
 
 	/**
 	 * Returns the node at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
+	 *
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 * @return the node at the given coordinates, or null if there is no node at the given coordinates
+	 * @since 1.0.0
 	 */
 	public abstract Node nodeAt(int x, int y);
 

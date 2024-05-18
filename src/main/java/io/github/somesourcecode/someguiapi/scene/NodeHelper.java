@@ -21,36 +21,49 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi;
-
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+package io.github.somesourcecode.someguiapi.scene;
 
 /**
- * A listener that listens for GUI interactions.
+ * A helper class for nodes to access internal methods.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class GuiListener implements Listener {
+public class NodeHelper {
 
-	@EventHandler
-	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
-			return;
+	private static NodeAccessor nodeAccessor;
+
+	private NodeHelper() {
+
+	}
+
+	public static void setScene(Node node, Scene scene) {
+		nodeAccessor.setScene(node, scene);
+	}
+
+	public static void setParent(Node node, Parent parent) {
+		nodeAccessor.setParent(node, parent);
+	}
+
+	public static void setNodeAccessor(final NodeAccessor newAccessor) {
+		if (nodeAccessor != null) {
+			throw new IllegalStateException();
 		}
-		event.setCancelled(true);
+		nodeAccessor = newAccessor;
+	}
 
-		if (gui.getScene() == null) {
-			return;
+	public static NodeAccessor getNodeAccessor() {
+		if (nodeAccessor == null) {
+			throw new IllegalStateException();
 		}
+		return nodeAccessor;
+	}
 
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
+	public interface NodeAccessor {
 
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
+		void setScene(Node node, Scene scene);
+
+		void setParent(Node node, Parent parent);
+
 	}
 
 }

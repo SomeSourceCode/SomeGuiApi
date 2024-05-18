@@ -21,36 +21,16 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi;
-
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
-import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+package io.github.somesourcecode.someguiapi.scene.util;
 
 /**
- * A listener that listens for GUI interactions.
+ * Represents the orientation of a control or layout.
  *
  * @since 1.0.0
  */
-public class GuiListener implements Listener {
+public enum Orientation {
 
-	@EventHandler
-	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
-			return;
-		}
-		event.setCancelled(true);
-
-		if (gui.getScene() == null) {
-			return;
-		}
-
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
-
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
-	}
+	HORIZONTAL,
+	VERTICAL;
 
 }
