@@ -49,18 +49,14 @@ public class GuiListener implements Listener {
 		event.setCancelled(true);
 
 		if (event.getClickedInventory() == null) {
-			if (gui.getOnOutsideClick() != null) {
-				gui.getOnOutsideClick().accept(new GuiClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
-			}
+			gui.fireOnOutsideClick(new GuiClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
 			return;
 		}
 
 		int slotX = event.getSlot() % 9;
 		int slotY = event.getSlot() / 9;
 
-		if (gui.getOnGuiClick() != null && event.getClickedInventory().equals(gui.getInventory())) {
-			gui.getOnGuiClick().accept(new GuiSlotClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
-		}
+		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
 
 		if (gui.getScene() == null) {
 			return;
@@ -75,9 +71,7 @@ public class GuiListener implements Listener {
 		}
 
 		if (!gui.isUpdating() && gui.getOnClose() != null) {
-			GuiCloseContext guiCloseContext = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
-			gui.getOnClose().accept(guiCloseContext);
-
+			gui.fireOnClose(new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer()));
 		}
 	}
 

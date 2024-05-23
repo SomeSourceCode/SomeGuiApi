@@ -8,7 +8,7 @@ import io.github.somesourcecode.someguiapi.scene.gui.Gui;
  *
  * @since 2.1.0
  */
-public class GuiContext {
+public class GuiContext implements Context {
 
 	private final Gui gui;
 	private final Scene scene;

@@ -24,10 +24,12 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
+import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +37,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The base class for GUIs that can be shown to players.
@@ -163,6 +166,17 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Fires the consumer, set by {@link #setOnGuiClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnGuiClick(GuiSlotClickContext context) {
+		fireCallback(onGuiClick, context, "onGuiClick");
+	}
+
+	/**
 	 * Returns the consumer that is called when the GUI is clicked outside the GUI.
 	 *
 	 * @return the consumer that is called when the GUI is clicked outside the GUI
@@ -183,6 +197,17 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Fires the consumer, set by {@link #setOnOutsideClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnOutsideClick(GuiClickContext context) {
+		fireCallback(onOutsideClick, context, "onOutsideClick");
+	}
+
+	/**
 	 * Returns the consumer that is called when the GUI is closed.
 	 *
 	 * @return the consumer that is called when the GUI is closed
@@ -200,6 +225,17 @@ public abstract class Gui {
 	 */
 	public void setOnClose(Consumer<GuiCloseContext> onClose) {
 		this.onClose = onClose;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnClose(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClose(GuiCloseContext context) {
+		fireCallback(onClose, context, "onClose");
 	}
 
 	/**
@@ -248,6 +284,31 @@ public abstract class Gui {
 			viewer.setItemOnCursor(cursor);
 		}
 		updating = false;
+	}
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			if (context instanceof GuiSlotClickContext slotClickContext) {
+				errorMessage += " for slot (" + slotClickContext.getSlotX() + ", " + slotClickContext.getSlotY() + ")";
+			}
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
 	}
 
 }
