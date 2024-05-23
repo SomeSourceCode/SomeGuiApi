@@ -145,20 +145,18 @@ public class Scene {
 		}
 
 		for (Node node : nodeBranch) {
-			if (node.getOnClick() != null) {
-				node.getOnClick().accept(context);
+			node.fireOnClick(context);
+			if (context.isLeftClick()) {
+				node.fireOnLeftClick(context);
 			}
-			if (node.getOnLeftClick() != null && context.isLeftClick()) {
-				node.getOnLeftClick().accept(context);
+			if (context.isRightClick()) {
+				node.fireOnRightClick(context);
 			}
-			if (node.getOnRightClick() != null && context.isRightClick()) {
-				node.getOnRightClick().accept(context);
+			if (context.isShiftClick()) {
+				node.fireOnShiftClick(context);
 			}
-			if (node.getOnShiftClick() != null && context.isShiftClick()) {
-				node.getOnShiftClick().accept(context);
-			}
-			if (node.getOnHotBarClick() != null && context.isHotBarClick()) {
-				node.getOnHotBarClick().accept(context);
+			if (context.isHotBarClick()) {
+				node.fireOnHotBarClick(context);
 			}
 		}
 	}
