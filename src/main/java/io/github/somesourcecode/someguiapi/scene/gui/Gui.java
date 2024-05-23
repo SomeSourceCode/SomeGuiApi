@@ -24,6 +24,9 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
+import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
@@ -31,6 +34,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * The base class for GUIs that can be shown to players.
@@ -61,6 +65,10 @@ public abstract class Gui {
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
+
+	private Consumer<GuiSlotClickContext> onGuiClick;
+	private Consumer<GuiClickContext> onOutsideClick;
+	private Consumer<GuiCloseContext> onClose;
 
 	protected Inventory inventory;
 
@@ -135,6 +143,66 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Returns the consumer that is called when the GUI is clicked.
+	 *
+	 * @return the consumer that is called when the GUI is clicked
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiSlotClickContext> getOnGuiClick() {
+		return onGuiClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is clicked.
+	 *
+	 * @param onGuiClick the consumer that is called when the GUI is clicked
+	 * @since 2.1.0
+	 */
+	public void setOnGuiClick(Consumer<GuiSlotClickContext> onGuiClick) {
+		this.onGuiClick = onGuiClick;
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is clicked outside the GUI.
+	 *
+	 * @return the consumer that is called when the GUI is clicked outside the GUI
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiClickContext> getOnOutsideClick() {
+		return onOutsideClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is clicked outside the GUI.
+	 *
+	 * @param onOutsideClick the consumer that is called when the GUI is clicked outside the GUI
+	 * @since 2.1.0
+	 */
+	public void setOnOutsideClick(Consumer<GuiClickContext> onOutsideClick) {
+		this.onOutsideClick = onOutsideClick;
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is closed.
+	 *
+	 * @return the consumer that is called when the GUI is closed
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiCloseContext> getOnClose() {
+		return onClose;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is closed.
+	 *
+	 * @param onClose the consumer that is called when the GUI is closed
+	 * @since 2.1.0
+	 */
+	public void setOnClose(Consumer<GuiCloseContext> onClose) {
+		this.onClose = onClose;
+	}
+
+	/**
 	 * Shows this GUI to the specified human entity.
 	 *
 	 * @param humanEntity the human entity
@@ -150,12 +218,27 @@ public abstract class Gui {
 	 */
 	public abstract List<HumanEntity> getViewers();
 
+	private boolean updating = false;
+
+	/**
+	 * Returns whether this GUI is currently updating.
+	 *
+	 * @return whether this GUI is updating
+	 */
+	public boolean isUpdating() {
+		return updating;
+	}
+
 	/**
 	 * Updates the GUI for all viewers.
 	 *
 	 * @since 1.0.0
 	 */
 	public void update() {
+		if (updating) {
+			return;
+		}
+		updating = true;
 		for (HumanEntity viewer : getViewers()) {
 			ItemStack cursor = viewer.getItemOnCursor();
 			viewer.setItemOnCursor(null);
@@ -164,6 +247,7 @@ public abstract class Gui {
 
 			viewer.setItemOnCursor(cursor);
 		}
+		updating = false;
 	}
 
 }

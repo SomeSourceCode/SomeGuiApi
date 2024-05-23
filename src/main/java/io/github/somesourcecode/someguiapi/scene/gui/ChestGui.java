@@ -24,6 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.*;
+import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -141,6 +142,18 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		clearDirtyFlag(DirtyFlag.GUI_CONTENT);
 		rendering = false;
+	}
+
+	/**
+	 * Fires the onClick event for the node at the given coordinates.
+	 * The listeners a called for the clicked node and all of its parents, respectively.
+	 *
+	 * @param context the click context
+	 * @see Scene#handleClick(NodeClickContext)
+	 * @since 2.1.0
+	 */
+	public void handleClick(NodeClickContext context) {
+		scene.handleClick(context);
 	}
 
 	/**

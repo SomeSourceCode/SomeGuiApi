@@ -113,7 +113,7 @@ public class Scene {
 	 * @param context the click context
 	 * @since 1.0.0
 	 */
-	public void fireOnClick(NodeClickContext context) {
+	public void handleClick(NodeClickContext context) {
 		if (root == null) {
 			return;
 		}

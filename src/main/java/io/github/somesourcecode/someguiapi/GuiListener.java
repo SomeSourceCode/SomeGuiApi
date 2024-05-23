@@ -23,11 +23,16 @@
 
 package io.github.somesourcecode.someguiapi;
 
+import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 /**
  * A listener that listens for GUI interactions.
@@ -38,19 +43,42 @@ public class GuiListener implements Listener {
 
 	@EventHandler
 	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
+		if (!(event.getInventory().getHolder() instanceof ChestGui gui)) {
 			return;
 		}
 		event.setCancelled(true);
 
-		if (gui.getScene() == null) {
+		if (event.getClickedInventory() == null) {
+			if (gui.getOnOutsideClick() != null) {
+				gui.getOnOutsideClick().accept(new GuiClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
+			}
 			return;
 		}
 
 		int slotX = event.getSlot() % 9;
 		int slotY = event.getSlot() / 9;
 
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
+		if (gui.getOnGuiClick() != null && event.getClickedInventory().equals(gui.getInventory())) {
+			gui.getOnGuiClick().accept(new GuiSlotClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+		}
+
+		if (gui.getScene() == null) {
+			return;
+		}
+		gui.handleClick(new NodeClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+	}
+
+	@EventHandler
+	public void onGuiClose(InventoryCloseEvent event) {
+		if (!(event.getInventory().getHolder() instanceof Gui gui)) {
+			return;
+		}
+
+		if (!gui.isUpdating() && gui.getOnClose() != null) {
+			GuiCloseContext guiCloseContext = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
+			gui.getOnClose().accept(guiCloseContext);
+
+		}
 	}
 
 }
