@@ -29,10 +29,12 @@ import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * A listener that listens for GUI interactions.
@@ -70,8 +72,14 @@ public class GuiListener implements Listener {
 			return;
 		}
 
-		if (!gui.isUpdating() && gui.getOnClose() != null) {
-			gui.fireOnClose(new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer()));
+		if (!gui.isUpdating()) {
+			GuiCloseContext context = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
+			gui.fireOnClose(context);
+
+			if (context.isCanceled()) {
+				Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(GuiListener.class),
+						() -> gui.show(event.getPlayer()));
+			}
 		}
 	}
 

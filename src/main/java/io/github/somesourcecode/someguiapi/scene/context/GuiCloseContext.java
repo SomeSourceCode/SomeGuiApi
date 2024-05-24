@@ -9,9 +9,11 @@ import org.bukkit.entity.HumanEntity;
  *
  * @since 2.1.0
  */
-public class GuiCloseContext extends GuiContext {
+public class GuiCloseContext extends GuiContext implements Cancelable {
 
 	private final HumanEntity player;
+
+	private boolean canceled;
 
 	/**
 	 * Constructs a new GUI close context.
@@ -33,6 +35,16 @@ public class GuiCloseContext extends GuiContext {
 	 */
 	public HumanEntity getPlayer() {
 		return player;
+	}
+
+	@Override
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	@Override
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
 	}
 
 }
