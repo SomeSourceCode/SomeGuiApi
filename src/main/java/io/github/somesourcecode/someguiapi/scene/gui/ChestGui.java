@@ -29,6 +29,7 @@ import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -148,12 +149,18 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 *
-	 * @param context the click context
-	 * @see Scene#handleClick(NodeClickContext)
+	 * @param clickType the click type
+	 * @param hotbarButton the hot bar button
+	 * @param whoClicked the human entity that clicked
+	 * @param slotX the x coordinate of the slot
+	 * @param slotY the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public void handleClick(NodeClickContext context) {
-		scene.handleClick(context);
+	public void handleClick(ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slotX, int slotY) {
+		if (scene == null) {
+			return;
+		}
+		scene.handleClick(clickType, hotbarButton, whoClicked, slotX, slotY);
 	}
 
 	/**

@@ -60,10 +60,7 @@ public class GuiListener implements Listener {
 
 		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
 
-		if (gui.getScene() == null) {
-			return;
-		}
-		gui.handleClick(new NodeClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+		gui.handleClick(event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
 	}
 
 	@EventHandler

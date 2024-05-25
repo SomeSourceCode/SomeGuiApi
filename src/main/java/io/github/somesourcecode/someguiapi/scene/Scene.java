@@ -26,6 +26,8 @@ package io.github.somesourcecode.someguiapi.scene;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,23 +112,24 @@ public class Scene {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 *
-	 * @param context the click context
-	 * @since 1.0.0
+	 * @param clickType the click type
+	 * @param hotbarButton the hot bar button
+	 * @param whoClicked the human entity that clicked
+	 * @param x the x coordinate of the slot
+	 * @param y the y coordinate of the slot
+	 * @since 2.1.0
 	 */
-	public void handleClick(NodeClickContext context) {
+	public void handleClick(ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
 		if (root == null) {
 			return;
 		}
-
-		int x = context.getSlotX();
-		int y = context.getSlotY();
 
 		final int localX = x - root.getLayoutX();
 		final int localY = y - root.getLayoutY();
 
 		final ArrayList<Node> nodeBranch = new ArrayList<>();
 
-		Node clickedNode = root.nodeAt(localX, localY);
+		final Node clickedNode = root.nodeAt(localX, localY);
 		if (clickedNode == null) {
 			return;
 		}
@@ -143,6 +146,8 @@ public class Scene {
 			clickedLocalY += parent.getLayoutY();
 			parent = parent.getParent();
 		}
+
+		NodeClickContext context = new NodeClickContext(gui, this, clickType, hotbarButton, whoClicked, x, y, clickedNode);
 
 		for (Node node : nodeBranch) {
 			node.fireOnClick(context);
