@@ -100,7 +100,9 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	 * @return the new context
 	 */
 	public NodeClickContext copyFor(Node target) {
-		return new NodeClickContext(getGui(), getScene(), getType(), getHotBarButton(), getWhoClicked(), getSlotX(), getSlotY(), getSource(), target);
+		NodeClickContext newContext = new NodeClickContext(getGui(), getScene(), getType(), getHotBarButton(), getWhoClicked(), getSlotX(), getSlotY(), getSource(), target);
+		newContext.consumed = consumed;
+		return newContext;
 	}
 
 }
