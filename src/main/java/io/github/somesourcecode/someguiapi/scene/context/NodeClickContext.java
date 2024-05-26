@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.ClickType;
 public class NodeClickContext extends GuiSlotClickContext implements Consumable {
 
 	private final Node source;
+	private final Node target;
 
 	private boolean consumed;
 
@@ -28,22 +29,58 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	 * @param slotX the slot X
 	 * @param slotY the slot Y
 	 * @param source the source node
+	 * @param target the target node
 	 */
-	public NodeClickContext(Gui gui, Scene scene, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY, Node source) {
+	public NodeClickContext(Gui gui, Scene scene, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY, Node source, Node target) {
 		super(gui, scene, type, hotBarButton, whoClicked, slotX, slotY);
 		this.source = source;
+		this.target = target;
 	}
 
 	/**
 	 * Returns the source node of the click. The source
 	 * of the event never changes as it points to the
 	 * node that was clicked.
+	 * <p>
+	 * Given a button is clicked that is inside
+	 * a container and this code:
+	 * <pre><code>
+	 * container.setOnClick(context -> {
+	 *     context.getSource(); // Returns the button
+	 *     context.getTarget(); // whereas this returns the container
+     * })
+	 * </code></pre>
 	 *
 	 * @return the source node
+	 * @see #getTarget()
 	 * @since 2.1.0
 	 */
 	public Node getSource() {
 		return source;
+	}
+
+	/**
+	 * Returns the target node of the click. The target
+	 * of the event will point to the node that is currently
+	 * processing the event.
+	 * <p>
+	 * Given a button is clicked that is inside
+	 * a container and this code:
+	 * <pre><code>
+	 * container.setOnClick(context -> {
+	 *     context.getTarget(); // Returns the container
+	 *     context.getSource(); // whereas this returns the button
+	 * })
+	 * </code></pre>
+	 * This method is useful if there are multiple nodes
+	 * using the same event handler.
+	 *
+	 * @return the target node
+	 * @see #getSource()
+	 * @since 2.1.0
+	 */
+	public Node getTarget() {
+		return target;
 	}
 
 	@Override
@@ -54,6 +91,16 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	@Override
 	public void consume() {
 		this.consumed = true;
+	}
+
+	/**
+	 * Copies this context for the given target node.
+	 *
+	 * @param target the new target node
+	 * @return the new context
+	 */
+	public NodeClickContext copyFor(Node target) {
+		return new NodeClickContext(getGui(), getScene(), getType(), getHotBarButton(), getWhoClicked(), getSlotX(), getSlotY(), getSource(), target);
 	}
 
 }

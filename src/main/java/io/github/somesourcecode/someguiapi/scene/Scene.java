@@ -147,9 +147,10 @@ public class Scene {
 			parent = parent.getParent();
 		}
 
-		NodeClickContext context = new NodeClickContext(gui, this, clickType, hotbarButton, whoClicked, x, y, clickedNode);
+		NodeClickContext context = new NodeClickContext(gui, this, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
 
 		for (Node node : nodeBranch) {
+			context = context.copyFor(node);
 			node.fireOnClick(context);
 			if (context.isLeftClick()) {
 				node.fireOnLeftClick(context);
