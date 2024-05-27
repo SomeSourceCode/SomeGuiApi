@@ -1,6 +1,5 @@
 package io.github.somesourcecode.someguiapi.scene.context;
 
-import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.Node;
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;

@@ -23,10 +23,9 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
-import io.github.somesourcecode.someguiapi.collections.GuiArea;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.*;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;

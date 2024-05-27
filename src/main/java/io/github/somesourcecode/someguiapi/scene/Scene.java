@@ -23,10 +23,9 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.collections.GuiArea;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
-import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;

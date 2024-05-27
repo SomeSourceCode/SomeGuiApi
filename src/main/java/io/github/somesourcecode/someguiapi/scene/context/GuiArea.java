@@ -1,4 +1,4 @@
-package io.github.somesourcecode.someguiapi.collections;
+package io.github.somesourcecode.someguiapi.scene.context;
 
 /**
  * Represents the area inside a GUI.

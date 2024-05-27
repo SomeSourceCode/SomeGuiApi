@@ -23,11 +23,10 @@
 
 package io.github.somesourcecode.someguiapi;
 
-import io.github.somesourcecode.someguiapi.collections.GuiArea;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 import org.bukkit.Bukkit;
