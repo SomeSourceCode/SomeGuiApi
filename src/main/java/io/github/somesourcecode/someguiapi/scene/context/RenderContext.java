@@ -10,6 +10,8 @@ import io.github.somesourcecode.someguiapi.scene.gui.Gui;
  */
 public class RenderContext extends GuiContext {
 
+	protected long renderStart;
+
 	/**
 	 * Constructs a new render context.
 	 *
@@ -19,6 +21,28 @@ public class RenderContext extends GuiContext {
 	 */
 	public RenderContext(Gui gui, Scene scene) {
 		super(gui, scene);
+		renderStart = System.currentTimeMillis();
+	}
+
+	/**
+	 * Returns the time when the render cycle started.
+	 *
+	 * @return the time when the render cycle started
+	 * @since 2.1.0
+	 */
+	public long getRenderStart() {
+		return renderStart;
+	}
+
+	/**
+	 * Returns the time it took to render the GUI
+	 * since the render cycle started.
+	 *
+	 * @return the time it took to render the GUI
+	 * @since 2.1.0
+	 */
+	public long getRenderTime() {
+		return System.currentTimeMillis() - renderStart;
 	}
 
 }

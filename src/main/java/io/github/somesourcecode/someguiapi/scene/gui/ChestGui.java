@@ -24,6 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.*;
+import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -36,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -75,13 +77,14 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 
+		final int oldRows = inventory.getSize() / 9;
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
 		if (isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
 			inventory = Bukkit.createInventory(this, rows * 9, title);
 		}
 
-		if (!isDirty(DirtyFlag.GUI_CONTENT) && inventory.getSize() <= rows) {
+		if (!isDirty(DirtyFlag.GUI_CONTENT) && rows <= oldRows) {
 			inventory.setContents(contents);
 		} else {
 			render();
@@ -106,12 +109,27 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 
-		RenderContext renderContext = new RenderContext(this, scene);
+		GuiRenderContext guiRenderContext = new GuiRenderContext(this, scene);
+		fireOnRender(guiRenderContext);
+		if (scene != null) {
+			scene.fireOnRender(guiRenderContext);
+		}
+
+		if (guiRenderContext.isCanceled()) {
+			rendering = false;
+			return;
+		}
+
+		final HashMap<Integer, Pixel> renderOverrides = guiRenderContext.getRenderOverrides();
+
 		if (scene.getRoot() == null) {
 			if (scene.getBackground() != null) {
-				for (int i = 0; i < inventory.getSize(); i++) {
-					Pixel pixel = scene.getBackground().backgroundAt(i % 9, i / 9);
-					inventory.setItem(i, pixel == null ? null : pixel.renderItemStack(renderContext));
+				for (int slot = 0; slot < inventory.getSize(); slot++) {
+					final int slotX = slot % 9;
+					final int slotY = slot / 9;
+
+					Pixel pixel = renderOverrides.getOrDefault(slot, scene.getBackground().backgroundAt(slotX, slotY));
+					inventory.setItem(slot, pixel == null ? null : pixel.renderItemStack(guiRenderContext.copyForPixel(slotX, slotY)));
 				}
 			}
 			return;
@@ -126,11 +144,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
-				Pixel pixel = root.renderPixelAt(x - rootLayoutX, y - rootLayoutY);
+				Pixel pixel = renderOverrides.getOrDefault(x + 9 * y, root.renderPixelAt(x - rootLayoutX, y - rootLayoutY));
 				if (pixel == null && scene.getBackground() != null) {
 					pixel = scene.getBackground().backgroundAt(x, y);
 				}
-				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(renderContext);
+				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(guiRenderContext.copyForPixel(x, y));
 			}
 		}
 

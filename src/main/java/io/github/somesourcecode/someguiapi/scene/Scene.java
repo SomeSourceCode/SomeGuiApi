@@ -23,15 +23,21 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.scene.context.Context;
+import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The Scene class is the container for all content in a scene graph.
@@ -58,6 +64,8 @@ public class Scene {
 
 	private Parent root;
 	private Background background;
+
+	private Consumer<GuiRenderContext> onRender;
 
 	/**
 	 * Constructs a new empty scene.
@@ -248,6 +256,59 @@ public class Scene {
 	 */
 	public void setBackground(Background background) {
 		this.background = background;
+	}
+
+	/**
+	 * Returns the consumer that is called when the scene is rendered.
+	 *
+	 * @return the consumer that is called when the scene is rendered
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiRenderContext> getOnRender() {
+		return onRender;
+	}
+
+	/**
+	 * Sets the consumer that is called when the scene is rendered.
+	 *
+	 * @param onRender the consumer that is called when the scene is rendered
+	 * @since 2.1.0
+	 */
+	public void setOnRender(Consumer<GuiRenderContext> onRender) {
+		this.onRender = onRender;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnRender(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRender(GuiRenderContext context) {
+		fireCallback(onRender, context, "onRender");
+	}
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
 	}
 
 }

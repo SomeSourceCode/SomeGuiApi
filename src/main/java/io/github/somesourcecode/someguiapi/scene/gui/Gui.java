@@ -24,10 +24,7 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
-import io.github.somesourcecode.someguiapi.scene.context.Context;
-import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
-import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
-import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.*;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -72,6 +69,8 @@ public abstract class Gui {
 	private Consumer<GuiSlotClickContext> onGuiClick;
 	private Consumer<GuiClickContext> onOutsideClick;
 	private Consumer<GuiCloseContext> onClose;
+
+	private Consumer<GuiRenderContext> onRender;
 
 	protected Inventory inventory;
 
@@ -236,6 +235,37 @@ public abstract class Gui {
 	 */
 	public void fireOnClose(GuiCloseContext context) {
 		fireCallback(onClose, context, "onClose");
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is rendered.
+	 *
+	 * @return the consumer that is called when the GUI is rendered
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiRenderContext> getOnRender() {
+		return onRender;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is rendered.
+	 *
+	 * @param onRender the consumer that is called when the GUI is rendered
+	 * @since 2.1.0
+	 */
+	public void setOnRender(Consumer<GuiRenderContext> onRender) {
+		this.onRender = onRender;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnRender(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRender(GuiRenderContext context) {
+		fireCallback(onRender, context, "onRender");
 	}
 
 	/**
