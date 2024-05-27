@@ -66,6 +66,7 @@ public abstract class Gui {
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
+	private Consumer<GuiClickContext> onClick;
 	private Consumer<GuiSlotClickContext> onGuiClick;
 	private Consumer<GuiClickContext> onOutsideClick;
 	private Consumer<GuiCloseContext> onClose;
@@ -142,6 +143,37 @@ public abstract class Gui {
 	 */
 	public final boolean isDirty(DirtyFlag flag) {
 		return dirtyFlags.contains(flag);
+	}
+
+	/**
+	 * Returns the consumer that is called when a click occurs.
+	 *
+	 * @return the consumer that is called when a click occurs
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiClickContext> getOnClick() {
+		return onClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when a click occurs.
+	 *
+	 * @param onClick the consumer that is called when a click occurs
+	 * @since 2.1.0
+	 */
+	public void setOnClick(Consumer<GuiClickContext> onClick) {
+		this.onClick = onClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClick(GuiClickContext context) {
+		fireCallback(onClick, context, "onClick");
 	}
 
 	/**

@@ -52,9 +52,12 @@ public class GuiListener implements Listener {
 		event.setCancelled(true);
 
 		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(gui.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
+		final GuiClickContext guiClickContext = new GuiClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked());
+
+		gui.fireOnClick(guiClickContext);
 
 		if (area == GuiArea.OUTSIDE) {
-			gui.fireOnOutsideClick(new GuiClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
+			gui.fireOnOutsideClick(guiClickContext);
 			return;
 		}
 
