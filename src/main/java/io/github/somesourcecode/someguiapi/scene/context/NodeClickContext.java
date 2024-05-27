@@ -1,5 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.context;
 
+import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.Node;
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
@@ -23,6 +24,7 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	 *
 	 * @param gui the GUI
 	 * @param scene the scene
+	 * @param area the area of the click
 	 * @param type the click type
 	 * @param hotBarButton the hotbar button
 	 * @param whoClicked the player who clicked
@@ -31,8 +33,8 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	 * @param source the source node
 	 * @param target the target node
 	 */
-	public NodeClickContext(Gui gui, Scene scene, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY, Node source, Node target) {
-		super(gui, scene, type, hotBarButton, whoClicked, slotX, slotY);
+	public NodeClickContext(Gui gui, Scene scene, GuiArea area, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY, Node source, Node target) {
+		super(gui, scene, area, type, hotBarButton, whoClicked, slotX, slotY);
 		this.source = source;
 		this.target = target;
 	}
@@ -100,7 +102,7 @@ public class NodeClickContext extends GuiSlotClickContext implements Consumable 
 	 * @return the new context
 	 */
 	public NodeClickContext copyFor(Node target) {
-		NodeClickContext newContext = new NodeClickContext(getGui(), getScene(), getType(), getHotBarButton(), getWhoClicked(), getSlotX(), getSlotY(), getSource(), target);
+		NodeClickContext newContext = new NodeClickContext(getGui(), getScene(), getArea(), getType(), getHotBarButton(), getWhoClicked(), getSlotX(), getSlotY(), getSource(), target);
 		newContext.consumed = consumed;
 		return newContext;
 	}

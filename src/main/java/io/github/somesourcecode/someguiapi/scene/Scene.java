@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
@@ -120,6 +121,7 @@ public class Scene {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 *
+	 * @param area the area of the click
 	 * @param clickType the click type
 	 * @param hotbarButton the hot bar button
 	 * @param whoClicked the human entity that clicked
@@ -127,7 +129,7 @@ public class Scene {
 	 * @param y the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public void handleClick(ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
+	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
 		if (root == null) {
 			return;
 		}
@@ -155,7 +157,7 @@ public class Scene {
 			parent = parent.getParent();
 		}
 
-		NodeClickContext context = new NodeClickContext(gui, this, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
+		NodeClickContext context = new NodeClickContext(gui, this, area, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
 
 		for (Node node : nodeBranch) {
 			context = context.copyFor(node);

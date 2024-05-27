@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
+import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.*;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
@@ -166,6 +167,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 *
+	 * @param area the area of the click
 	 * @param clickType the click type
 	 * @param hotbarButton the hot bar button
 	 * @param whoClicked the human entity that clicked
@@ -173,11 +175,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @param slotY the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public void handleClick(ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slotX, int slotY) {
+	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slotX, int slotY) {
 		if (scene == null) {
 			return;
 		}
-		scene.handleClick(clickType, hotbarButton, whoClicked, slotX, slotY);
+		scene.handleClick(area, clickType, hotbarButton, whoClicked, slotX, slotY);
 	}
 
 	/**

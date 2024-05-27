@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi;
 
+import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
@@ -50,17 +51,19 @@ public class GuiListener implements Listener {
 		}
 		event.setCancelled(true);
 
-		if (event.getClickedInventory() == null) {
-			gui.fireOnOutsideClick(new GuiClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
+		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(gui.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
+
+		if (area == GuiArea.OUTSIDE) {
+			gui.fireOnOutsideClick(new GuiClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked()));
 			return;
 		}
 
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
+		int slotX = event.getRawSlot() % 9;
+		int slotY = event.getRawSlot() / 9;
 
-		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
 
-		gui.handleClick(event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
+		gui.handleClick(area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
 	}
 
 	@EventHandler

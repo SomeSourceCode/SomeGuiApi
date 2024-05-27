@@ -1,5 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.context;
 
+import io.github.somesourcecode.someguiapi.collections.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 import org.bukkit.entity.HumanEntity;
@@ -20,6 +21,7 @@ public class GuiSlotClickContext extends GuiClickContext {
 	 *
 	 * @param gui the GUI
 	 * @param scene the scene
+	 * @param area the area of the click
 	 * @param type the click type
 	 * @param hotBarButton the hot bar button
 	 * @param whoClicked the human entity that
@@ -27,8 +29,8 @@ public class GuiSlotClickContext extends GuiClickContext {
 	 * @param slotY the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public GuiSlotClickContext(Gui gui, Scene scene, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY) {
-		super(gui, scene, type, hotBarButton, whoClicked);
+	public GuiSlotClickContext(Gui gui, Scene scene, GuiArea area, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY) {
+		super(gui, scene, area, type, hotBarButton, whoClicked);
 		this.slotX = slotX;
 		this.slotY = slotY;
 	}
