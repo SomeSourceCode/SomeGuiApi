@@ -24,7 +24,6 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.*;
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
