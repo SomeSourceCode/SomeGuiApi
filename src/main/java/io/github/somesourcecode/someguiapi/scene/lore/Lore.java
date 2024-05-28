@@ -1,11 +1,15 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
+import java.security.PrivilegedAction;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Represents the text which is shown below the title on hover.
@@ -177,7 +181,7 @@ public class Lore {
 	 * @return the lines of the lore
 	 * @since 2.0.0
 	 */
-	public List<Component> generateLines(RenderContext context) {
+	public List<Component> generateLines(PixelRenderContext context) {
 		paragraphs.stream()
 				.filter(ReloadableParagraph.class::isInstance)
 				.map(ReloadableParagraph.class::cast)
