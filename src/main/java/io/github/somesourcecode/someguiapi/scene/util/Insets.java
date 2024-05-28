@@ -156,4 +156,15 @@ public class Insets {
 		return Objects.hash(top, right, bottom, left);
 	}
 
+	/**
+	 * Returns a string representation of the insets.
+	 *
+	 * @return a string representation of the insets
+	 * @since 2.1.0
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[top=" + top + ", left=" + left + ", bottom=" + bottom + ", right=" + right + "]";
+	}
+
 }
