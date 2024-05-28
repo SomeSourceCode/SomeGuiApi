@@ -23,13 +23,21 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
+import io.github.somesourcecode.someguiapi.scene.context.Context;
+import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The Scene class is the container for all content in a scene graph.
@@ -56,6 +64,8 @@ public class Scene {
 
 	private Parent root;
 	private Background background;
+
+	private Consumer<GuiRenderContext> onRender;
 
 	/**
 	 * Constructs a new empty scene.
@@ -110,23 +120,25 @@ public class Scene {
 	 * Fires the onClick event for the node at the given coordinates.
 	 * The listeners a called for the clicked node and all of its parents, respectively.
 	 *
-	 * @param context the click context
-	 * @since 1.0.0
+	 * @param area the area of the click
+	 * @param clickType the click type
+	 * @param hotbarButton the hot bar button
+	 * @param whoClicked the human entity that clicked
+	 * @param x the x coordinate of the slot
+	 * @param y the y coordinate of the slot
+	 * @since 2.1.0
 	 */
-	public void fireOnClick(NodeClickContext context) {
+	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
 		if (root == null) {
 			return;
 		}
-
-		int x = context.getSlotX();
-		int y = context.getSlotY();
 
 		final int localX = x - root.getLayoutX();
 		final int localY = y - root.getLayoutY();
 
 		final ArrayList<Node> nodeBranch = new ArrayList<>();
 
-		Node clickedNode = root.nodeAt(localX, localY);
+		final Node clickedNode = root.nodeAt(localX, localY);
 		if (clickedNode == null) {
 			return;
 		}
@@ -144,21 +156,22 @@ public class Scene {
 			parent = parent.getParent();
 		}
 
+		NodeClickContext context = new NodeClickContext(gui, this, area, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
+
 		for (Node node : nodeBranch) {
-			if (node.getOnClick() != null) {
-				node.getOnClick().accept(context);
+			context = context.copyFor(node);
+			node.fireOnClick(context);
+			if (context.isLeftClick()) {
+				node.fireOnLeftClick(context);
 			}
-			if (node.getOnLeftClick() != null && context.isLeftClick()) {
-				node.getOnLeftClick().accept(context);
+			if (context.isRightClick()) {
+				node.fireOnRightClick(context);
 			}
-			if (node.getOnRightClick() != null && context.isRightClick()) {
-				node.getOnRightClick().accept(context);
+			if (context.isShiftClick()) {
+				node.fireOnShiftClick(context);
 			}
-			if (node.getOnShiftClick() != null && context.isShiftClick()) {
-				node.getOnShiftClick().accept(context);
-			}
-			if (node.getOnHotBarClick() != null && context.isHotBarClick()) {
-				node.getOnHotBarClick().accept(context);
+			if (context.isHotBarClick()) {
+				node.fireOnHotBarClick(context);
 			}
 		}
 	}
@@ -244,6 +257,59 @@ public class Scene {
 	 */
 	public void setBackground(Background background) {
 		this.background = background;
+	}
+
+	/**
+	 * Returns the consumer that is called when the scene is rendered.
+	 *
+	 * @return the consumer that is called when the scene is rendered
+	 * @since 2.1.0
+	 */
+	public Consumer<GuiRenderContext> getOnRender() {
+		return onRender;
+	}
+
+	/**
+	 * Sets the consumer that is called when the scene is rendered.
+	 *
+	 * @param onRender the consumer that is called when the scene is rendered
+	 * @since 2.1.0
+	 */
+	public void setOnRender(Consumer<GuiRenderContext> onRender) {
+		this.onRender = onRender;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnRender(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRender(GuiRenderContext context) {
+		fireCallback(onRender, context, "onRender");
+	}
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
 	}
 
 }

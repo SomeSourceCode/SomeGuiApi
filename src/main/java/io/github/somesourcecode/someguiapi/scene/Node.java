@@ -23,10 +23,13 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The base class for all nodes in the scene graph. A scene graph is a set of tree data structures
@@ -445,6 +448,17 @@ public abstract class Node {
 	}
 
 	/**
+	 * Fires the consumer, set by {@link #setOnClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClick(NodeClickContext context) {
+		fireCallback(onClick, context, "onClick");
+	}
+
+	/**
 	 * Returns the consumer that is called when the node is left-clicked.
 	 *
 	 * @return the consumer that is called when the node is left-clicked
@@ -462,6 +476,17 @@ public abstract class Node {
 	 */
 	public void setOnLeftClick(Consumer<NodeClickContext> onLeftClick) {
 		this.onLeftClick = onLeftClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnLeftClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnLeftClick(NodeClickContext context) {
+		fireCallback(onLeftClick, context, "onLeftClick");
 	}
 
 	/**
@@ -485,6 +510,17 @@ public abstract class Node {
 	}
 
 	/**
+	 * Fires the consumer, set by {@link #setOnRightClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRightClick(NodeClickContext context) {
+		fireCallback(onRightClick, context, "onRightClick");
+	}
+
+	/**
 	 * Returns the consumer that is called when the node is shift-clicked.
 	 *
 	 * @return the consumer that is called when the node is shift-clicked
@@ -502,6 +538,17 @@ public abstract class Node {
 	 */
 	public void setOnShiftClick(Consumer<NodeClickContext> onShiftClick) {
 		this.onShiftClick = onShiftClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnShiftClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnShiftClick(NodeClickContext context) {
+		fireCallback(onShiftClick, context, "onShiftClick");
 	}
 
 	/**
@@ -525,6 +572,17 @@ public abstract class Node {
 	}
 
 	/**
+	 * Fires the consumer, set by {@link #setOnHotBarClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnHotBarClick(NodeClickContext context) {
+		fireCallback(onHotBarClick, context, "onHotBarClick");
+	}
+
+	/**
 	 * Returns a {@link Pixel} that should be rendered at the given coordinates.
 	 * The coordinates are relative to this parent's bounds.
 	 *
@@ -545,5 +603,27 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public abstract Node nodeAt(int x, int y);
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
+	}
 
 }

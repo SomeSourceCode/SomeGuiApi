@@ -23,7 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import io.github.somesourcecode.someguiapi.scene.lore.Lore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -328,7 +328,7 @@ public class Pixel {
 	 * @return the rendered ItemStack
 	 * @since 2.0.0
 	 */
-	public ItemStack renderItemStack(RenderContext renderContext) {
+	public ItemStack renderItemStack(PixelRenderContext renderContext) {
 		if (isEmpty()) {
 			return null;
 		}

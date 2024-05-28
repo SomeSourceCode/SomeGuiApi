@@ -23,49 +23,37 @@
 
 package io.github.somesourcecode.someguiapi.scene.context;
 
-import io.github.somesourcecode.someguiapi.scene.Scene;
-import io.github.somesourcecode.someguiapi.scene.gui.Gui;
-
 /**
- * The context for a GUI render cycle.
+ * A cancelable event.
  *
- * @since 2.0.0
+ * @since 2.1.0
  */
-public class RenderContext extends GuiContext {
-
-	protected long renderStart;
+public interface Cancelable {
 
 	/**
-	 * Constructs a new render context.
+	 * Returns the cancellation state of the event.
 	 *
-	 * @param gui the GUI
-	 * @param scene the scene
+	 * @return whether the event is canceled
 	 * @since 2.1.0
 	 */
-	public RenderContext(Gui gui, Scene scene) {
-		super(gui, scene);
-		renderStart = System.currentTimeMillis();
-	}
+	boolean isCanceled();
 
 	/**
-	 * Returns the time when the render cycle started.
+	 * Sets the cancellation state of the event.
 	 *
-	 * @return the time when the render cycle started
+	 * @param canceled the cancellation state
 	 * @since 2.1.0
 	 */
-	public long getRenderStart() {
-		return renderStart;
-	}
+	void setCanceled(boolean canceled);
 
 	/**
-	 * Returns the time it took to render the GUI
-	 * since the render cycle started.
+	 * Cancels the event. This is a shorthand for {@code setCanceled(true)}.
 	 *
-	 * @return the time it took to render the GUI
+	 * @see #setCanceled(boolean)
 	 * @since 2.1.0
 	 */
-	public long getRenderTime() {
-		return System.currentTimeMillis() - renderStart;
+	default void cancel() {
+		setCanceled(true);
 	}
 
 }
