@@ -316,6 +316,21 @@ public abstract class Gui {
 	 */
 	public abstract List<HumanEntity> getViewers();
 
+	/**
+	 * Returns the viewer at the first index of the viewers list.
+	 * This is a shortcut for {@code getViewers().get(0)} with
+	 * null checks.
+	 * <p>
+	 * This method is particularly useful when the GUI is known to be
+	 * viewed by only one entity.
+	 *
+	 * @return the viewer
+	 */
+	public HumanEntity getViewer() {
+		List<HumanEntity> viewers = getViewers();
+		return viewers == null || viewers.isEmpty() ? null : viewers.get(0);
+	}
+
 	private boolean updating = false;
 
 	/**
