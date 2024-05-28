@@ -309,6 +309,30 @@ public abstract class Gui {
 	public abstract void show(HumanEntity humanEntity);
 
 	/**
+	 * Closes this GUI for the specified human entity.
+	 *
+	 * @param humanEntity the human entity
+	 * @since 2.1.0
+	 */
+	public void close(HumanEntity humanEntity) {
+		if (!getViewers().contains(humanEntity)) {
+			return;
+		}
+		humanEntity.closeInventory();
+	}
+
+	/**
+	 * Closes this GUI for all viewers.
+	 *
+	 * @since 2.1.0
+	 */
+	public void close() {
+		for (HumanEntity viewer : getViewers()) {
+			close(viewer);
+		}
+	}
+
+	/**
 	 * Returns a list of human entities that are currently viewing this GUI.
 	 *
 	 * @return a list of human entities viewing this GUI
