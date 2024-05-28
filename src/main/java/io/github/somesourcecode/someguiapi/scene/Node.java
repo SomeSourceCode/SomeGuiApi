@@ -27,7 +27,9 @@ import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
@@ -624,6 +626,27 @@ public abstract class Node {
 			String errorMessage = "An error occurred while calling '" + name + "''";
 			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
 		}
+	}
+
+	/**
+	 * Returns a string representation of this node.
+	 *
+	 * @return a string representation of this node
+	 * @since 2.1.0
+	 */
+	@Override
+	public String toString() {
+		String simpleName = getClass().getSimpleName();
+		boolean hasId = id != null && !id.isEmpty();
+
+		StringBuilder builder = new StringBuilder(simpleName);
+		if (hasId) {
+			builder.append("[id=").append(id).append("]");
+		} else {
+			builder.append("@").append(Integer.toHexString(hashCode()));
+		}
+
+		return builder.toString();
 	}
 
 }
