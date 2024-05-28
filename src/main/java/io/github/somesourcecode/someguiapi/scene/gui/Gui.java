@@ -309,12 +309,51 @@ public abstract class Gui {
 	public abstract void show(HumanEntity humanEntity);
 
 	/**
+	 * Closes this GUI for the specified human entity.
+	 *
+	 * @param humanEntity the human entity
+	 * @since 2.1.0
+	 */
+	public void close(HumanEntity humanEntity) {
+		if (!getViewers().contains(humanEntity)) {
+			return;
+		}
+		humanEntity.closeInventory();
+	}
+
+	/**
+	 * Closes this GUI for all viewers.
+	 *
+	 * @since 2.1.0
+	 */
+	public void close() {
+		for (HumanEntity viewer : getViewers()) {
+			close(viewer);
+		}
+	}
+
+	/**
 	 * Returns a list of human entities that are currently viewing this GUI.
 	 *
 	 * @return a list of human entities viewing this GUI
 	 * @since 1.0.0
 	 */
 	public abstract List<HumanEntity> getViewers();
+
+	/**
+	 * Returns the viewer at the first index of the viewers list.
+	 * This is a shortcut for {@code getViewers().get(0)} with
+	 * null checks.
+	 * <p>
+	 * This method is particularly useful when the GUI is known to be
+	 * viewed by only one entity.
+	 *
+	 * @return the viewer
+	 */
+	public HumanEntity getViewer() {
+		List<HumanEntity> viewers = getViewers();
+		return viewers == null || viewers.isEmpty() ? null : viewers.get(0);
+	}
 
 	private boolean updating = false;
 

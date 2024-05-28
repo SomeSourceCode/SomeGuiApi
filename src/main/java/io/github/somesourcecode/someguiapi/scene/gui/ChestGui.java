@@ -71,6 +71,17 @@ public class ChestGui extends Gui implements InventoryHolder {
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
+	/**
+	 * Constructs a new ChestGui with the specified title and number of rows.
+	 *
+	 * @param title the title
+	 * @param rows the number of rows (in range 1-6)
+	 * @since 2.1.0
+	 */
+	public ChestGui(String title, int rows) {
+		this(Component.text(title), rows);
+	}
+
 	@Override
 	public void show(HumanEntity humanEntity) {
 		if (getViewers().contains(humanEntity) && !isDirty()) {
@@ -267,6 +278,16 @@ public class ChestGui extends Gui implements InventoryHolder {
 		this.title = title;
 		setDirtyFlag(DirtyFlag.GUI_TITLE);
 		update();
+	}
+
+	/**
+	 * Sets the title of this GUI.
+	 *
+	 * @param title the title
+	 * @since 2.1.0
+	 */
+	public void setTitle(String title) {
+		setTitle(Component.text(title));
 	}
 
 	/**

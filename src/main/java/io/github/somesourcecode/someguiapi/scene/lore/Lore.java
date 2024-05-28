@@ -1,11 +1,15 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
+import java.security.PrivilegedAction;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Represents the text which is shown below the title on hover.
@@ -68,6 +72,46 @@ public class Lore {
 	 */
 	public Lore appendLine(Component line) {
 		return appendParagraph(Paragraph.line(line));
+	}
+
+	/**
+	 * Appends a text to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a text paragraph.
+	 *
+	 * @param text the text to append
+	 * @return the lore for method chaining
+	 * @since 2.0.0
+	 */
+	public Lore appendText(Component text) {
+		return appendParagraph(Paragraph.text(text));
+	}
+
+	/**
+	 * Appends a text to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a text paragraph.
+	 *
+	 * @param text the text to append
+	 * @param wrapWidth the wrap width
+	 * @param wrapType the wrap type
+	 * @return the lore for method chaining
+	 * @since 2.1.0
+	 */
+	public Lore appendText(Component text, int wrapWidth, WrapType wrapType) {
+		return appendParagraph(Paragraph.text(text)
+				.setWrapWidth(wrapWidth)
+				.setWrapType(wrapType));
+	}
+
+	/**
+	 * Appends a context paragraph to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a context paragraph.
+	 *
+	 * @param paragraphGenerator the paragraph generator
+	 * @return the lore for method chaining
+	 * @since 2.1.0
+	 */
+	public Lore appendParagraph(Function<PixelRenderContext, Paragraph> paragraphGenerator) {
+		return appendParagraph(Paragraph.context(paragraphGenerator));
 	}
 
 	/**
@@ -177,7 +221,7 @@ public class Lore {
 	 * @return the lines of the lore
 	 * @since 2.0.0
 	 */
-	public List<Component> generateLines(RenderContext context) {
+	public List<Component> generateLines(PixelRenderContext context) {
 		paragraphs.stream()
 				.filter(ReloadableParagraph.class::isInstance)
 				.map(ReloadableParagraph.class::cast)
