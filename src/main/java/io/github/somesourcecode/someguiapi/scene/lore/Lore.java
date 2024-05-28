@@ -75,6 +75,18 @@ public class Lore {
 	}
 
 	/**
+	 * Appends a context paragraph to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a context paragraph.
+	 *
+	 * @param paragraphGenerator the paragraph generator
+	 * @return the lore for method chaining
+	 * @since 2.1.0
+	 */
+	public Lore appendParagraph(Function<PixelRenderContext, Paragraph> paragraphGenerator) {
+		return appendParagraph(Paragraph.context(paragraphGenerator));
+	}
+
+	/**
 	 * Appends a paragraph to the lore.
 	 *
 	 * @param paragraph the paragraph to append
