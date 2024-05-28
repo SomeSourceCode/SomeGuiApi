@@ -75,6 +75,34 @@ public class Lore {
 	}
 
 	/**
+	 * Appends a text to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a text paragraph.
+	 *
+	 * @param text the text to append
+	 * @return the lore for method chaining
+	 * @since 2.0.0
+	 */
+	public Lore appendText(Component text) {
+		return appendParagraph(Paragraph.text(text));
+	}
+
+	/**
+	 * Appends a text to the lore.
+	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a text paragraph.
+	 *
+	 * @param text the text to append
+	 * @param wrapWidth the wrap width
+	 * @param wrapType the wrap type
+	 * @return the lore for method chaining
+	 * @since 2.1.0
+	 */
+	public Lore appendText(Component text, int wrapWidth, WrapType wrapType) {
+		return appendParagraph(Paragraph.text(text)
+				.setWrapWidth(wrapWidth)
+				.setWrapType(wrapType));
+	}
+
+	/**
 	 * Appends a context paragraph to the lore.
 	 * This is a shorthand for {@link #appendParagraph(Paragraph)} with a context paragraph.
 	 *
