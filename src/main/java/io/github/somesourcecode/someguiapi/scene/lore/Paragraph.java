@@ -1,7 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
 import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
