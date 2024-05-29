@@ -70,4 +70,13 @@ public interface ObservableList<E> extends List<E> {
 	 */
 	boolean removeAll(E... elements);
 
+	/**
+	 * A convenience method to retain only the varargs elements in the list.
+	 *
+	 * @param elements the elements to retain
+	 * @return true if the list was changed as a result of this call
+	 * @since 2.1.0
+	 */
+	boolean retainAll(E... elements);
+
 }

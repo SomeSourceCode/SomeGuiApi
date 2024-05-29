@@ -94,52 +94,55 @@ public class ObservableListBase<E> implements ObservableList<E> {
 	@Override
 	public boolean add(E e) {
 		baseList.add(e);
-		Change<E> change = new Change<>(Collections.singletonList(e), null);
-		fireChange(change);
+		fireChange(new Change<>(Collections.singletonList(e), null));
 		return true;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean remove(Object o) {
 		boolean result = baseList.remove(o);
 		if (result) {
-			Change<E> change = new Change<>(null, Collections.singletonList((E) o));
-			fireChange(change);
+			fireChange(new Change<>(null, Collections.singletonList((E) o)));
 		}
 		return result;
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
+	public boolean containsAll(@NotNull Collection<?> c) {
 		return new HashSet<>(baseList).containsAll(c);
+	}
+
+	@Override
+	public boolean addAll(E... elements) {
+		return addAll(Arrays.asList(elements));
 	}
 
 	@Override
 	public boolean addAll(@NotNull Collection<? extends E> c) {
 		boolean result = baseList.addAll(c);
-
 		if (result) {
-			Change<E> change = new Change<>(new ArrayList<>(c), null);
-			fireChange(change);
+			fireChange(new Change<>(new ArrayList<>(c), null));
 		}
-
 		return result;
 	}
 
 	@Override
 	public boolean addAll(int index, @NotNull Collection<? extends E> c) {
 		boolean result = baseList.addAll(index, c);
-
 		if (result) {
-			Change<E> change = new Change<>(new ArrayList<>(c), null);
-			fireChange(change);
+			fireChange(new Change<>(new ArrayList<>(c), null));
 		}
-
 		return result;
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(E... elements) {
+		return removeAll(Arrays.asList(elements));
+	}
+
+	@Override
+	public boolean removeAll(@NotNull Collection<?> c) {
 		List<E> originalList = new ArrayList<>(baseList);
 		boolean result = baseList.removeAll(c);
 
@@ -153,8 +156,12 @@ public class ObservableListBase<E> implements ObservableList<E> {
 			Change<E> change = new Change<>(null, removedElements);
 			fireChange(change);
 		}
-
 		return result;
+	}
+
+	@Override
+	public boolean retainAll(E... elements) {
+		return retainAll(Arrays.asList(elements));
 	}
 
 	@Override
@@ -172,16 +179,13 @@ public class ObservableListBase<E> implements ObservableList<E> {
 			Change<E> change = new Change<>(null, removedElements);
 			fireChange(change);
 		}
-
 		return result;
 	}
 
 	@Override
 	public void clear() {
-		List<E> removedElements = new ArrayList<>(baseList);
 		baseList.clear();
-		Change<E> change = new Change<>(null, removedElements);
-		fireChange(change);
+		fireChange(new Change<>(null, new ArrayList<>(baseList)));
 	}
 
 	@Override
@@ -191,27 +195,24 @@ public class ObservableListBase<E> implements ObservableList<E> {
 
 	@Override
 	public E set(int index, E element) {
-		E baseElement = baseList.set(index, element);
-		if (baseElement != element) {
-			Change<E> change = new Change<>(Collections.singletonList(element), Collections.singletonList(baseElement));
-			fireChange(change);
+		E previousElement = baseList.set(index, element);
+		if (previousElement != element) {
+			fireChange(new Change<>(Collections.singletonList(element), Collections.singletonList(previousElement)));
 		}
-		return baseElement;
+		return previousElement;
 	}
 
 	@Override
 	public void add(int index, E element) {
 		baseList.add(index, element);
-		Change<E> change = new Change<>(Collections.singletonList(element), null);
-		fireChange(change);
+		fireChange(new Change<>(Collections.singletonList(element), null));
 	}
 
 	@Override
 	public E remove(int index) {
-		E removedElement = baseList.remove(index);
-		Change<E> change = new Change<>(null, Collections.singletonList(removedElement));
-		fireChange(change);
-		return removedElement;
+		E result = baseList.remove(index);
+		fireChange(new Change<>(null, Collections.singletonList(baseList.get(index))));
+		return result;
 	}
 
 	@Override
@@ -237,18 +238,6 @@ public class ObservableListBase<E> implements ObservableList<E> {
 	@Override
 	public @NotNull List<E> subList(int fromIndex, int toIndex) {
 		return baseList.subList(fromIndex, toIndex);
-	}
-
-	@Override
-	public boolean addAll(E... elements) {
-		Change<E> change = new Change<>(Arrays.asList(elements), null);
-		fireChange(change);
-		return Collections.addAll(baseList, elements);
-	}
-
-	@Override
-	public boolean removeAll(E... elements) {
-		return removeAll(Arrays.asList(elements));
 	}
 
 	private void fireChange(Change<E> change) {
