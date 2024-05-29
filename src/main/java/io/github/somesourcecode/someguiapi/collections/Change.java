@@ -42,8 +42,6 @@ public class Change<E> {
 	private final boolean wasAdded;
 	private final boolean wasRemoved;
 
-	private boolean denied = false;
-
 	/**
 	 * Constructs a new change with the specified added and removed sublists.
 	 *
@@ -99,26 +97,6 @@ public class Change<E> {
 	 */
 	public boolean wasRemoved() {
 		return wasRemoved;
-	}
-
-	/**
-	 * Denies the change. If a change is denied,
-	 * it will not be applied.
-	 *
-	 * @since 2.1.0
-	 */
-	public void deny() {
-		denied = true;
-	}
-
-	/**
-	 * Returns whether the change was denied.
-	 *
-	 * @return whether the change was denied
-	 * @since 2.1.0
-	 */
-	public boolean isDenied() {
-		return denied;
 	}
 
 }
