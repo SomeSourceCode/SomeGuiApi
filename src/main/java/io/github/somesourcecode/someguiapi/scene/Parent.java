@@ -25,9 +25,11 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
+import io.github.somesourcecode.someguiapi.collections.VetoableListDecorator;
 import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +43,7 @@ import java.util.Set;
  */
 public abstract class Parent extends Node {
 
-	private final ObservableList<Node> children = new ObservableListBase<>(new ArrayList<>());
+	private final ObservableList<Node> children;
 
 	private boolean needsLayout = true;
 
@@ -53,6 +55,50 @@ public abstract class Parent extends Node {
 	 * @since 1.0.0
 	 */
 	protected Parent() {
+		children = new VetoableListDecorator<>(new ObservableListBase<>(new ArrayList<>())) {
+			@Override
+			protected void onProposedChange(List<Node> toBeAdded, int... toBeRemoved) {
+				final HashSet<Node> childSet = new HashSet<>(children);
+
+				for (int i = 0; i < toBeRemoved.length; i += 2) {
+					for (int j = toBeRemoved[i]; j < toBeRemoved[i + 1]; j++) {
+						childSet.remove(children.get(j));
+					}
+				}
+
+				for (Node node : toBeAdded) {
+					if (node == null) {
+						throw new IllegalArgumentException(createErrorMessage("Child node is null!", null));
+					}
+					if (childSet.contains(node)) {
+						throw new IllegalArgumentException(createErrorMessage("Duplicate children detected!", node));
+					}
+					if (wouldCreateCycle(node)) {
+						throw new IllegalArgumentException(createErrorMessage("Cycle detected!", node));
+					}
+					childSet.add(node);
+				}
+			}
+
+			private boolean wouldCreateCycle(Node node) {
+				if (node == Parent.this) {
+					return true;
+				}
+				if (!(node instanceof Parent nodeAsParent)) {
+					return false;
+				}
+				for (Node nodeChild : nodeAsParent.getChildren()) {
+					if (wouldCreateCycle(nodeChild)) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			private String createErrorMessage(String message, Node node) {
+				return message + " Cannot add " + node + " to " + Parent.this;
+			}
+		};
 		children.addListener(change -> {
 			if (change.wasAdded()) {
 				for (Node child : change.getAddedSubList()) {
