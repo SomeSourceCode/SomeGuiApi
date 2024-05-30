@@ -297,6 +297,16 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	/**
+	 * Resets the title of this GUI. This has the same
+	 * effect as setting the title to null.
+	 *
+	 * @since 2.1.0
+	 */
+	public void resetTitle() {
+		setTitle((Component) null);
+	}
+
+	/**
 	 * Returns the number of rows of this GUI.
 	 *
 	 * @return the number of rows
