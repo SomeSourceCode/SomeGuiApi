@@ -79,7 +79,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 2.1.0
 	 */
 	public ChestGui(String title, int rows) {
-		this(Component.text(title), rows);
+		this(title == null ? null : Component.text(title), rows);
 	}
 
 	@Override
@@ -287,7 +287,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 2.1.0
 	 */
 	public void setTitle(String title) {
-		setTitle(Component.text(title));
+		setTitle(title == null ? null : Component.text(title));
 	}
 
 	/**
