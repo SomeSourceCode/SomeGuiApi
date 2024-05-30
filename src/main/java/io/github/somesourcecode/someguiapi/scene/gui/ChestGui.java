@@ -67,7 +67,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		this.title = title;
 		this.rows = rows;
 
-		this.inventory = Bukkit.createInventory(this, rows * 9, title);
+		this.inventory = createInventory();
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
@@ -83,6 +83,12 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	@Override
+	public  Inventory createInventory() {
+		return title == null ? Bukkit.createInventory(this, rows * 9)
+				: Bukkit.createInventory(this, rows * 9, title);
+	}
+
+	@Override
 	public void show(HumanEntity humanEntity) {
 		if (getViewers().contains(humanEntity) && !isDirty()) {
 			return;
@@ -92,7 +98,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
 		if (isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
-			inventory = Bukkit.createInventory(this, rows * 9, title);
+			inventory = createInventory();
 		}
 
 		if (!isDirty(DirtyFlag.GUI_CONTENT) && rows <= oldRows) {
