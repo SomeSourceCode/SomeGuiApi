@@ -301,6 +301,14 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Creates the inventory for this GUI.
+	 *
+	 * @return the inventory
+	 * @since 2.1.0
+	 */
+	public abstract Inventory createInventory();
+
+	/**
 	 * Shows this GUI to the specified human entity.
 	 *
 	 * @param humanEntity the human entity

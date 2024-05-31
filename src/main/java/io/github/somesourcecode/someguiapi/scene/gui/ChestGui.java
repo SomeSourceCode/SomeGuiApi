@@ -67,7 +67,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		this.title = title;
 		this.rows = rows;
 
-		this.inventory = Bukkit.createInventory(this, rows * 9, title);
+		this.inventory = createInventory();
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
@@ -79,7 +79,13 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 2.1.0
 	 */
 	public ChestGui(String title, int rows) {
-		this(Component.text(title), rows);
+		this(title == null ? null : Component.text(title), rows);
+	}
+
+	@Override
+	public  Inventory createInventory() {
+		return title == null ? Bukkit.createInventory(this, rows * 9)
+				: Bukkit.createInventory(this, rows * 9, title);
 	}
 
 	@Override
@@ -92,7 +98,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
 		if (isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
-			inventory = Bukkit.createInventory(this, rows * 9, title);
+			inventory = createInventory();
 		}
 
 		if (!isDirty(DirtyFlag.GUI_CONTENT) && rows <= oldRows) {
@@ -287,7 +293,17 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 2.1.0
 	 */
 	public void setTitle(String title) {
-		setTitle(Component.text(title));
+		setTitle(title == null ? null : Component.text(title));
+	}
+
+	/**
+	 * Resets the title of this GUI. This has the same
+	 * effect as setting the title to null.
+	 *
+	 * @since 2.1.0
+	 */
+	public void resetTitle() {
+		setTitle((Component) null);
 	}
 
 	/**
