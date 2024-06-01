@@ -26,6 +26,7 @@ package io.github.somesourcecode.someguiapi.scene.gui;
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.context.*;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
+import io.github.somesourcecode.someguiapi.scene.storage.Storage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
@@ -62,7 +63,9 @@ public abstract class Gui {
 		});
 	}
 
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
+	protected final Storage storage = new Storage();
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
@@ -80,9 +83,21 @@ public abstract class Gui {
 	 *
 	 * @return the data holder
 	 * @since 2.0.0
+	 * @deprecated since 2.1.0 in favor of {@link #getStorage()}
 	 */
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
+	}
+
+	/**
+	 * Returns the @{link Storage} of this GUI.
+	 *
+	 * @return the storage
+	 * @since 2.1.0
+	 */
+	public Storage getStorage() {
+		return storage;
 	}
 
 	/**
