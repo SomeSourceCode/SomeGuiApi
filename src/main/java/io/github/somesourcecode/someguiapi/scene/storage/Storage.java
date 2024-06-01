@@ -122,7 +122,7 @@ public class Storage {
 	 * @since 2.1.0
 	 */
 	public void ifRegistered(String id, Consumer<ValueHolder<?>> consumer) {
-		if (!isRegistered(id)) {
+		if (!isRegistered(id) || consumer == null) {
 			return;
 		}
 		consumer.accept(get(id));
