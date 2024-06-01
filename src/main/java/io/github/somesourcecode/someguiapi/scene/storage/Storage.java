@@ -50,7 +50,7 @@ public class Storage {
 		if (isRegistered(id)) {
 			return;
 		}
-		idToHolder.put(id, new ValueHolder<>(type, defaultValue));
+		idToHolder.put(id, new ValueHolder<>(type, defaultValue, true));
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class Storage {
 		if (isRegistered(id)) {
 			return;
 		}
-		idToHolder.put(id, new ValueHolder<>(type));
+		idToHolder.put(id, new ValueHolder<>(type, true));
 	}
 
 	/**
@@ -101,14 +101,16 @@ public class Storage {
 	}
 
 	/**
-	 * Returns the value holder for the specified id.
+	 * Returns the value holder for the specified id. If no holder
+	 * is registered with the specified id, this method returns an
+	 * empty dummy holder.
 	 *
 	 * @param id the id
 	 * @return the value holder
 	 * @since 2.1.0
 	 */
 	public ValueHolder<?> get(String id) {
-		return idToHolder.get(id);
+		return isRegistered(id) ? idToHolder.get(id) : new ValueHolder<>(Object.class, null, false);
 	}
 
 	/**

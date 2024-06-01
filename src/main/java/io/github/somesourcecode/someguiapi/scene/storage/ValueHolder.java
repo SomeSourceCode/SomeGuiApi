@@ -33,17 +33,19 @@ public final class ValueHolder<T> {
 
 	private final Class<T> type;
 	private T value;
+	private final boolean registered;
 
 	/**
 	 * Constructs a new ValueHolder with the specified type.
 	 *
 	 * @param type the type of the value
+	 * @param registered whether the value is registered
 	 * @throws IllegalArgumentException if the type is null or a primitive
-	 * @see #ValueHolder(Class, Object)
+	 * @see #ValueHolder(Class, Object, boolean)
 	 * @since 2.1.0
 	 */
-	public ValueHolder(Class<T> type) {
-		this(type, null);
+	ValueHolder(Class<T> type, boolean registered) {
+		this(type, null, registered);
 	}
 
 	/**
@@ -51,10 +53,11 @@ public final class ValueHolder<T> {
 	 *
 	 * @param type the type of the value
 	 * @param value the value to hold
+	 * @param registered whether the value is registered
 	 * @throws IllegalArgumentException if the type is null or a primitive
 	 * @since 2.1.0
 	 */
-	public ValueHolder(Class<T> type, T value) {
+	ValueHolder(Class<T> type, T value, boolean registered) {
 		if (type == null) {
 			throw new IllegalArgumentException("Type cannot be null");
 		}
@@ -63,6 +66,7 @@ public final class ValueHolder<T> {
 		}
 		this.type = type;
 		this.value = value;
+		this.registered = registered;
 	}
 
 	/**
@@ -73,6 +77,18 @@ public final class ValueHolder<T> {
 	 */
 	public Class<T> getType() {
 		return type;
+	}
+
+	/**
+	 * Returns whether the value is registered. This will be
+	 * true when the value was registered via {@link Storage#register(String, Class)}.
+	 * If this is a dummy holder, this will be false.
+	 *
+	 * @return whether the value is registered
+	 * @since 2.1.0
+	 */
+	public boolean isRegistered() {
+		return registered;
 	}
 
 	/**
@@ -250,6 +266,54 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns the associated value of this holder as the specified type,
+	 * unless at least one of the following conditions is met:
+	 *
+	 * <ul>
+	 *     <li>the value is not registered</li>
+	 *     <li>the value is null</li>
+	 *     <li>the value is not from the specified type</li>
+	 * </ul>
+	 *
+	 * in which case the default value is returned.
+	 * To accept null values, use {@link #asOrElseNullable(Class, Object)}.
+	 *
+	 * @param clazz the type
+	 * @param defaultValue the default value
+	 * @param <C> the type
+	 * @return the value as the specified type or the default value
+	 * @see #asOrElseNullable(Class, Object)
+	 * @since 2.1.0
+	 */
+	public <C> C asOrElse(Class<C> clazz, C defaultValue) {
+		return registered && value != null && isFromType(clazz) ? as(clazz) : defaultValue;
+	}
+
+	/**
+	 * Returns the associated value of this holder as the specified type,
+	 * unless at least one of the following conditions is met:
+	 *
+	 * <ul>
+	 *     <li>the value is not registered</li>
+	 *     <li>the value is not from the specified type</li>
+	 * </ul>
+	 *
+	 * in which case the default value is returned.
+	 * To return the default value if the value is null,
+	 * use {@link #asOrElse(Class, Object)}.
+	 *
+	 * @param clazz the type
+	 * @param defaultValue the default value
+	 * @param <C> the type
+	 * @return the value as the specified type or the default value
+	 * @see #asOrElse(Class, Object)
+	 * @since 2.1.0
+	 */
+	public <C> C asOrElseNullable(Class<C> clazz, C defaultValue) {
+		return registered && isFromType(clazz) ? as(clazz) : defaultValue;
+	}
+
+	/**
 	 * Returns the value of this holder as a string.
 	 * If the value is not a {@link String}, the string representation of
 	 * the value is returned.
@@ -259,6 +323,38 @@ public final class ValueHolder<T> {
 	 */
 	public String asString() {
 		return String.valueOf(value);
+	}
+
+	/**
+	 * Returns the string representation of the value, unless
+	 * it is not registered or null, in which case the default
+	 * value is returned.
+	 * <p>
+	 * To accept null values, use {@link #asStringOrElseNullable(String)}.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a string or the default value
+	 * @see #asStringOrElseNullable(String)
+	 * @since 2.1.0
+	 */
+	public String asStringOrElse(String defaultValue) {
+		return registered && value != null ? asString() : defaultValue;
+	}
+
+	/**
+	 * Returns the string representation of the value, unless
+	 * it is not registered, in which case the default value is returned.
+	 * <p>
+	 * To return the default value if the value is null, use
+	 * {@link #asStringOrElse(String)}.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a string or the default value
+	 * @see #asStringOrElse(String)
+	 * @since 2.1.0
+	 */
+	public String asStringOrElseNullable(String defaultValue) {
+		return registered ? asString() : defaultValue;
 	}
 
 	/**
@@ -273,6 +369,18 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns the value of this holder as an int, unless
+	 * it is not registered, null or not from the type {@link Integer},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as an int or the default value
+	 */
+	public int asIntOrElse(int defaultValue) {
+		return registered && value != null && isFromType(Integer.class) ? asInt() : defaultValue;
+	}
+
+	/**
 	 * Returns the value of this holder as a double.
 	 *
 	 * @return the value as a double
@@ -281,6 +389,18 @@ public final class ValueHolder<T> {
 	 */
 	public double asDouble() {
 		return (double) value;
+	}
+
+	/**
+	 * Returns the value of this holder as a double, unless
+	 * it is not registered, null or not from the type {@link Double},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a double or the default value
+	 */
+	public double asDoubleOrElse(double defaultValue) {
+		return registered && value != null && isFromType(Double.class) ? asDouble() : defaultValue;
 	}
 
 	/**
@@ -295,6 +415,18 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns the value of this holder as a float, unless
+	 * it is not registered, null or not from the type {@link Float},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a float or the default value
+	 */
+	public float asFloatOrElse(float defaultValue) {
+		return registered && value != null && isFromType(Float.class) ? asFloat() : defaultValue;
+	}
+
+	/**
 	 * Returns the value of this holder as a long.
 	 *
 	 * @return the value as a long
@@ -303,6 +435,18 @@ public final class ValueHolder<T> {
 	 */
 	public long asLong() {
 		return (long) value;
+	}
+
+	/**
+	 * Returns the value of this holder as a long, unless
+	 * it is not registered, null or not from the type {@link Long},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a long or the default value
+	 */
+	public long asLongOrElse(long defaultValue) {
+		return registered && value != null && isFromType(Long.class) ? asLong() : defaultValue;
 	}
 
 	/**
@@ -317,6 +461,18 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns the value of this holder as a short, unless
+	 * it is not registered, null or not from the type {@link Short},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a short or the default value
+	 */
+	public short asShortOrElse(short defaultValue) {
+		return registered && value != null && isFromType(Short.class) ? asShort() : defaultValue;
+	}
+
+	/**
 	 * Returns the value of this holder as a byte.
 	 *
 	 * @return the value as a byte
@@ -325,6 +481,18 @@ public final class ValueHolder<T> {
 	 */
 	public byte asByte() {
 		return (byte) value;
+	}
+
+	/**
+	 * Returns the value of this holder as a byte, unless
+	 * it is not registered, null or not from the type {@link Byte},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a byte or the default value
+	 */
+	public byte asByteOrElse(byte defaultValue) {
+		return registered && value != null && isFromType(Byte.class) ? asByte() : defaultValue;
 	}
 
 	/**
@@ -339,6 +507,18 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns the value of this holder as a boolean, unless
+	 * it is not registered, null or not from the type {@link Boolean},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a boolean or the default value
+	 */
+	public boolean asBooleanOrElse(boolean defaultValue) {
+		return registered && value != null && isFromType(Boolean.class) ? asBoolean() : defaultValue;
+	}
+
+	/**
 	 * Returns the value of this holder as a char.
 	 *
 	 * @return the value as a char
@@ -347,6 +527,18 @@ public final class ValueHolder<T> {
 	 */
 	public char asChar() {
 		return (char) value;
+	}
+
+	/**
+	 * Returns the value of this holder as a char, unless
+	 * it is not registered, null or not from the type {@link Character},
+	 * in which case the default value is returned.
+	 *
+	 * @param defaultValue the default value
+	 * @return the value as a char or the default value
+	 */
+	public char asCharOrElse(char defaultValue) {
+		return registered && value != null && isFromType(Character.class) ? asChar() : defaultValue;
 	}
 
 	/**
