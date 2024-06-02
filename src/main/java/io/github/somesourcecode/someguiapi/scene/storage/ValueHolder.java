@@ -23,6 +23,8 @@
 
 package io.github.somesourcecode.someguiapi.scene.storage;
 
+import java.util.function.Function;
+
 /**
  * A holder for a value of a specified type.
  *
@@ -121,6 +123,38 @@ public final class ValueHolder<T> {
 	 */
 	public boolean isEmpty() {
 		return value == null;
+	}
+
+	/**
+	 * Maps the value of this holder to a new value using the specified function.
+	 * The returned value holder will carry the registered state of this holder.
+	 *
+	 * @param newType the type of the new value
+	 * @param mappingFunctions the mapping function
+	 * @param <R> the type of the new value
+	 * @return the new value holder
+	 * @since 2.1.0
+	 */
+	public <R> ValueHolder<R> map(Class<R> newType, Function<T, ? extends R> mappingFunctions) {
+		if (mappingFunctions == null) {
+			return new ValueHolder<>(newType, registered);
+		}
+		return new ValueHolder<>(newType, mappingFunctions.apply(value), registered);
+	}
+
+	/**
+	 * Returns the mapped value of this holder using the specified function.
+	 *
+	 * @param mappingFunction the mapping function
+	 * @param <R> the type of the mapped value
+	 * @return the mapped value
+	 * @since 2.1.0
+	 */
+	public <R> R mapped(Function<T, R> mappingFunction) {
+		if (mappingFunction == null) {
+			return null;
+		}
+		return mappingFunction.apply(value);
 	}
 
 	/**
