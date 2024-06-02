@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.storage;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
@@ -87,6 +88,37 @@ public class Storage {
 	 */
 	public void unregister(String id) {
 		idToHolder.remove(id);
+	}
+
+	/**
+	 * Unregisters all registered holders.
+	 *
+	 * @since 2.1.0
+	 */
+	public void unregisterAll() {
+		idToHolder.clear();
+	}
+
+	/**
+	 * Unregisters all holders with the specified ids.
+	 *
+	 * @param ids the ids
+	 * @since 2.1.0
+	 */
+	public void unregisterAll(Collection<String> ids) {
+		ids.forEach(this::unregister);
+	}
+
+	/**
+	 * Unregisters all holders with the specified ids.
+	 *
+	 * @param ids the ids
+	 * @since 2.1.0
+	 */
+	public void unregisterAll(String... ids) {
+		for (String id : ids) {
+			unregister(id);
+		}
 	}
 
 	/**
