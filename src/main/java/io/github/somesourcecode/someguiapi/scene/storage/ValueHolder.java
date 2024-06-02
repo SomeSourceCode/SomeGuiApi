@@ -23,6 +23,7 @@
 
 package io.github.somesourcecode.someguiapi.scene.storage;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -155,6 +156,43 @@ public final class ValueHolder<T> {
 			return null;
 		}
 		return mappingFunction.apply(value);
+	}
+
+	/**
+	 * Executes the consumer if the value is present.
+	 *
+	 * @param consumer the consumer
+	 * @since 2.1.0
+	 */
+	public void ifPresent(Consumer<T> consumer) {
+		if (value == null || consumer == null) {
+			return;
+		}
+		consumer.accept(value);
+	}
+
+	/**
+	 * Executes the consumer if the value is registered.
+	 *
+	 * @param consumer the consumer
+	 * @since 2.1.0
+	 */
+	public void ifRegistered(Consumer<ValueHolder<T>> consumer) {
+		if (registered && consumer != null) {
+			consumer.accept(this);
+		}
+	}
+
+	/**
+	 * Executes the consumer if the value is present and registered.
+	 *
+	 * @param consumer the consumer
+	 * @since 2.1.0
+	 */
+	public void ifPresentAndRegistered(Consumer<T> consumer) {
+		if (value != null && registered && consumer != null) {
+			consumer.accept(value);
+		}
 	}
 
 	/**
