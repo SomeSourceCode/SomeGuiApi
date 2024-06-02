@@ -144,6 +144,21 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Maps the value of this holder to a new value using the specified function.
+	 * The returned value holder will carry the registered state of this holder.
+	 *
+	 * @param mappingFunction the mapping function
+	 * @return the new value holder
+	 * @since 2.1.0
+	 */
+	public ValueHolder<T> map(Function<T, T> mappingFunction) {
+		if (mappingFunction == null) {
+			return new ValueHolder<>(type, value, registered);
+		}
+		return new ValueHolder<>(type, mappingFunction.apply(value), registered);
+	}
+
+	/**
 	 * Returns the mapped value of this holder using the specified function.
 	 *
 	 * @param mappingFunction the mapping function
