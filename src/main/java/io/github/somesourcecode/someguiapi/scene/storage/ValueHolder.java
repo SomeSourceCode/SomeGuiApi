@@ -359,6 +359,16 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Sets the value of this holder to the specified object.
+	 *
+	 * @throws ClassCastException if the object is not compatible with the type
+	 * @param object the object to set
+	 */
+	public void setUnsafe(Object object) {
+		set(type.cast(object));
+	}
+
+	/**
 	 * Returns the value of this holder.
 	 *
 	 * @return the value of this holder
