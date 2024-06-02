@@ -330,6 +330,35 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Sets the value of this holder to the result of the specified function.
+	 *
+	 * @param mappingFunction the mapping function
+	 * @since 2.1.0
+	 */
+	public void set(Function<T, T> mappingFunction) {
+		if (mappingFunction == null) {
+			return;
+		}
+		set(mappingFunction.apply(value));
+	}
+
+	/**
+	 * Sets the value of this holder to the specified object if it is compatible.
+	 * If the object is not compatible, this method does nothing.
+	 *
+	 * @param object the object to set
+	 * @return true if the object was set, false otherwise
+	 * @since 2.1.0
+	 */
+	public boolean setIfCompatible(Object object) {
+		if (!isCompatible(object)) {
+			return false;
+		}
+		set(type.cast(object));
+		return true;
+	}
+
+	/**
 	 * Returns the value of this holder.
 	 *
 	 * @return the value of this holder
