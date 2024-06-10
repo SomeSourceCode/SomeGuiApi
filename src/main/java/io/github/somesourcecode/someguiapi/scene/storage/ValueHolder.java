@@ -214,17 +214,17 @@ public final class ValueHolder<T> {
 	 * Returns this holder as a ValueHolder of the specified type.
 	 *
 	 * @param clazz the type
-	 * @param <C> the type
+	 * @param <R> the type
 	 * @return this holder as a ValueHolder of the specified type
 	 * @throws IllegalArgumentException if the holder is not compatible with the specified type
 	 * @since 2.1.0
 	 */
 	@SuppressWarnings("unchecked")
-	public <C> ValueHolder<C> holding(Class<C> clazz) {
+	public <R> ValueHolder<R> holding(Class<R> clazz) {
 		if (!isFromType(clazz)) {
 			throw new IllegalArgumentException("Holder from type " + type.getName() + " is not compatible with type " + clazz.getName());
 		}
-		return (ValueHolder<C>) this;
+		return (ValueHolder<R>) this;
 	}
 
 	/**
@@ -384,12 +384,12 @@ public final class ValueHolder<T> {
 	 * Returns the value of this holder as the specified type.
 	 *
 	 * @param clazz the type to cast the value to
-	 * @param <C> the type to cast the value to
+	 * @param <R> the type to cast the value to
 	 * @return the value of this holder as the specified type
 	 * @throws ClassCastException if the value is not compatible with the specified type
 	 * @since 2.1.0
 	 */
-	public <C> C as(Class<C> clazz) {
+	public <R> R as(Class<R> clazz) {
 		return clazz.cast(value);
 	}
 
@@ -408,12 +408,12 @@ public final class ValueHolder<T> {
 	 *
 	 * @param clazz the type
 	 * @param defaultValue the default value
-	 * @param <C> the type
+	 * @param <R> the type
 	 * @return the value as the specified type or the default value
 	 * @see #asOrElseNullable(Class, Object)
 	 * @since 2.1.0
 	 */
-	public <C> C asOrElse(Class<C> clazz, C defaultValue) {
+	public <R> R asOrElse(Class<R> clazz, R defaultValue) {
 		return registered && value != null && isFromType(clazz) ? as(clazz) : defaultValue;
 	}
 
@@ -432,12 +432,12 @@ public final class ValueHolder<T> {
 	 *
 	 * @param clazz the type
 	 * @param defaultValue the default value
-	 * @param <C> the type
+	 * @param <R> the type
 	 * @return the value as the specified type or the default value
 	 * @see #asOrElse(Class, Object)
 	 * @since 2.1.0
 	 */
-	public <C> C asOrElseNullable(Class<C> clazz, C defaultValue) {
+	public <R> R asOrElseNullable(Class<R> clazz, R defaultValue) {
 		return registered && isFromType(clazz) ? as(clazz) : defaultValue;
 	}
 
