@@ -213,6 +213,8 @@ public final class ValueHolder<T> {
 	/**
 	 * Returns this holder as a ValueHolder of the specified type.
 	 *
+	 * @param clazz the type
+	 * @param <C> the type
 	 * @return this holder as a ValueHolder of the specified type
 	 * @throws IllegalArgumentException if the holder is not compatible with the specified type
 	 * @since 2.1.0
