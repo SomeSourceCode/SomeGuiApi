@@ -29,6 +29,8 @@ import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import io.github.somesourcecode.someguiapi.scene.storage.Storage;
+import io.github.somesourcecode.someguiapi.scene.util.Orientation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
@@ -58,7 +60,9 @@ public class Scene {
 		});
 	}
 
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	private final ContextDataHolder dataHolder = new ContextDataHolder();
+	private final Storage storage = new Storage();
 
 	private Gui gui;
 
@@ -91,9 +95,21 @@ public class Scene {
 	 *
 	 * @return the data holder of this scene
 	 * @since 2.0.0
+	 * @deprecated since 2.1.0 in favor of {@link #getStorage()}
 	 */
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
+	}
+
+	/**
+	 * Returns the storage of this scene.
+	 *
+	 * @return the storage of this scene
+	 * @since 2.1.0
+	 */
+	public Storage getStorage() {
+		return storage;
 	}
 
 	/**
