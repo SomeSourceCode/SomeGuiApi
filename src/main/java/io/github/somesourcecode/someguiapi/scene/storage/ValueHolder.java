@@ -127,6 +127,16 @@ public final class ValueHolder<T> {
 	}
 
 	/**
+	 * Returns whether the value is present.
+	 *
+	 * @return whether the value is present
+	 * @since 2.1.0
+	 */
+	public boolean isPresent() {
+		return value != null;
+	}
+
+	/**
 	 * Maps the value of this holder to a new value using the specified function.
 	 * The returned value holder will carry the registered state of this holder.
 	 *
