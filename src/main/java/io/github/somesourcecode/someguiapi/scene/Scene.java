@@ -69,7 +69,7 @@ public class Scene {
 	private Parent root;
 	private Background background;
 
-	private Consumer<GuiRenderContext> onRender;
+	private Consumer<? super GuiRenderContext> onRender;
 
 	/**
 	 * Constructs a new empty scene.
@@ -281,7 +281,7 @@ public class Scene {
 	 * @return the consumer that is called when the scene is rendered
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiRenderContext> getOnRender() {
+	public Consumer<? super GuiRenderContext> getOnRender() {
 		return onRender;
 	}
 
@@ -291,7 +291,7 @@ public class Scene {
 	 * @param onRender the consumer that is called when the scene is rendered
 	 * @since 2.1.0
 	 */
-	public void setOnRender(Consumer<GuiRenderContext> onRender) {
+	public void setOnRender(Consumer<? super GuiRenderContext> onRender) {
 		this.onRender = onRender;
 	}
 

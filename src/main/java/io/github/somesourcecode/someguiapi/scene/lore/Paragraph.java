@@ -118,7 +118,7 @@ public interface Paragraph {
 	 * @return the context paragraph
 	 * @since 2.0.0
 	 */
-	static ContextParagraph context(Function<PixelRenderContext, Paragraph> paragraphGenerator) {
+	static ContextParagraph context(Function<? super PixelRenderContext, Paragraph> paragraphGenerator) {
 		return new ContextParagraph(paragraphGenerator);
 	}
 

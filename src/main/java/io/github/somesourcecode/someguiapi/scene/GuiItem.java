@@ -126,7 +126,7 @@ public class GuiItem extends Node {
 	 * @return the title function
 	 * @since 2.1.0
 	 */
-	public Function<PixelRenderContext, Component> getDynamicTitle() {
+	public Function<? super PixelRenderContext, Component> getDynamicTitle() {
 		return pixel.getDynamicTitle();
 	}
 
@@ -138,7 +138,7 @@ public class GuiItem extends Node {
 	 * @param titleFunction the title function
 	 * @since 2.1.0
 	 */
-	public void setDynamicTitle(Function<PixelRenderContext, Component> titleFunction) {
+	public void setDynamicTitle(Function<? super PixelRenderContext, Component> titleFunction) {
 		pixel.setDynamicTitle(titleFunction);
 	}
 
@@ -283,15 +283,15 @@ public class GuiItem extends Node {
 		private int layoutY;
 		private String id;
 
-		private Consumer<NodeClickContext> onClick;
-		private Consumer<NodeClickContext> onLeftClick;
-		private Consumer<NodeClickContext> onRightClick;
-		private Consumer<NodeClickContext> onShiftClick;
-		private Consumer<NodeClickContext> onHotBarClick;
+		private Consumer<? super NodeClickContext> onClick;
+		private Consumer<? super NodeClickContext> onLeftClick;
+		private Consumer<? super NodeClickContext> onRightClick;
+		private Consumer<? super NodeClickContext> onShiftClick;
+		private Consumer<? super NodeClickContext> onHotBarClick;
 
 		private Material material;
 		private Component title;
-		private Function<PixelRenderContext, Component> titleFunction;
+		private Function<? super PixelRenderContext, Component> titleFunction;
 		private Lore lore;
 		private int index = 1;
 		private boolean glow = false;
@@ -391,7 +391,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 2.1.0
 		 */
-		public Builder withDynamicTitle(Function<PixelRenderContext, Component> titleFunction) {
+		public Builder withDynamicTitle(Function<? super PixelRenderContext, Component> titleFunction) {
 			this.titleFunction = titleFunction;
 			return this;
 		}
@@ -461,7 +461,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 1.0.0
 		 */
-		public Builder onClick(Consumer<NodeClickContext> onClick) {
+		public Builder onClick(Consumer<? super NodeClickContext> onClick) {
 			this.onClick = onClick;
 			return this;
 		}
@@ -473,7 +473,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 1.0.0
 		 */
-		public Builder onLeftClick(Consumer<NodeClickContext> onLeftClick) {
+		public Builder onLeftClick(Consumer<? super NodeClickContext> onLeftClick) {
 			this.onLeftClick = onLeftClick;
 			return this;
 		}
@@ -485,7 +485,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 1.0.0
 		 */
-		public Builder onRightClick(Consumer<NodeClickContext> onRightClick) {
+		public Builder onRightClick(Consumer<? super NodeClickContext> onRightClick) {
 			this.onRightClick = onRightClick;
 			return this;
 		}
@@ -497,7 +497,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 1.0.0
 		 */
-		public Builder onShiftClick(Consumer<NodeClickContext> onShiftClick) {
+		public Builder onShiftClick(Consumer<? super NodeClickContext> onShiftClick) {
 			this.onShiftClick = onShiftClick;
 			return this;
 		}
@@ -509,7 +509,7 @@ public class GuiItem extends Node {
 		 * @return the builder for method chaining
 		 * @since 1.0.0
 		 */
-		public Builder onHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
+		public Builder onHotBarClick(Consumer<? super NodeClickContext> onHotBarClick) {
 			this.onHotBarClick = onHotBarClick;
 			return this;
 		}

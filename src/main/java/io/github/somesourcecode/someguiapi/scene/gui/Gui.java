@@ -69,12 +69,12 @@ public abstract class Gui {
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
-	private Consumer<GuiClickContext> onClick;
-	private Consumer<GuiSlotClickContext> onGuiClick;
-	private Consumer<GuiClickContext> onOutsideClick;
-	private Consumer<GuiCloseContext> onClose;
+	private Consumer<? super GuiClickContext> onClick;
+	private Consumer<? super GuiSlotClickContext> onGuiClick;
+	private Consumer<? super GuiClickContext> onOutsideClick;
+	private Consumer<? super GuiCloseContext> onClose;
 
-	private Consumer<GuiRenderContext> onRender;
+	private Consumer<? super GuiRenderContext> onRender;
 
 	protected Inventory inventory;
 
@@ -166,7 +166,7 @@ public abstract class Gui {
 	 * @return the consumer that is called when a click occurs
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiClickContext> getOnClick() {
+	public Consumer<? super GuiClickContext> getOnClick() {
 		return onClick;
 	}
 
@@ -176,7 +176,7 @@ public abstract class Gui {
 	 * @param onClick the consumer that is called when a click occurs
 	 * @since 2.1.0
 	 */
-	public void setOnClick(Consumer<GuiClickContext> onClick) {
+	public void setOnClick(Consumer<? super GuiClickContext> onClick) {
 		this.onClick = onClick;
 	}
 
@@ -197,7 +197,7 @@ public abstract class Gui {
 	 * @return the consumer that is called when the GUI is clicked
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiSlotClickContext> getOnGuiClick() {
+	public Consumer<? super GuiSlotClickContext> getOnGuiClick() {
 		return onGuiClick;
 	}
 
@@ -207,7 +207,7 @@ public abstract class Gui {
 	 * @param onGuiClick the consumer that is called when the GUI is clicked
 	 * @since 2.1.0
 	 */
-	public void setOnGuiClick(Consumer<GuiSlotClickContext> onGuiClick) {
+	public void setOnGuiClick(Consumer<? super GuiSlotClickContext> onGuiClick) {
 		this.onGuiClick = onGuiClick;
 	}
 
@@ -228,7 +228,7 @@ public abstract class Gui {
 	 * @return the consumer that is called when the GUI is clicked outside the GUI
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiClickContext> getOnOutsideClick() {
+	public Consumer<? super GuiClickContext> getOnOutsideClick() {
 		return onOutsideClick;
 	}
 
@@ -238,7 +238,7 @@ public abstract class Gui {
 	 * @param onOutsideClick the consumer that is called when the GUI is clicked outside the GUI
 	 * @since 2.1.0
 	 */
-	public void setOnOutsideClick(Consumer<GuiClickContext> onOutsideClick) {
+	public void setOnOutsideClick(Consumer<? super GuiClickContext> onOutsideClick) {
 		this.onOutsideClick = onOutsideClick;
 	}
 
@@ -259,7 +259,7 @@ public abstract class Gui {
 	 * @return the consumer that is called when the GUI is closed
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiCloseContext> getOnClose() {
+	public Consumer<? super GuiCloseContext> getOnClose() {
 		return onClose;
 	}
 
@@ -269,7 +269,7 @@ public abstract class Gui {
 	 * @param onClose the consumer that is called when the GUI is closed
 	 * @since 2.1.0
 	 */
-	public void setOnClose(Consumer<GuiCloseContext> onClose) {
+	public void setOnClose(Consumer<? super GuiCloseContext> onClose) {
 		this.onClose = onClose;
 	}
 
@@ -290,7 +290,7 @@ public abstract class Gui {
 	 * @return the consumer that is called when the GUI is rendered
 	 * @since 2.1.0
 	 */
-	public Consumer<GuiRenderContext> getOnRender() {
+	public Consumer<? super GuiRenderContext> getOnRender() {
 		return onRender;
 	}
 
@@ -300,7 +300,7 @@ public abstract class Gui {
 	 * @param onRender the consumer that is called when the GUI is rendered
 	 * @since 2.1.0
 	 */
-	public void setOnRender(Consumer<GuiRenderContext> onRender) {
+	public void setOnRender(Consumer<? super GuiRenderContext> onRender) {
 		this.onRender = onRender;
 	}
 

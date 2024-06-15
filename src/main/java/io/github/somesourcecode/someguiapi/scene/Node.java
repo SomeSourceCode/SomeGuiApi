@@ -95,11 +95,11 @@ public abstract class Node {
 	private boolean visible = true;
 	private boolean clipping = true;
 
-	private Consumer<NodeClickContext> onClick;
-	private Consumer<NodeClickContext> onLeftClick;
-	private Consumer<NodeClickContext> onRightClick;
-	private Consumer<NodeClickContext> onShiftClick;
-	private Consumer<NodeClickContext> onHotBarClick;
+	private Consumer<? super NodeClickContext> onClick;
+	private Consumer<? super NodeClickContext> onLeftClick;
+	private Consumer<? super NodeClickContext> onRightClick;
+	private Consumer<? super NodeClickContext> onShiftClick;
+	private Consumer<? super NodeClickContext> onHotBarClick;
 
 	/**
 	 * Returns the scene that this node is in.
@@ -433,7 +433,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnClick() {
+	public Consumer<? super NodeClickContext> getOnClick() {
 		return onClick;
 	}
 
@@ -445,7 +445,7 @@ public abstract class Node {
 	 * @param onClick the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
-	public void setOnClick(Consumer<NodeClickContext> onClick) {
+	public void setOnClick(Consumer<? super NodeClickContext> onClick) {
 		this.onClick = onClick;
 	}
 
@@ -466,7 +466,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnLeftClick() {
+	public Consumer<? super NodeClickContext> getOnLeftClick() {
 		return onLeftClick;
 	}
 
@@ -476,7 +476,7 @@ public abstract class Node {
 	 * @param onLeftClick the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnLeftClick(Consumer<NodeClickContext> onLeftClick) {
+	public void setOnLeftClick(Consumer<? super NodeClickContext> onLeftClick) {
 		this.onLeftClick = onLeftClick;
 	}
 
@@ -497,7 +497,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnRightClick() {
+	public Consumer<? super NodeClickContext> getOnRightClick() {
 		return onRightClick;
 	}
 
@@ -507,7 +507,7 @@ public abstract class Node {
 	 * @param onRightClick the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnRightClick(Consumer<NodeClickContext> onRightClick) {
+	public void setOnRightClick(Consumer<? super NodeClickContext> onRightClick) {
 		this.onRightClick = onRightClick;
 	}
 
@@ -528,7 +528,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnShiftClick() {
+	public Consumer<? super NodeClickContext> getOnShiftClick() {
 		return onShiftClick;
 	}
 
@@ -538,7 +538,7 @@ public abstract class Node {
 	 * @param onShiftClick the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnShiftClick(Consumer<NodeClickContext> onShiftClick) {
+	public void setOnShiftClick(Consumer<? super NodeClickContext> onShiftClick) {
 		this.onShiftClick = onShiftClick;
 	}
 
@@ -559,7 +559,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnHotBarClick() {
+	public Consumer<? super NodeClickContext> getOnHotBarClick() {
 		return onHotBarClick;
 	}
 
@@ -569,7 +569,7 @@ public abstract class Node {
 	 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
-	public void setOnHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
+	public void setOnHotBarClick(Consumer<? super NodeClickContext> onHotBarClick) {
 		this.onHotBarClick = onHotBarClick;
 	}
 

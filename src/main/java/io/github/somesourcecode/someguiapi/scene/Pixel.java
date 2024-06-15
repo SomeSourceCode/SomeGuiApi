@@ -75,7 +75,7 @@ public class Pixel {
 	private Material material;
 
 	private Component title;
-	private Function<PixelRenderContext, Component> titleFunction;
+	private Function<? super PixelRenderContext, Component> titleFunction;
 	private Lore lore;
 
 	private int index = 1;
@@ -255,7 +255,7 @@ public class Pixel {
 	 * @return the title function
 	 * @since 2.1.0
 	 */
-	public Function<PixelRenderContext, Component> getDynamicTitle() {
+	public Function<? super PixelRenderContext, Component> getDynamicTitle() {
 		return titleFunction;
 	}
 
@@ -268,7 +268,7 @@ public class Pixel {
 	 * @return the pixel for method chaining
 	 * @since 2.1.0
 	 */
-	public Pixel setDynamicTitle(Function<PixelRenderContext, Component> titleFunction) {
+	public Pixel setDynamicTitle(Function<? super PixelRenderContext, Component> titleFunction) {
 		this.titleFunction = titleFunction;
 		this.title = null;
 		return this;

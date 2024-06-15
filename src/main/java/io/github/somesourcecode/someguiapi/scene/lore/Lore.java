@@ -110,7 +110,7 @@ public class Lore {
 	 * @return the lore for method chaining
 	 * @since 2.1.0
 	 */
-	public Lore appendParagraph(Function<PixelRenderContext, Paragraph> paragraphGenerator) {
+	public Lore appendParagraph(Function<? super PixelRenderContext, Paragraph> paragraphGenerator) {
 		return appendParagraph(Paragraph.context(paragraphGenerator));
 	}
 
