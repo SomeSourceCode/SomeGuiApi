@@ -182,7 +182,14 @@ public abstract class Gui {
 		if (parent == this) {
 			throw new IllegalArgumentException("A GUI cannot be its own parent");
 		}
+		if (createsParentCycle(parent)) {
+			Bukkit.getLogger().log(Level.WARNING, "Parent cycle detected when setting parent of GUI " + this + " to " + parent);
+		}
 		this.parent = parent;
+	}
+
+	private boolean createsParentCycle(Gui parent) {
+		return parent == this || (parent != null && createsParentCycle(parent.getParent()));
 	}
 
 	/**
