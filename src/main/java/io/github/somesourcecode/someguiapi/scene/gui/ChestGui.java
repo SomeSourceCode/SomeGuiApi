@@ -97,7 +97,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		final int oldRows = inventory.getSize() / 9;
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
-		if (isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
+		if (inventory == null || isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
 			inventory = createInventory();
 		}
 

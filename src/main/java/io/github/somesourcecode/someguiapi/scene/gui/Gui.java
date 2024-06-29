@@ -472,7 +472,7 @@ public abstract class Gui {
 	 * @since 1.0.0
 	 */
 	public void update() {
-		if (updating) {
+		if (updating || inventory == null) {
 			return;
 		}
 		updating = true;
