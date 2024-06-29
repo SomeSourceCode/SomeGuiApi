@@ -82,8 +82,10 @@ GuiItem item = new GuiItem();
 
 // Set properties of the GuiItem
 item.setMaterial(Material.DIAMOND_SWORD);
-item.setTitle("Sword");
-item.setLore(new Lore().appendLine("A powerful weapon"));
+item.setTitle(Component.text("Sword"));
+item.setLore(new Lore()
+    .appendLine(Component.text("A powerful weapon"))
+);
 
 // Set click event handler
 item.setOnClick(context -> {
@@ -216,11 +218,18 @@ check if the context is consumed before handling the event using `context.isCons
 
 ### Updating a Gui
 
-When the gui is updated, e.g. a content, title, or size change, those changes are not automatically reflected in the
+When the gui is updated, e.g. a condition for a dynamic title, those changes are not automatically reflected in the
 displayed gui. To update the gui, you can use the `update` method:
     
 ```java
-gui.setTitle(Component.text("New Title"));
+GuiItem item = createGuiItem(/* Item details */);
+item.setDynamicTitle(context ->
+    boolean enoughMoney = hasEnoughMoney(context.getGui().getViewer());
+    Component.text("Dynamic Title", enoughMoney ? NamedTextColor.GREEN : NamedTextColor.RED);
+);
+
+gui.setScene(new Scene(new Pane(item)));
+// update money
 gui.update();
 ```
 
