@@ -70,19 +70,24 @@ public class GuiListener implements Listener {
 
 	@EventHandler
 	public void onGuiClose(InventoryCloseEvent event) {
-		if (!(event.getInventory().getHolder() instanceof Gui gui)) {
+		if (!(event.getInventory().getHolder() instanceof Gui gui) || gui.isUpdating()) {
 			return;
 		}
 
-		if (!gui.isUpdating()) {
-			GuiCloseContext context = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
-			gui.fireOnClose(context);
+		boolean closedByPlayer = event.getReason() == InventoryCloseEvent.Reason.PLAYER;
 
-			if (context.isCanceled()) {
-				Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(GuiListener.class),
-						() -> gui.show(event.getPlayer()));
-			}
+		GuiCloseContext context = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
+		gui.fireOnClose(context);
+
+		if (context.isCanceled()) {
+			runTask(() -> gui.show(event.getPlayer()));
+		} else if (closedByPlayer && gui.getParent() != null) {
+			runTask(() -> gui.navigateToParent(event.getPlayer()));
 		}
+	}
+
+	private void runTask(Runnable runnable) {
+		Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(GuiListener.class), runnable);
 	}
 
 }

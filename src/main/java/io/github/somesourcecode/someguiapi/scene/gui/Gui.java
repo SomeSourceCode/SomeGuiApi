@@ -69,6 +69,8 @@ public abstract class Gui {
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
+	private Gui parent;
+
 	private Consumer<? super GuiClickContext> onClick;
 	private Consumer<? super GuiSlotClickContext> onGuiClick;
 	private Consumer<? super GuiClickContext> onOutsideClick;
@@ -158,6 +160,81 @@ public abstract class Gui {
 	 */
 	public final boolean isDirty(DirtyFlag flag) {
 		return dirtyFlags.contains(flag);
+	}
+
+	/**
+	 * Returns the parent GUI of this GUI.
+	 *
+	 * @return the parent GUI
+	 * @since 2.1.0
+	 */
+	public Gui getParent() {
+		return parent;
+	}
+
+	/**
+	 * Sets the parent GUI of this GUI.
+	 *
+	 * @param parent the parent GUI
+	 * @since 2.1.0
+	 */
+	public void setParent(Gui parent) {
+		if (parent == this) {
+			throw new IllegalArgumentException("A GUI cannot be its own parent");
+		}
+		if (wouldCreateParentCycle(parent)) {
+			throw new IllegalArgumentException("Parent cycle detected when setting parent of GUI " + this + " to " + parent);
+		}
+		this.parent = parent;
+	}
+
+	private boolean wouldCreateParentCycle(Gui parent) {
+		return parent == this || (parent != null && wouldCreateParentCycle(parent.getParent()));
+	}
+
+	/**
+	 * Navigates to the parent GUI for the specified viewer.
+	 * If there is no Parent GUI, this method does nothing.
+	 *
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateToParent(HumanEntity viewer) {
+		if (parent == null || viewer == null) {
+			return;
+		}
+		parent.show(viewer);
+	}
+
+	/**
+	 * Navigates to the parent GUI for the specified viewer
+	 * or closes the GUI if there is no parent.
+	 *
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateToParentOrClose(HumanEntity viewer) {
+		if (parent == null || viewer == null) {
+			close(viewer);
+			return;
+		}
+		parent.show(viewer);
+	}
+
+	/**
+	 * Navigates to the specified GUI for the specified viewer
+	 * and sets this GUI as the parent of the specified GUI.
+	 *
+	 * @param gui the GUI to navigate to
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateTo(Gui gui, HumanEntity viewer) {
+		if (gui == null || gui == this || viewer == null || !getViewers().contains(viewer)) {
+			return;
+		}
+		gui.setParent(this);
+		gui.show(viewer);
 	}
 
 	/**
@@ -433,6 +510,24 @@ public abstract class Gui {
 			}
 			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
 		}
+	}
+
+	public static Gui getGui(HumanEntity humanEntity) {
+		if (humanEntity == null || !(humanEntity.getOpenInventory().getTopInventory().getHolder() instanceof Gui gui)) {
+			return null;
+		}
+		return gui;
+	}
+
+	public static boolean hasOpenGui(HumanEntity humanEntity) {
+		return getGui(humanEntity) != null;
+	}
+
+	public static void closeGui(HumanEntity humanEntity) {
+		if (!hasOpenGui(humanEntity)) {
+			return;
+		}
+		getGui(humanEntity).close(humanEntity);
 	}
 
 }
