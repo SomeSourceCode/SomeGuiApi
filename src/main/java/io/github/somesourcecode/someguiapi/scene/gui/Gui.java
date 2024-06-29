@@ -166,7 +166,7 @@ public abstract class Gui {
 	 * Returns the parent GUI of this GUI.
 	 *
 	 * @return the parent GUI
-	 * @since 2.0.1
+	 * @since 2.1.0
 	 */
 	public Gui getParent() {
 		return parent;
@@ -176,7 +176,7 @@ public abstract class Gui {
 	 * Sets the parent GUI of this GUI.
 	 *
 	 * @param parent the parent GUI
-	 * @since 2.0.1
+	 * @since 2.1.0
 	 */
 	public void setParent(Gui parent) {
 		if (parent == this) {
@@ -197,7 +197,7 @@ public abstract class Gui {
 	 * If there is no Parent GUI, this method does nothing.
 	 *
 	 * @param viewer the viewer
-	 * @since 2.0.1
+	 * @since 2.1.0
 	 */
 	public void navigateToParent(HumanEntity viewer) {
 		if (parent == null || viewer == null) {
@@ -211,7 +211,7 @@ public abstract class Gui {
 	 * or closes the GUI if there is no parent.
 	 *
 	 * @param viewer the viewer
-	 * @since 2.0.1
+	 * @since 2.1.0
 	 */
 	public void navigateToParentOrClose(HumanEntity viewer) {
 		if (parent == null || viewer == null) {
@@ -227,7 +227,7 @@ public abstract class Gui {
 	 *
 	 * @param gui the GUI to navigate to
 	 * @param viewer the viewer
-	 * @since 2.0.1
+	 * @since 2.1.0
 	 */
 	public void navigateTo(Gui gui, HumanEntity viewer) {
 		if (gui == null || gui == this || viewer == null || !getViewers().contains(viewer)) {
