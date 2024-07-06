@@ -1,6 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -118,7 +118,7 @@ public interface Paragraph {
 	 * @return the context paragraph
 	 * @since 2.0.0
 	 */
-	static ContextParagraph context(Function<RenderContext, Paragraph> paragraphGenerator) {
+	static ContextParagraph context(Function<? super PixelRenderContext, Paragraph> paragraphGenerator) {
 		return new ContextParagraph(paragraphGenerator);
 	}
 

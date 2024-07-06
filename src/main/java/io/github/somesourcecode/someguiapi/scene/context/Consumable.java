@@ -23,49 +23,28 @@
 
 package io.github.somesourcecode.someguiapi.scene.context;
 
-import io.github.somesourcecode.someguiapi.scene.Scene;
-import io.github.somesourcecode.someguiapi.scene.gui.Gui;
-
 /**
- * The context for a GUI render cycle.
+ * A consumable event.
  *
- * @since 2.0.0
+ * @since 2.1.0
  */
-public class RenderContext extends GuiContext {
-
-	protected long renderStart;
+public interface Consumable {
 
 	/**
-	 * Constructs a new render context.
+	 * Check if the event was consumed.
 	 *
-	 * @param gui the GUI
-	 * @param scene the scene
+	 * @return if the event was consumed
 	 * @since 2.1.0
 	 */
-	public RenderContext(Gui gui, Scene scene) {
-		super(gui, scene);
-		renderStart = System.currentTimeMillis();
-	}
+	boolean isConsumed();
 
 	/**
-	 * Returns the time when the render cycle started.
+	 * Consumes the click.
+	 * Once a click has been consumed, {@link #isConsumed()} will return {@code true}.
 	 *
-	 * @return the time when the render cycle started
+	 * @see #isConsumed()
 	 * @since 2.1.0
 	 */
-	public long getRenderStart() {
-		return renderStart;
-	}
-
-	/**
-	 * Returns the time it took to render the GUI
-	 * since the render cycle started.
-	 *
-	 * @return the time it took to render the GUI
-	 * @since 2.1.0
-	 */
-	public long getRenderTime() {
-		return System.currentTimeMillis() - renderStart;
-	}
+	void consume();
 
 }

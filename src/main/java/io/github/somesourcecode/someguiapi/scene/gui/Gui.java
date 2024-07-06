@@ -24,13 +24,18 @@
 package io.github.somesourcecode.someguiapi.scene.gui;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
+import io.github.somesourcecode.someguiapi.scene.context.*;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
+import io.github.somesourcecode.someguiapi.scene.storage.Storage;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The base class for GUIs that can be shown to players.
@@ -58,9 +63,20 @@ public abstract class Gui {
 		});
 	}
 
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	protected final ContextDataHolder dataHolder = new ContextDataHolder();
+	protected final Storage storage = new Storage();
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
+
+	private Gui parent;
+
+	private Consumer<? super GuiClickContext> onClick;
+	private Consumer<? super GuiSlotClickContext> onGuiClick;
+	private Consumer<? super GuiClickContext> onOutsideClick;
+	private Consumer<? super GuiCloseContext> onClose;
+
+	private Consumer<? super GuiRenderContext> onRender;
 
 	protected Inventory inventory;
 
@@ -69,9 +85,21 @@ public abstract class Gui {
 	 *
 	 * @return the data holder
 	 * @since 2.0.0
+	 * @deprecated since 2.1.0 in favor of {@link #getStorage()}
 	 */
+	@Deprecated(since = "2.1.0", forRemoval = true)
 	public ContextDataHolder getDataHolder() {
 		return dataHolder;
+	}
+
+	/**
+	 * Returns the @{link Storage} of this GUI.
+	 *
+	 * @return the storage
+	 * @since 2.1.0
+	 */
+	public Storage getStorage() {
+		return storage;
 	}
 
 	/**
@@ -135,12 +163,274 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Returns the parent GUI of this GUI.
+	 *
+	 * @return the parent GUI
+	 * @since 2.1.0
+	 */
+	public Gui getParent() {
+		return parent;
+	}
+
+	/**
+	 * Sets the parent GUI of this GUI.
+	 *
+	 * @param parent the parent GUI
+	 * @since 2.1.0
+	 */
+	public void setParent(Gui parent) {
+		if (parent == this) {
+			throw new IllegalArgumentException("A GUI cannot be its own parent");
+		}
+		if (wouldCreateParentCycle(parent)) {
+			throw new IllegalArgumentException("Parent cycle detected when setting parent of GUI " + this + " to " + parent);
+		}
+		this.parent = parent;
+	}
+
+	private boolean wouldCreateParentCycle(Gui parent) {
+		return parent == this || (parent != null && wouldCreateParentCycle(parent.getParent()));
+	}
+
+	/**
+	 * Navigates to the parent GUI for the specified viewer.
+	 * If there is no Parent GUI, this method does nothing.
+	 *
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateToParent(HumanEntity viewer) {
+		if (parent == null || viewer == null) {
+			return;
+		}
+		parent.show(viewer);
+	}
+
+	/**
+	 * Navigates to the parent GUI for the specified viewer
+	 * or closes the GUI if there is no parent.
+	 *
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateToParentOrClose(HumanEntity viewer) {
+		if (parent == null || viewer == null) {
+			close(viewer);
+			return;
+		}
+		parent.show(viewer);
+	}
+
+	/**
+	 * Navigates to the specified GUI for the specified viewer
+	 * and sets this GUI as the parent of the specified GUI.
+	 *
+	 * @param gui the GUI to navigate to
+	 * @param viewer the viewer
+	 * @since 2.1.0
+	 */
+	public void navigateTo(Gui gui, HumanEntity viewer) {
+		if (gui == null || gui == this || viewer == null || !getViewers().contains(viewer)) {
+			return;
+		}
+		gui.setParent(this);
+		gui.show(viewer);
+	}
+
+	/**
+	 * Returns the consumer that is called when a click occurs.
+	 *
+	 * @return the consumer that is called when a click occurs
+	 * @since 2.1.0
+	 */
+	public Consumer<? super GuiClickContext> getOnClick() {
+		return onClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when a click occurs.
+	 *
+	 * @param onClick the consumer that is called when a click occurs
+	 * @since 2.1.0
+	 */
+	public void setOnClick(Consumer<? super GuiClickContext> onClick) {
+		this.onClick = onClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClick(GuiClickContext context) {
+		fireCallback(onClick, context, "onClick");
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is clicked.
+	 *
+	 * @return the consumer that is called when the GUI is clicked
+	 * @since 2.1.0
+	 */
+	public Consumer<? super GuiSlotClickContext> getOnGuiClick() {
+		return onGuiClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is clicked.
+	 *
+	 * @param onGuiClick the consumer that is called when the GUI is clicked
+	 * @since 2.1.0
+	 */
+	public void setOnGuiClick(Consumer<? super GuiSlotClickContext> onGuiClick) {
+		this.onGuiClick = onGuiClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnGuiClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnGuiClick(GuiSlotClickContext context) {
+		fireCallback(onGuiClick, context, "onGuiClick");
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is clicked outside the GUI.
+	 *
+	 * @return the consumer that is called when the GUI is clicked outside the GUI
+	 * @since 2.1.0
+	 */
+	public Consumer<? super GuiClickContext> getOnOutsideClick() {
+		return onOutsideClick;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is clicked outside the GUI.
+	 *
+	 * @param onOutsideClick the consumer that is called when the GUI is clicked outside the GUI
+	 * @since 2.1.0
+	 */
+	public void setOnOutsideClick(Consumer<? super GuiClickContext> onOutsideClick) {
+		this.onOutsideClick = onOutsideClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnOutsideClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnOutsideClick(GuiClickContext context) {
+		fireCallback(onOutsideClick, context, "onOutsideClick");
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is closed.
+	 *
+	 * @return the consumer that is called when the GUI is closed
+	 * @since 2.1.0
+	 */
+	public Consumer<? super GuiCloseContext> getOnClose() {
+		return onClose;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is closed.
+	 *
+	 * @param onClose the consumer that is called when the GUI is closed
+	 * @since 2.1.0
+	 */
+	public void setOnClose(Consumer<? super GuiCloseContext> onClose) {
+		this.onClose = onClose;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnClose(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClose(GuiCloseContext context) {
+		fireCallback(onClose, context, "onClose");
+	}
+
+	/**
+	 * Returns the consumer that is called when the GUI is rendered.
+	 *
+	 * @return the consumer that is called when the GUI is rendered
+	 * @since 2.1.0
+	 */
+	public Consumer<? super GuiRenderContext> getOnRender() {
+		return onRender;
+	}
+
+	/**
+	 * Sets the consumer that is called when the GUI is rendered.
+	 *
+	 * @param onRender the consumer that is called when the GUI is rendered
+	 * @since 2.1.0
+	 */
+	public void setOnRender(Consumer<? super GuiRenderContext> onRender) {
+		this.onRender = onRender;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnRender(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRender(GuiRenderContext context) {
+		fireCallback(onRender, context, "onRender");
+	}
+
+	/**
+	 * Creates the inventory for this GUI.
+	 *
+	 * @return the inventory
+	 * @since 2.1.0
+	 */
+	public abstract Inventory createInventory();
+
+	/**
 	 * Shows this GUI to the specified human entity.
 	 *
 	 * @param humanEntity the human entity
 	 * @since 1.0.0
 	 */
 	public abstract void show(HumanEntity humanEntity);
+
+	/**
+	 * Closes this GUI for the specified human entity.
+	 *
+	 * @param humanEntity the human entity
+	 * @since 2.1.0
+	 */
+	public void close(HumanEntity humanEntity) {
+		if (!getViewers().contains(humanEntity)) {
+			return;
+		}
+		humanEntity.closeInventory();
+	}
+
+	/**
+	 * Closes this GUI for all viewers.
+	 *
+	 * @since 2.1.0
+	 */
+	public void close() {
+		for (HumanEntity viewer : getViewers()) {
+			close(viewer);
+		}
+	}
 
 	/**
 	 * Returns a list of human entities that are currently viewing this GUI.
@@ -151,11 +441,41 @@ public abstract class Gui {
 	public abstract List<HumanEntity> getViewers();
 
 	/**
+	 * Returns the viewer at the first index of the viewers list.
+	 * This is a shortcut for {@code getViewers().get(0)} with
+	 * null checks.
+	 * <p>
+	 * This method is particularly useful when the GUI is known to be
+	 * viewed by only one entity.
+	 *
+	 * @return the viewer
+	 */
+	public HumanEntity getViewer() {
+		List<HumanEntity> viewers = getViewers();
+		return viewers == null || viewers.isEmpty() ? null : viewers.get(0);
+	}
+
+	private boolean updating = false;
+
+	/**
+	 * Returns whether this GUI is currently updating.
+	 *
+	 * @return whether this GUI is updating
+	 */
+	public boolean isUpdating() {
+		return updating;
+	}
+
+	/**
 	 * Updates the GUI for all viewers.
 	 *
 	 * @since 1.0.0
 	 */
 	public void update() {
+		if (updating || inventory == null) {
+			return;
+		}
+		updating = true;
 		for (HumanEntity viewer : getViewers()) {
 			ItemStack cursor = viewer.getItemOnCursor();
 			viewer.setItemOnCursor(null);
@@ -164,6 +484,50 @@ public abstract class Gui {
 
 			viewer.setItemOnCursor(cursor);
 		}
+		updating = false;
+	}
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			if (context instanceof GuiSlotClickContext slotClickContext) {
+				errorMessage += " for slot (" + slotClickContext.getSlotX() + ", " + slotClickContext.getSlotY() + ")";
+			}
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
+	}
+
+	public static Gui getGui(HumanEntity humanEntity) {
+		if (humanEntity == null || !(humanEntity.getOpenInventory().getTopInventory().getHolder() instanceof Gui gui)) {
+			return null;
+		}
+		return gui;
+	}
+
+	public static boolean hasOpenGui(HumanEntity humanEntity) {
+		return getGui(humanEntity) != null;
+	}
+
+	public static void closeGui(HumanEntity humanEntity) {
+		if (!hasOpenGui(humanEntity)) {
+			return;
+		}
+		getGui(humanEntity).close(humanEntity);
 	}
 
 }

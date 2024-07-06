@@ -1,6 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 
 /**
  * Represents a paragraph whose content depends on the context in which it is rendered.
@@ -15,6 +15,6 @@ public interface ReloadableParagraph extends Paragraph {
 	 * @param context the context in which the paragraph is rendered
 	 * @since 2.0.0
 	 */
-	void reload(RenderContext context);
+	void reload(PixelRenderContext context);
 
 }

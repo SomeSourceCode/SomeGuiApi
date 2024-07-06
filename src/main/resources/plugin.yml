@@ -1,5 +1,5 @@
 name: SomeGuiApi
-version: 1.0.0
+version: 2.1.0
 main: io.github.somesourcecode.someguiapi.Main
 description: A gui api
 author: SomeSourceCode

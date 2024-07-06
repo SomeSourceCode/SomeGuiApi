@@ -27,45 +27,45 @@ import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 
 /**
- * The context for a GUI render cycle.
+ * The basic context for a GUI.
  *
- * @since 2.0.0
+ * @since 2.1.0
  */
-public class RenderContext extends GuiContext {
+public class GuiContext implements Context {
 
-	protected long renderStart;
+	private final Gui gui;
+	private final Scene scene;
 
 	/**
-	 * Constructs a new render context.
+	 * Constructs a new GUI context.
 	 *
 	 * @param gui the GUI
 	 * @param scene the scene
 	 * @since 2.1.0
 	 */
-	public RenderContext(Gui gui, Scene scene) {
-		super(gui, scene);
-		renderStart = System.currentTimeMillis();
+	public GuiContext(Gui gui, Scene scene) {
+		this.gui = gui;
+		this.scene = scene;
 	}
 
 	/**
-	 * Returns the time when the render cycle started.
+	 * Returns the GUI.
 	 *
-	 * @return the time when the render cycle started
+	 * @return the GUI
 	 * @since 2.1.0
 	 */
-	public long getRenderStart() {
-		return renderStart;
+	public Gui getGui() {
+		return gui;
 	}
 
 	/**
-	 * Returns the time it took to render the GUI
-	 * since the render cycle started.
+	 * Returns the scene.
 	 *
-	 * @return the time it took to render the GUI
+	 * @return the scene
 	 * @since 2.1.0
 	 */
-	public long getRenderTime() {
-		return System.currentTimeMillis() - renderStart;
+	public Scene getScene() {
+		return scene;
 	}
 
 }

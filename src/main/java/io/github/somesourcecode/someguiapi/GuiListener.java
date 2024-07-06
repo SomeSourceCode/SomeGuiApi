@@ -23,11 +23,18 @@
 
 package io.github.somesourcecode.someguiapi;
 
-import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
+import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.ChestGui;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * A listener that listens for GUI interactions.
@@ -38,19 +45,49 @@ public class GuiListener implements Listener {
 
 	@EventHandler
 	public void onGuiClick(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null || !(event.getClickedInventory().getHolder() instanceof ChestGui gui)) {
+		if (!(event.getInventory().getHolder() instanceof ChestGui gui)) {
 			return;
 		}
 		event.setCancelled(true);
 
-		if (gui.getScene() == null) {
+		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(gui.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
+		final GuiClickContext guiClickContext = new GuiClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked());
+
+		gui.fireOnClick(guiClickContext);
+
+		if (area == GuiArea.OUTSIDE) {
+			gui.fireOnOutsideClick(guiClickContext);
 			return;
 		}
 
-		int slotX = event.getSlot() % 9;
-		int slotY = event.getSlot() / 9;
+		int slotX = event.getRawSlot() % 9;
+		int slotY = event.getRawSlot() / 9;
 
-		gui.getScene().fireOnClick(new NodeClickContext(gui.getScene(), slotX, slotY, event.getClick(), event.getWhoClicked(), event.getHotbarButton()));
+		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+
+		gui.handleClick(area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
+	}
+
+	@EventHandler
+	public void onGuiClose(InventoryCloseEvent event) {
+		if (!(event.getInventory().getHolder() instanceof Gui gui) || gui.isUpdating()) {
+			return;
+		}
+
+		boolean closedByPlayer = event.getReason() == InventoryCloseEvent.Reason.PLAYER;
+
+		GuiCloseContext context = new GuiCloseContext(gui, gui instanceof ChestGui chestGui ? chestGui.getScene() : null, event.getPlayer());
+		gui.fireOnClose(context);
+
+		if (context.isCanceled()) {
+			runTask(() -> gui.show(event.getPlayer()));
+		} else if (closedByPlayer && gui.getParent() != null) {
+			runTask(() -> gui.navigateToParent(event.getPlayer()));
+		}
+	}
+
+	private void runTask(Runnable runnable) {
+		Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(GuiListener.class), runnable);
 	}
 
 }

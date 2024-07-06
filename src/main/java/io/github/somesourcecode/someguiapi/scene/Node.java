@@ -23,10 +23,15 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
+import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
+import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * The base class for all nodes in the scene graph. A scene graph is a set of tree data structures
@@ -90,11 +95,11 @@ public abstract class Node {
 	private boolean visible = true;
 	private boolean clipping = true;
 
-	private Consumer<NodeClickContext> onClick;
-	private Consumer<NodeClickContext> onLeftClick;
-	private Consumer<NodeClickContext> onRightClick;
-	private Consumer<NodeClickContext> onShiftClick;
-	private Consumer<NodeClickContext> onHotBarClick;
+	private Consumer<? super NodeClickContext> onClick;
+	private Consumer<? super NodeClickContext> onLeftClick;
+	private Consumer<? super NodeClickContext> onRightClick;
+	private Consumer<? super NodeClickContext> onShiftClick;
+	private Consumer<? super NodeClickContext> onHotBarClick;
 
 	/**
 	 * Returns the scene that this node is in.
@@ -428,7 +433,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnClick() {
+	public Consumer<? super NodeClickContext> getOnClick() {
 		return onClick;
 	}
 
@@ -440,8 +445,19 @@ public abstract class Node {
 	 * @param onClick the consumer that is called when the node is clicked
 	 * @since 1.0.0
 	 */
-	public void setOnClick(Consumer<NodeClickContext> onClick) {
+	public void setOnClick(Consumer<? super NodeClickContext> onClick) {
 		this.onClick = onClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnClick(NodeClickContext context) {
+		fireCallback(onClick, context, "onClick");
 	}
 
 	/**
@@ -450,7 +466,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnLeftClick() {
+	public Consumer<? super NodeClickContext> getOnLeftClick() {
 		return onLeftClick;
 	}
 
@@ -460,8 +476,19 @@ public abstract class Node {
 	 * @param onLeftClick the consumer that is called when the node is left-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnLeftClick(Consumer<NodeClickContext> onLeftClick) {
+	public void setOnLeftClick(Consumer<? super NodeClickContext> onLeftClick) {
 		this.onLeftClick = onLeftClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnLeftClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnLeftClick(NodeClickContext context) {
+		fireCallback(onLeftClick, context, "onLeftClick");
 	}
 
 	/**
@@ -470,7 +497,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnRightClick() {
+	public Consumer<? super NodeClickContext> getOnRightClick() {
 		return onRightClick;
 	}
 
@@ -480,8 +507,19 @@ public abstract class Node {
 	 * @param onRightClick the consumer that is called when the node is right-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnRightClick(Consumer<NodeClickContext> onRightClick) {
+	public void setOnRightClick(Consumer<? super NodeClickContext> onRightClick) {
 		this.onRightClick = onRightClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnRightClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnRightClick(NodeClickContext context) {
+		fireCallback(onRightClick, context, "onRightClick");
 	}
 
 	/**
@@ -490,7 +528,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnShiftClick() {
+	public Consumer<? super NodeClickContext> getOnShiftClick() {
 		return onShiftClick;
 	}
 
@@ -500,8 +538,19 @@ public abstract class Node {
 	 * @param onShiftClick the consumer that is called when the node is shift-clicked
 	 * @since 1.0.0
 	 */
-	public void setOnShiftClick(Consumer<NodeClickContext> onShiftClick) {
+	public void setOnShiftClick(Consumer<? super NodeClickContext> onShiftClick) {
 		this.onShiftClick = onShiftClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnShiftClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnShiftClick(NodeClickContext context) {
+		fireCallback(onShiftClick, context, "onShiftClick");
 	}
 
 	/**
@@ -510,7 +559,7 @@ public abstract class Node {
 	 * @return the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
-	public Consumer<NodeClickContext> getOnHotBarClick() {
+	public Consumer<? super NodeClickContext> getOnHotBarClick() {
 		return onHotBarClick;
 	}
 
@@ -520,8 +569,19 @@ public abstract class Node {
 	 * @param onHotBarClick the consumer that is called when the node receives a hot bar click
 	 * @since 1.0.0
 	 */
-	public void setOnHotBarClick(Consumer<NodeClickContext> onHotBarClick) {
+	public void setOnHotBarClick(Consumer<? super NodeClickContext> onHotBarClick) {
 		this.onHotBarClick = onHotBarClick;
+	}
+
+	/**
+	 * Fires the consumer, set by {@link #setOnHotBarClick(Consumer)}, with the specified context.
+	 * Catches and logs any exceptions that might be thrown by the consumer.
+	 *
+	 * @param context the context
+	 * @since 2.1.0
+	 */
+	public void fireOnHotBarClick(NodeClickContext context) {
+		fireCallback(onHotBarClick, context, "onHotBarClick");
 	}
 
 	/**
@@ -545,5 +605,48 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public abstract Node nodeAt(int x, int y);
+
+	/**
+	 * Calls the given callback with the specified context.
+	 * If the callback throws an exception, the exception is caught and logged.
+	 *
+	 * @param callback the callback
+	 * @param context the context
+	 * @param name the name of the callback
+	 * @param <T> the type of the context
+	 */
+	protected <T extends Context> void fireCallback(Consumer<? super T> callback, T context, String name) {
+		if (callback == null) {
+			return;
+		}
+
+		try {
+			callback.accept(context);
+		} catch (Exception e) {
+			String errorMessage = "An error occurred while calling '" + name + "''";
+			Bukkit.getLogger().log(Level.SEVERE, errorMessage, e);
+		}
+	}
+
+	/**
+	 * Returns a string representation of this node.
+	 *
+	 * @return a string representation of this node
+	 * @since 2.1.0
+	 */
+	@Override
+	public String toString() {
+		String simpleName = getClass().getSimpleName();
+		boolean hasId = id != null && !id.isEmpty();
+
+		StringBuilder builder = new StringBuilder(simpleName);
+		if (hasId) {
+			builder.append("[id=").append(id).append("]");
+		} else {
+			builder.append("@").append(Integer.toHexString(hashCode()));
+		}
+
+		return builder.toString();
+	}
 
 }

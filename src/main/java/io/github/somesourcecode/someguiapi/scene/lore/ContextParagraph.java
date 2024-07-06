@@ -1,6 +1,6 @@
 package io.github.somesourcecode.someguiapi.scene.lore;
 
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import net.kyori.adventure.text.Component;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.function.Function;
  */
 public class ContextParagraph implements ReloadableParagraph {
 
-	private Function<RenderContext, Paragraph> contentGenerator;
+	private Function<? super PixelRenderContext, Paragraph> contentGenerator;
 	private Paragraph paragraph;
 
 	/**
@@ -32,7 +32,7 @@ public class ContextParagraph implements ReloadableParagraph {
 	 * @param contentGenerator the content generator
 	 * @since 2.0.0
 	 */
-	public ContextParagraph(Function<RenderContext, Paragraph> contentGenerator) {
+	public ContextParagraph(Function<? super PixelRenderContext, Paragraph> contentGenerator) {
 		this.contentGenerator = contentGenerator;
 	}
 
@@ -43,13 +43,13 @@ public class ContextParagraph implements ReloadableParagraph {
 	 * @return the paragraph for method chaining
 	 * @since 2.0.0
 	 */
-	public ContextParagraph setContentGenerator(Function<RenderContext, Paragraph> paragraphGenerator) {
+	public ContextParagraph setContentGenerator(Function<? super PixelRenderContext, Paragraph> paragraphGenerator) {
 		this.contentGenerator = paragraphGenerator;
 		return this;
 	}
 
 	@Override
-	public void reload(RenderContext context) {
+	public void reload(PixelRenderContext context) {
 		if (contentGenerator == null) {
 			paragraph = null;
 			return;

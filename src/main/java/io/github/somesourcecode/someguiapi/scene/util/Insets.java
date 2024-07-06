@@ -23,6 +23,8 @@
 
 package io.github.somesourcecode.someguiapi.scene.util;
 
+import java.util.Objects;
+
 /**
  * Represents the distance from the edges of a container to its content.
  *
@@ -141,6 +143,28 @@ public class Insets {
 			return false;
 		}
 		return top == other.top && right == other.right && bottom == other.bottom && left == other.left;
+	}
+
+	/**
+	 * Returns a hash code value for the insets.
+	 *
+	 * @return a hash code value for the insets
+	 * @since 2.1.0
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(top, right, bottom, left);
+	}
+
+	/**
+	 * Returns a string representation of the insets.
+	 *
+	 * @return a string representation of the insets
+	 * @since 2.1.0
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[top=" + top + ", left=" + left + ", bottom=" + bottom + ", right=" + right + "]";
 	}
 
 }

@@ -58,7 +58,7 @@ public class BlankParagraph implements Paragraph {
 
 	@Override
 	public List<Component> getLines() {
-		if (space == 0) {
+		if (space <= 0) {
 			return Collections.emptyList();
 		}
 		return Collections.nCopies(space, Component.empty());

@@ -23,11 +23,13 @@
 
 package io.github.somesourcecode.someguiapi.scene.gui;
 
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.*;
-import io.github.somesourcecode.someguiapi.scene.context.RenderContext;
+import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -64,8 +67,25 @@ public class ChestGui extends Gui implements InventoryHolder {
 		this.title = title;
 		this.rows = rows;
 
-		this.inventory = Bukkit.createInventory(this, rows * 9, title);
+		this.inventory = createInventory();
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
+	}
+
+	/**
+	 * Constructs a new ChestGui with the specified title and number of rows.
+	 *
+	 * @param title the title
+	 * @param rows the number of rows (in range 1-6)
+	 * @since 2.1.0
+	 */
+	public ChestGui(String title, int rows) {
+		this(title == null ? null : Component.text(title), rows);
+	}
+
+	@Override
+	public  Inventory createInventory() {
+		return title == null ? Bukkit.createInventory(this, rows * 9)
+				: Bukkit.createInventory(this, rows * 9, title);
 	}
 
 	@Override
@@ -74,13 +94,14 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 
+		final int oldRows = inventory.getSize() / 9;
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
-		if (isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
-			inventory = Bukkit.createInventory(this, rows * 9, title);
+		if (inventory == null || isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
+			inventory = createInventory();
 		}
 
-		if (!isDirty(DirtyFlag.GUI_CONTENT) && inventory.getSize() <= rows) {
+		if (!isDirty(DirtyFlag.GUI_CONTENT) && rows <= oldRows) {
 			inventory.setContents(contents);
 		} else {
 			render();
@@ -105,12 +126,27 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 
-		RenderContext renderContext = new RenderContext(this, scene);
+		GuiRenderContext guiRenderContext = new GuiRenderContext(this, scene);
+		fireOnRender(guiRenderContext);
+		if (scene != null) {
+			scene.fireOnRender(guiRenderContext);
+		}
+
+		if (guiRenderContext.isCanceled()) {
+			rendering = false;
+			return;
+		}
+
+		final HashMap<Integer, Pixel> renderOverrides = guiRenderContext.getRenderOverrides();
+
 		if (scene.getRoot() == null) {
 			if (scene.getBackground() != null) {
-				for (int i = 0; i < inventory.getSize(); i++) {
-					Pixel pixel = scene.getBackground().backgroundAt(i % 9, i / 9);
-					inventory.setItem(i, pixel == null ? null : pixel.renderItemStack(renderContext));
+				for (int slot = 0; slot < inventory.getSize(); slot++) {
+					final int slotX = slot % 9;
+					final int slotY = slot / 9;
+
+					Pixel pixel = renderOverrides.getOrDefault(slot, scene.getBackground().backgroundAt(slotX, slotY));
+					inventory.setItem(slot, pixel == null ? null : pixel.renderItemStack(guiRenderContext.copyForPixel(slotX, slotY)));
 				}
 			}
 			return;
@@ -125,11 +161,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
-				Pixel pixel = root.renderPixelAt(x - rootLayoutX, y - rootLayoutY);
+				Pixel pixel = renderOverrides.getOrDefault(x + 9 * y, root.renderPixelAt(x - rootLayoutX, y - rootLayoutY));
 				if (pixel == null && scene.getBackground() != null) {
 					pixel = scene.getBackground().backgroundAt(x, y);
 				}
-				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(renderContext);
+				pixels[x][y] = pixel == null ? null : pixel.renderItemStack(guiRenderContext.copyForPixel(x, y));
 			}
 		}
 
@@ -141,6 +177,25 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		clearDirtyFlag(DirtyFlag.GUI_CONTENT);
 		rendering = false;
+	}
+
+	/**
+	 * Fires the onClick event for the node at the given coordinates.
+	 * The listeners a called for the clicked node and all of its parents, respectively.
+	 *
+	 * @param area the area of the click
+	 * @param clickType the click type
+	 * @param hotbarButton the hot bar button
+	 * @param whoClicked the human entity that clicked
+	 * @param slotX the x coordinate of the slot
+	 * @param slotY the y coordinate of the slot
+	 * @since 2.1.0
+	 */
+	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slotX, int slotY) {
+		if (scene == null) {
+			return;
+		}
+		scene.handleClick(area, clickType, hotbarButton, whoClicked, slotX, slotY);
 	}
 
 	/**
@@ -229,6 +284,26 @@ public class ChestGui extends Gui implements InventoryHolder {
 		this.title = title;
 		setDirtyFlag(DirtyFlag.GUI_TITLE);
 		update();
+	}
+
+	/**
+	 * Sets the title of this GUI.
+	 *
+	 * @param title the title
+	 * @since 2.1.0
+	 */
+	public void setTitle(String title) {
+		setTitle(title == null ? null : Component.text(title));
+	}
+
+	/**
+	 * Resets the title of this GUI. This has the same
+	 * effect as setting the title to null.
+	 *
+	 * @since 2.1.0
+	 */
+	public void resetTitle() {
+		setTitle((Component) null);
 	}
 
 	/**

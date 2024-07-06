@@ -25,47 +25,58 @@ package io.github.somesourcecode.someguiapi.scene.context;
 
 import io.github.somesourcecode.someguiapi.scene.Scene;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 
 /**
- * The context for a GUI render cycle.
+ * Represents a context of a slot click in a GUI.
  *
- * @since 2.0.0
+ * @since 2.1.0
  */
-public class RenderContext extends GuiContext {
+public class GuiSlotClickContext extends GuiClickContext {
 
-	protected long renderStart;
+	private final int slotX;
+	private final int slotY;
 
 	/**
-	 * Constructs a new render context.
+	 * Constructs a new slot click context.
 	 *
 	 * @param gui the GUI
 	 * @param scene the scene
+	 * @param area the area of the click
+	 * @param type the click type
+	 * @param hotBarButton the hot bar button
+	 * @param whoClicked the human entity that
+	 * @param slotX the x coordinate of the slot
+	 * @param slotY the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public RenderContext(Gui gui, Scene scene) {
-		super(gui, scene);
-		renderStart = System.currentTimeMillis();
+	public GuiSlotClickContext(Gui gui, Scene scene, GuiArea area, ClickType type, int hotBarButton, HumanEntity whoClicked, int slotX, int slotY) {
+		super(gui, scene, area, type, hotBarButton, whoClicked);
+		this.slotX = slotX;
+		this.slotY = slotY;
 	}
 
 	/**
-	 * Returns the time when the render cycle started.
+	 * Returns the x coordinate of the slot.
+	 * This is relative to the top-left corner of the GUI.
 	 *
-	 * @return the time when the render cycle started
+	 * @return the x coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public long getRenderStart() {
-		return renderStart;
+	public int getSlotX() {
+		return slotX;
 	}
 
 	/**
-	 * Returns the time it took to render the GUI
-	 * since the render cycle started.
+	 * Returns the y coordinate of the slot.
+	 * This is relative to the top-left corner of the GUI.
 	 *
-	 * @return the time it took to render the GUI
+	 * @return the y coordinate of the slot
 	 * @since 2.1.0
 	 */
-	public long getRenderTime() {
-		return System.currentTimeMillis() - renderStart;
+	public int getSlotY() {
+		return slotY;
 	}
 
 }
