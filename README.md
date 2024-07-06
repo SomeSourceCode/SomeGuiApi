@@ -32,7 +32,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.github.somesourcecode</groupId>
     <artifactId>someguiapi</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.github.somesourcecode:someguiapi:2.0.0'
+    compileOnly 'io.github.somesourcecode:someguiapi:2.1.0'
 }
 ```
 
