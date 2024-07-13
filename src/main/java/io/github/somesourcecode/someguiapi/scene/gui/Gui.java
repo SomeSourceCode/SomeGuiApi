@@ -34,6 +34,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
@@ -512,17 +514,87 @@ public abstract class Gui {
 		}
 	}
 
-	public static Gui getGui(HumanEntity humanEntity) {
-		if (humanEntity == null || !(humanEntity.getOpenInventory().getTopInventory().getHolder() instanceof Gui gui)) {
+	private static final Map<Inventory, Gui> inventoryToGui = new WeakHashMap<>();
+
+	/**
+	 * Adds a mapping from the specified inventory to the specified GUI.
+	 *
+	 * @param inventory the inventory
+	 * @param gui the GUI
+	 * @since 3.0.0
+	 */
+	protected static void addInventoryMapping(Inventory inventory, Gui gui) {
+		if (inventory == null || gui == null) {
+			return;
+		}
+		inventoryToGui.put(inventory, gui);
+	}
+
+	/**
+	 * Returns the GUI that is associated with the specified inventory.
+	 *
+	 * @param inventory the inventory
+	 * @return the GUI
+	 * @since 3.0.0
+	 */
+	public static Gui getGui(Inventory inventory) {
+		if (inventory == null) {
 			return null;
 		}
-		return gui;
+		return inventoryToGui.get(inventory);
 	}
 
+	/**
+	 * Returns the GUI that is associated with the open inventory
+	 * of the specified human entity.
+	 *
+	 * @param humanEntity the human entity
+	 * @return the GUI
+	 * @since 2.1.0
+	 */
+	public static Gui getGui(HumanEntity humanEntity) {
+		if (humanEntity == null) {
+			return null;
+		}
+		return getGui(humanEntity.getOpenInventory().getTopInventory());
+	}
+
+	/**
+	 * Returns whether the specified human entity
+	 * currently has a GUI open.
+	 *
+	 * @param humanEntity the human entity
+	 * @return whether the human entity has a GUI open
+	 * @since 2.1.0
+	 */
 	public static boolean hasOpenGui(HumanEntity humanEntity) {
-		return getGui(humanEntity) != null;
+		if (humanEntity == null) {
+			return false;
+		}
+		return inventoryToGui.containsKey(humanEntity.getOpenInventory().getTopInventory());
 	}
 
+	/**
+	 * Returns whether the specified inventory belongs to a GUI.
+	 *
+	 * @param inventory the inventory
+	 * @return whether the inventory is a GUI
+	 * @since 3.0.0
+	 */
+	public static boolean isGui(Inventory inventory) {
+		if (inventory == null) {
+			return false;
+		}
+		return inventoryToGui.containsKey(inventory);
+	}
+
+	/**
+	 * Closes any GUI that is currently open for the specified human entity.
+	 * If the human entity does not have a GUI open, this method does nothing.
+	 *
+	 * @param humanEntity the human entity
+	 * @since 2.1.0
+	 */
 	public static void closeGui(HumanEntity humanEntity) {
 		if (!hasOpenGui(humanEntity)) {
 			return;

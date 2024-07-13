@@ -45,32 +45,34 @@ public class GuiListener implements Listener {
 
 	@EventHandler
 	public void onGuiClick(InventoryClickEvent event) {
-		if (!(event.getInventory().getHolder() instanceof ChestGui gui)) {
+		Gui gui = Gui.getGui(event.getWhoClicked());
+		if (!(gui instanceof ChestGui chestGui)) {
 			return;
 		}
 		event.setCancelled(true);
 
-		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(gui.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
-		final GuiClickContext guiClickContext = new GuiClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked());
+		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(chestGui.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
+		final GuiClickContext guiClickContext = new GuiClickContext(chestGui, chestGui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked());
 
-		gui.fireOnClick(guiClickContext);
+		chestGui.fireOnClick(guiClickContext);
 
 		if (area == GuiArea.OUTSIDE) {
-			gui.fireOnOutsideClick(guiClickContext);
+			chestGui.fireOnOutsideClick(guiClickContext);
 			return;
 		}
 
 		int slotX = event.getRawSlot() % 9;
 		int slotY = event.getRawSlot() / 9;
 
-		gui.fireOnGuiClick(new GuiSlotClickContext(gui, gui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
+		chestGui.fireOnGuiClick(new GuiSlotClickContext(chestGui, chestGui.getScene(), area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY));
 
-		gui.handleClick(area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
+		chestGui.handleClick(area, event.getClick(), event.getHotbarButton(), event.getWhoClicked(), slotX, slotY);
 	}
 
 	@EventHandler
 	public void onGuiClose(InventoryCloseEvent event) {
-		if (!(event.getInventory().getHolder() instanceof Gui gui) || gui.isUpdating()) {
+		Gui gui = Gui.getGui(event.getPlayer());
+		if (gui == null) {
 			return;
 		}
 

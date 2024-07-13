@@ -31,7 +31,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +44,7 @@ import java.util.List;
  *
  * @since 1.0.0
  */
-public class ChestGui extends Gui implements InventoryHolder {
+public class ChestGui extends Gui implements InventoryBased {
 
 	private Component title;
 	private int rows;
@@ -83,9 +82,11 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	@Override
-	public  Inventory createInventory() {
-		return title == null ? Bukkit.createInventory(this, rows * 9)
-				: Bukkit.createInventory(this, rows * 9, title);
+	public Inventory createInventory() {
+		Inventory inventory = title == null ? Bukkit.createInventory(null, rows * 9)
+				: Bukkit.createInventory(null, rows * 9, title);
+		Gui.addInventoryMapping(inventory, this);
+		return inventory;
 	}
 
 	@Override
