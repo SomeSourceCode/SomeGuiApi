@@ -21,9 +21,11 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene.gui;
+package io.github.somesourcecode.someguiapi.scene.gui.type;
 
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import io.github.somesourcecode.someguiapi.scene.gui.SceneGui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;

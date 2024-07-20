@@ -26,6 +26,7 @@ package io.github.somesourcecode.someguiapi.scene.gui;
 import io.github.somesourcecode.someguiapi.scene.*;
 import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
+import io.github.somesourcecode.someguiapi.scene.gui.type.ChestGui;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
