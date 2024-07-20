@@ -29,6 +29,7 @@ import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.storage.Storage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -238,6 +239,19 @@ public abstract class Gui {
 		gui.setParent(this);
 		gui.show(viewer);
 	}
+
+	/**
+	 * Fires the onClick event for the node at the given coordinates.
+	 * The listeners a called for the clicked node and all of its parents, respectively.
+	 *
+	 * @param area the area of the click
+	 * @param clickType the click type
+	 * @param hotbarButton the hot bar button
+	 * @param whoClicked the human entity that clicked
+	 * @param slot the slot
+	 * @since 3.0.0
+	 */
+	public abstract void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slot);
 
 	/**
 	 * Returns the consumer that is called when a click occurs.
