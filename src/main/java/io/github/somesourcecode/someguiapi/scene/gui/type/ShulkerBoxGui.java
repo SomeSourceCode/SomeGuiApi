@@ -51,16 +51,6 @@ public class ShulkerBoxGui extends SceneGui {
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
-	@Override
-	public int getWidth() {
-		return 9;
-	}
-
-	@Override
-	public int getHeight() {
-		return 3;
-	}
-
 	/**
 	 * Constructs a new ShulkerBoxGui with the specified title.
 	 *
@@ -69,6 +59,16 @@ public class ShulkerBoxGui extends SceneGui {
 	 */
 	public ShulkerBoxGui(String title) {
 		this(title == null ? null : Component.text(title));
+	}
+
+	@Override
+	public int getWidth() {
+		return 9;
+	}
+
+	@Override
+	public int getHeight() {
+		return 3;
 	}
 
 	@Override
