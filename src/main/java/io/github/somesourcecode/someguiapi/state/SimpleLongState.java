@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link LongState}.
  *
+ * @see ReadOnlyLongStateWrapper
  * @since 3.0.0
  */
 public class SimpleLongState extends ReadOnlyLongStateBase implements LongState {

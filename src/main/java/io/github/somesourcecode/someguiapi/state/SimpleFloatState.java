@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link FloatState}.
  *
+ * @see ReadOnlyFloatStateWrapper
  * @since 3.0.0
  */
 public class SimpleFloatState extends ReadOnlyFloatStateBase implements FloatState {

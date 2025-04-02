@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link DoubleState}.
  *
+ * @see ReadOnlyDoubleStateWrapper
  * @since 3.0.0
  */
 public class SimpleDoubleState extends ReadOnlyDoubleStateBase implements DoubleState {

@@ -30,6 +30,7 @@ import java.util.List;
  * A simple implementation of a mutable {@link ObjectState}.
  *
  * @param <T> the type of the state's value
+ * @see ReadOnlyObjectStateWrapper
  * @since 3.0.0
  */
 public class SimpleObjectState<T> extends ReadOnlyObjectStateBase<T> implements ObjectState<T> {

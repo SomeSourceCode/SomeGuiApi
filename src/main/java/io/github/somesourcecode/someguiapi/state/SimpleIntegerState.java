@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link IntegerState}.
  *
+ * @see ReadOnlyIntegerStateWrapper
  * @since 3.0.0
  */
 public class SimpleIntegerState extends ReadOnlyIntegerStateBase implements IntegerState {

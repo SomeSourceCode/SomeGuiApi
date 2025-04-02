@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link StringState}.
  *
+ * @see ReadOnlyStringStateWrapper
  * @since 3.0.0
  */
 public class SimpleStringState extends ReadOnlyStringStateBase implements StringState {

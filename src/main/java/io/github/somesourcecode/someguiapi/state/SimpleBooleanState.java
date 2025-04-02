@@ -30,6 +30,7 @@ import java.util.Objects;
 /**
  * A simple implementation of a mutable {@link BooleanState}.
  *
+ * @see ReadOnlyBooleanStateWrapper
  * @since 3.0.0
  */
 public class SimpleBooleanState extends ReadOnlyBooleanStateBase implements BooleanState {
