@@ -56,6 +56,13 @@ public class StringExpression extends ReadOnlyStringStateBase {
 		value = supplier.get();
 	}
 
+	/**
+	 * Updates the state with the current value from the supplier.
+	 * If the new value is different from the current value, it notifies all observers
+	 * of the change.
+	 *
+	 * @since 3.0.0
+	 */
 	public void update() {
 		final String newValue = supplier.get();
 		if (Objects.equals(value, newValue)) {
