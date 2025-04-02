@@ -35,4 +35,26 @@ import java.util.List;
  */
 public interface NumberState<T extends Number> extends ReadOnlyNumberState<T>, State<T> {
 
+	/**
+	 * A list of all supported number types sorted by their hierarchy (from most to least specific).
+	 */
+	List<Class<? extends Number>> TYPES = List.of(Double.class, Float.class, Long.class, Integer.class);
+
+	/**
+	 * Finds the common number type of the given {@link ObservableValue}s.
+	 * For example, if the given values are {@link IntegerState} and {@link LongState},
+	 * the common type will be {@link Long}.
+	 *
+	 * @param values the observable values to find the common type for
+	 * @return the common number type
+	 */
+	@SuppressWarnings({"unchecked"})
+	static Class<? extends Number> findCommonNumberType(ObservableValue<? extends Number>... values) {
+		return (Class<? extends Number>) Arrays.stream(values)
+				.map(ObservableValue::getType)
+				.filter(TYPES::contains)
+				.min(Comparator.comparingInt(TYPES::indexOf))
+				.orElseThrow(() -> new IllegalArgumentException("No valid number type found"));
+	}
+
 }
