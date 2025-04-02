@@ -30,6 +30,8 @@ package io.github.somesourcecode.someguiapi.state;
  */
 public interface ReadOnlyLongState extends ReadOnlyNumberState<Long> {
 
+	LongState asMutableState();
+
 	ReadOnlyLongState add(int value);
 
 	ReadOnlyLongState add(long value);

@@ -30,6 +30,8 @@ package io.github.somesourcecode.someguiapi.state;
  */
 public interface ReadOnlyIntegerState extends ReadOnlyNumberState<Integer> {
 
+	IntegerState asMutableState();
+
 	/**
 	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
 	 * is even, {@code false} otherwise.

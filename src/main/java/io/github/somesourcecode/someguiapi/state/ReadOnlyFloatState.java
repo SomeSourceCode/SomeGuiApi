@@ -30,6 +30,8 @@ package io.github.somesourcecode.someguiapi.state;
  */
 public interface ReadOnlyFloatState extends ReadOnlyNumberState<Float> {
 
+	FloatState asMutableState();
+
 	ReadOnlyFloatState add(int value);
 
 	ReadOnlyFloatState add(long value);

@@ -31,6 +31,8 @@ package io.github.somesourcecode.someguiapi.state;
  */
 public interface ReadOnlyObjectState<T> extends ReadOnlyState<T> {
 
+	ObjectState<T> asMutableState();
+
 	/**
 	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
 	 * is null, {@code false} otherwise.

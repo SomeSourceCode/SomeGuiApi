@@ -33,6 +33,8 @@ package io.github.somesourcecode.someguiapi.state;
  */
 public interface ReadOnlyNumberState<T extends Number> extends ReadOnlyState<T> {
 
+	NumberState<T> asMutableState();
+
 	/**
 	 * Returns the current value as an int.
 	 *
@@ -108,6 +110,46 @@ public interface ReadOnlyNumberState<T extends Number> extends ReadOnlyState<T> 
 	 * @since 3.0.0
 	 */
 	ReadOnlyDoubleState asDoubleState();
+
+	/**
+	 * Creates a new mutable {@link IntegerState} reflecting the current value of this state.
+	 * If this state is not an integer state, the new state will hold the current value as an integer
+	 * according to {@link #intValue()}.
+	 *
+	 * @return the new mutable state
+	 * @since 3.0.0
+	 */
+	IntegerState asMutableIntegerState();
+
+	/**
+	 * Creates a new mutable {@link LongState} reflecting the current value of this state.
+	 * If this state is not a long state, the new state will hold the current value as a long
+	 * according to {@link #longValue()}.
+	 *
+	 * @return the new mutable state
+	 * @since 3.0.0
+	 */
+	LongState asMutableLongState();
+
+	/**
+	 * Creates a new mutable {@link FloatState} reflecting the current value of this state.
+	 * If this state is not a float state, the new state will hold the current value as a float
+	 * according to {@link #floatValue()}.
+	 *
+	 * @return the new mutable state
+	 * @since 3.0.0
+	 */
+	FloatState asMutableFloatState();
+
+	/**
+	 * Creates a new mutable {@link DoubleState} reflecting the current value of this state.
+	 * If this state is not a double state, the new state will hold the current value as a double
+	 * according to {@link #doubleValue()}.
+	 *
+	 * @return the new mutable state
+	 * @since 3.0.0
+	 */
+	DoubleState asMutableDoubleState();
 
 	/**
 	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state

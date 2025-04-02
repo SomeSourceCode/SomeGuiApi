@@ -24,54 +24,11 @@
 package io.github.somesourcecode.someguiapi.state;
 
 /**
- * An observable value that can be observed for changes
- * using an {@link Observer}.
+ * A mutable state of type {@link Object}.
  *
- * @param <T>
+ * @param <T> the type of the state's value
  * @since 3.0.0
  */
-public interface ObservableValue<T> {
-
-	/**
-	 * Returns the type this value can be safely assumed to be.
-	 * This is not necessarily the same as the type of the value itself.
-	 *
-	 * @return the type
-	 * @since 3.0.0
-	 */
-	Class<? super T> getType();
-
-	/**
-	 * Returns the current value.
-	 *
-	 * @return the current value
-	 * @since 3.0.0
-	 */
-	T get();
-
-	/**
-	 * Registers an {@link Observer} to be notified of changes to this value.
-	 *
-	 * @param observer the observer to register
-	 * @throws IllegalArgumentException if observer is null
-	 * @since 3.0.0
-	 */
-	void observe(Observer<? super T> observer);
-
-	/**
-	 * Unregisters an {@link Observer} from this value.
-	 *
-	 * @param observer the observer to unregister
-	 * @since 3.0.0
-	 */
-	void removeObserver(Observer<? super T> observer);
-
-	/**
-	 * Creates a new mutable state reflecting the current value of this state.
-	 *
-	 * @return the new mutable state
-	 * @since 3.0.0
-	 */
-	State<T> asMutableState();
+public interface ObjectState<T> extends ReadOnlyObjectState<T>, State<T> {
 
 }

@@ -32,6 +32,8 @@ import java.util.regex.PatternSyntaxException;
  */
 public interface ReadOnlyStringState extends ReadOnlyObjectState<String> {
 
+	StringState asMutableState();
+
 	/**
 	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
      * is equal to the given value ignoring case, {@code false} otherwise, {@code false} otherwise.
