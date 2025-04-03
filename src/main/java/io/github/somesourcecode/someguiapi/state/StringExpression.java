@@ -82,6 +82,12 @@ public class StringExpression extends ReadOnlyStringStateBase {
 
 	@Override
 	public void observe(Observer<? super String> observer) {
+		if (observer == null) {
+			throw new IllegalArgumentException("observer must be non-null");
+		}
+		if (observers.contains(observer)) {
+			return;
+		}
 		observers.add(observer);
 	}
 
