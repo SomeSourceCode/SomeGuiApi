@@ -29,9 +29,9 @@ import java.util.function.Function;
  * The basis for all read-only states.
  * This provides the basic functionality for all read-only states,
  * including common state transformations.
- *
- * <h3>Transformations</h3>
- *
+ * <p>
+ * <b>Transformations</b>
+ * <p>
  * Transformations are used to convert the value of a state into another type.
  * The resulting state is read-only and cannot be modified. These transformations
  * are typically used to reflect a modification of the original state.
