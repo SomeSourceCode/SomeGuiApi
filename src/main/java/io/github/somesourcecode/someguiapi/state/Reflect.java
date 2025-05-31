@@ -232,7 +232,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a long {@link ReadOnlyLongState} that reflects the value of the given
+	 * Creates a long {@link ReadOnlyFloatState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
