@@ -58,6 +58,15 @@ public interface ObservableValue<T> {
 	 */
 	void observe(Observer<? super T> observer);
 
+	default Observer<T> observe(Runnable observer) {
+		if (observer == null) {
+			throw new IllegalArgumentException("observer must be non-null");
+		}
+		final Observer<T> obs = (oldValue, newValue) -> observer.run();
+		observe(obs);
+		return obs;
+	}
+
 	/**
 	 * Unregisters an {@link Observer} from this value.
 	 *
