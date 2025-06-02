@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.state;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple implementation of a mutable {@link ObjectState}.
@@ -60,7 +61,15 @@ public class SimpleObjectState<T> extends ReadOnlyObjectStateBase<T> implements 
 
 	@Override
 	public void set(T value) {
-		if (this.value == value) {
+		if (isReflecting()) {
+			throw new IllegalStateException("Cannot set a value that is reflecting another state");
+		}
+		doSet(value);
+	}
+
+	private void doSet(T value) {
+		value = sanitize(this.value, value);
+		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		T oldValue = this.value;

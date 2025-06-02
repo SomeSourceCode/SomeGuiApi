@@ -60,6 +60,14 @@ public class SimpleStringState extends ReadOnlyStringStateBase implements String
 
 	@Override
 	public void set(String value) {
+		if (isReflecting()) {
+			throw new IllegalStateException("Cannot set a value that is reflecting another state");
+		}
+		doSet(value);
+	}
+
+	private void doSet(String value) {
+		value = sanitize(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}

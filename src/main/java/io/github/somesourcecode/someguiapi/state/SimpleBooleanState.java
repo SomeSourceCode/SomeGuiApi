@@ -66,14 +66,20 @@ public class SimpleBooleanState extends ReadOnlyBooleanStateBase implements Bool
 	}
 
 	private void doSet(Boolean value) {
+		value = sanitizeValue(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		boolean oldValue = this.value;
-		this.value = value != null && value;
+		this.value = value;
 		for (Observer<? super Boolean> observer : observers) {
 			observer.onChange(oldValue, value);
 		}
+	}
+
+	private boolean sanitizeValue(Boolean currentValue, Boolean newValue) {
+		final Boolean sanitizedValue = sanitize(currentValue, newValue);
+		return sanitizedValue != null && value;
 	}
 
 	private final Observer<Boolean> reflectObserver = (oldValue, newValue) -> {

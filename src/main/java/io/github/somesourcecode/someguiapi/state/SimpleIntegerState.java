@@ -66,14 +66,20 @@ public class SimpleIntegerState extends ReadOnlyIntegerStateBase implements Inte
 	}
 
 	private void doSet(Integer value) {
+		value = sanitizeValue(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		int oldValue = this.value;
-		this.value = value == null ? 0 : value;
+		this.value = value;
 		for (Observer<? super Integer> observer : observers) {
 			observer.onChange(oldValue, value);
 		}
+	}
+
+	private int sanitizeValue(Integer currentValue, Integer newValue) {
+		final Integer sanitizedValue = sanitize(currentValue, newValue);
+		return sanitizedValue == null ? 0 : sanitizedValue;
 	}
 
 	private final Observer<Integer> reflectObserver = (oldValue, newValue) -> {

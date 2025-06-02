@@ -66,14 +66,20 @@ public class SimpleLongState extends ReadOnlyLongStateBase implements LongState 
 	}
 
 	private void doSet(Long value) {
+		value = sanitizeValue(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		long oldValue = this.value;
-		this.value = value == null ? 0 : value;
+		this.value = value;
 		for (Observer<? super Long> observer : observers) {
 			observer.onChange(oldValue, value);
 		}
+	}
+
+	private long sanitizeValue(Long currentValue, Long newValue) {
+		final Long sanitizedValue = sanitize(currentValue, newValue);
+		return sanitizedValue == null ? 0 : sanitizedValue;
 	}
 
 	private final Observer<Long> reflectObserver = (oldValue, newValue) -> {

@@ -66,14 +66,20 @@ public class SimpleFloatState extends ReadOnlyFloatStateBase implements FloatSta
 	}
 
 	private void doSet(Float value) {
+		value = sanitizeValue(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		float oldValue = this.value;
-		this.value = value == null ? 0 : value;
+		this.value = value;
 		for (Observer<? super Float> observer : observers) {
 			observer.onChange(oldValue, value);
 		}
+	}
+
+	private float sanitizeValue(Float currentValue, Float newValue) {
+		final Float sanitizedValue = sanitize(currentValue, newValue);
+		return sanitizedValue == null ? 0 : sanitizedValue;
 	}
 
 	private final Observer<Float> reflectObserver = (oldValue, newValue) -> {

@@ -66,14 +66,20 @@ public class SimpleDoubleState extends ReadOnlyDoubleStateBase implements Double
 	}
 
 	private void doSet(Double value) {
+		value = sanitizeValue(this.value, value);
 		if (Objects.equals(this.value, value)) {
 			return;
 		}
 		double oldValue = this.value;
-		this.value = value == null ? 0 : value;
+		this.value = value;
 		for (Observer<? super Double> observer : observers) {
 			observer.onChange(oldValue, value);
 		}
+	}
+
+	private double sanitizeValue(Double currentValue, Double newValue) {
+		final Double sanitizedValue = sanitize(currentValue, newValue);
+		return sanitizedValue == null ? 0 : sanitizedValue;
 	}
 
 	private final Observer<Double> reflectObserver = (oldValue, newValue) -> {

@@ -41,6 +41,20 @@ public interface State<T> extends ReadOnlyState<T> {
 	void set(T value);
 
 	/**
+	 * This is called before the new values is set and observers are called.
+	 * Override this method to enforce certain criteria on the state's value,
+	 * such as it being non-null, within a certain range, or matching a specific pattern.
+	 *
+	 * @param oldValue the old value
+	 * @param newValue the new value
+	 * @return the sanitized value to set
+	 * @since 3.0.0
+	 */
+	default T sanitize(T oldValue, T newValue) {
+		return newValue;
+	};
+
+	/**
 	 * Reflects the value of the given {@link ObservableValue} into this state.
 	 * This means that the value of this state will always be updated
 	 * according to the value of the given observable.
