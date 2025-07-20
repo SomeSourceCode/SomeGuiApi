@@ -24,6 +24,8 @@
 package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.scene.Node;
+import io.github.somesourcecode.someguiapi.state.IntegerState;
+import io.github.somesourcecode.someguiapi.state.SimpleIntegerState;
 
 /**
  * A layout pane that arranges its children in a horizontal row.
@@ -32,7 +34,7 @@ import io.github.somesourcecode.someguiapi.scene.Node;
  */
 public class HBox extends Pane {
 
-	private int spacing;
+	private IntegerState spacingState;
 
 	/**
 	 * Constructs a new HBox with a spacing of 0.
@@ -51,7 +53,7 @@ public class HBox extends Pane {
 	 */
 	public HBox(int spacing) {
 		super();
-		this.spacing = spacing;
+		setSpacing(spacing);
 	}
 
 	/**
@@ -73,7 +75,21 @@ public class HBox extends Pane {
 	 */
 	public HBox(int spacing, Node... children) {
 		super(children);
-		this.spacing = spacing;
+		setSpacing(spacing);
+	}
+
+	/**
+	 * Returns the state holding the amount of horizontal space between each child node.
+	 *
+	 * @return the state holding the amount of horizontal space between each child node.
+	 * @since 3.0.0
+	 */
+	public IntegerState spacingState() {
+		if (spacingState == null) {
+			spacingState = new SimpleIntegerState(0);
+			spacingState.observe(this::requestLayout);
+		}
+		return spacingState;
 	}
 
 	/**
@@ -83,7 +99,7 @@ public class HBox extends Pane {
 	 * @since 1.0.0
 	 */
 	public int getSpacing() {
-		return spacing;
+		return spacingState == null ? 0 : spacingState.get();
 	}
 
 	/**
@@ -93,16 +109,13 @@ public class HBox extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setSpacing(int spacing) {
-		if (this.spacing == spacing) {
-			return;
-		}
-		this.spacing = spacing;
-		requestLayout();
+		spacingState().set(spacing);
 	}
 
 	@Override
 	protected void layoutChildren() {
 		final int topPadding = getPadding().getTop();
+		final int spacing = getSpacing();
 
 		int x = getPadding().getLeft();
 		for (Node child : getChildren()) {
