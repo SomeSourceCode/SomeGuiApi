@@ -105,6 +105,31 @@ public abstract class ReadOnlyNumberStateProxy<T extends Number> extends ReadOnl
 	}
 
 	@Override
+	public ReadOnlyBooleanState isEqualTo(int value, double epsilon) {
+		return delegate.isEqualTo(value, epsilon);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(long value, double epsilon) {
+		return delegate.isEqualTo(value, epsilon);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(float value, double epsilon) {
+		return delegate.isEqualTo(value, epsilon);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(double value, double epsilon) {
+		return delegate.isEqualTo(value, epsilon);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(ObservableValue<? extends Number> value, double epsilon) {
+		return delegate.isEqualTo(value, epsilon);
+	}
+
+	@Override
 	public ReadOnlyBooleanState isLessThan(int value) {
 		return delegate.isLessThan(value);
 	}

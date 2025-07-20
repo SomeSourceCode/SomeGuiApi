@@ -104,6 +104,49 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 	}
 
 	@Override
+	public ReadOnlyBooleanState isEqualTo(int value, double epsilon) {
+		return Reflect.createBooleanReflection(() -> {
+			final double thisValue = doubleValue();
+			return Math.abs(thisValue - value) <= epsilon;
+		}, this);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(long value, double epsilon) {
+		return Reflect.createBooleanReflection(() -> {
+			final double thisValue = doubleValue();
+			return Math.abs(thisValue - value) <= epsilon;
+		}, this);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(float value, double epsilon) {
+		return Reflect.createBooleanReflection(() -> {
+			final double thisValue = doubleValue();
+			return Math.abs(thisValue - value) <= epsilon;
+		}, this);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(double value, double epsilon) {
+		return Reflect.createBooleanReflection(() -> {
+			final double thisValue = doubleValue();
+			return Math.abs(thisValue - value) <= epsilon;
+		}, this);
+	}
+
+	@Override
+	public ReadOnlyBooleanState isEqualTo(ObservableValue<? extends Number> value, double epsilon) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
+		return Reflect.createBooleanReflection(() -> {
+			final double thisValue = doubleValue();
+			return Math.abs(thisValue - value.get().doubleValue()) <= epsilon;
+		}, this, value);
+	}
+
+	@Override
 	public ReadOnlyBooleanState isLessThan(int value) {
 		return Reflect.createBooleanReflection(() -> doubleValue() < value, this);
 	}

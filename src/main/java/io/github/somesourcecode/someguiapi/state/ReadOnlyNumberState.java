@@ -153,6 +153,71 @@ public interface ReadOnlyNumberState<T extends Number> extends ReadOnlyState<T> 
 
 	/**
 	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
+	 * is equal to the given value, {@code false} otherwise.
+	 * This method takes the precision of the value into account, meaning that the value is considered
+	 * equal if the difference between the two values is less than or equal to the given epsilon value.
+	 *
+	 * @param value the value to compare to
+	 * @param epsilon the precision to consider when comparing the values
+	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
+	ReadOnlyBooleanState isEqualTo(int value, double epsilon);
+
+	/**
+	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
+	 * is equal to the given value, {@code false} otherwise.
+	 * This method takes the precision of the value into account, meaning that the value is considered
+	 * equal if the difference between the two values is less than or equal to the given epsilon value.
+	 *
+	 * @param value the value to compare to
+	 * @param epsilon the precision to consider when comparing the values
+	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
+	ReadOnlyBooleanState isEqualTo(long value, double epsilon);
+
+	/**
+	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
+	 * is equal to the given value, {@code false} otherwise.
+	 * This method takes the precision of the value into account, meaning that the value is considered
+	 * equal if the difference between the two values is less than or equal to the given epsilon value.
+	 *
+	 * @param value the value to compare to
+	 * @param epsilon the precision to consider when comparing the values
+	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
+	ReadOnlyBooleanState isEqualTo(float value, double epsilon);
+
+	/**
+	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
+	 * is equal to the given value, {@code false} otherwise.
+	 * This method takes the precision of the value into account, meaning that the value is considered
+	 * equal if the difference between the two values is less than or equal to the given epsilon value.
+	 *
+	 * @param value the value to compare to
+	 * @param epsilon the precision to consider when comparing the values
+	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
+	ReadOnlyBooleanState isEqualTo(double value, double epsilon);
+
+	/**
+	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
+	 * is equal to the value of the given {@link ObservableValue}, {@code false} otherwise.
+	 * This method takes the precision of the value into account, meaning that the value is considered
+	 * equal if the difference between the two values is less than or equal to the given epsilon value.
+	 *
+	 * @param value the observable to compare to
+	 * @param epsilon the precision to consider when comparing the values
+	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
+	ReadOnlyBooleanState isEqualTo(ObservableValue<? extends Number> value, double epsilon);
+
+	/**
+	 * Creates a new {@link ReadOnlyBooleanState} that is {@code true} if the value of this state
 	 * is less than the given value, {@code false} otherwise.
 	 *
 	 * @param value the value to compare to
