@@ -26,7 +26,10 @@ package io.github.somesourcecode.someguiapi.scene;
 import io.github.somesourcecode.someguiapi.collections.ObservableList;
 import io.github.somesourcecode.someguiapi.collections.ObservableListBase;
 import io.github.somesourcecode.someguiapi.collections.VetoableListDecorator;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
 import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,7 +50,7 @@ public abstract class Parent extends Node {
 
 	private boolean needsLayout = true;
 
-	private Background background;
+	private ObjectState<Background> backgroundState;
 
 	/**
 	 * Constructs a new parent node.
@@ -227,13 +230,37 @@ public abstract class Parent extends Node {
 	}
 
 	/**
+	 * Returns the state holding the background of this parent.
+	 * It will be rendered behind all children.
+	 *
+	 * @return the state holding the background of this parent
+	 */
+	public ObjectState<Background> backgroundState() {
+		if (backgroundState == null) {
+			backgroundState = new SimpleObjectState<>();
+			backgroundState.observe(() -> {
+				final Scene scene = getScene();
+				if (scene == null) {
+					return;
+				}
+				final Gui gui = scene.getGui();
+				if (gui == null) {
+					return;
+				}
+				GuiHelper.setDirtyFlag(gui, DirtyFlag.GUI_CONTENT);
+			});
+		}
+		return backgroundState;
+	}
+
+	/**
 	 * Returns the background of this parent.
 	 *
 	 * @return the background
 	 * @since 1.0.0
 	 */
 	public Background getBackground() {
-		return background;
+		return backgroundState == null ? null : backgroundState.get();
 	}
 
 	/**
@@ -243,12 +270,13 @@ public abstract class Parent extends Node {
 	 * @since 1.0.0
 	 */
 	public void setBackground(Background background) {
-		this.background = background;
+		backgroundState().set(background);
 	}
 
 	@Override
 	public Pixel renderPixelAt(int x, int y) {
 		final boolean isInBounds = x >= 0 && y >= 0 && x < getWidth() && y < getHeight();
+		final Background background = getBackground();
 
 		if (children.isEmpty()) {
 			return background != null && isInBounds ? background.backgroundAt(x, y) : null;
