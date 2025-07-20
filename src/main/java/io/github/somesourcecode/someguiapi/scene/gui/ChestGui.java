@@ -26,6 +26,10 @@ package io.github.somesourcecode.someguiapi.scene.gui;
 import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.*;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
+import io.github.somesourcecode.someguiapi.state.IntegerState;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.SimpleIntegerState;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -47,10 +51,10 @@ import java.util.List;
  */
 public class ChestGui extends Gui implements InventoryHolder {
 
-	private Component title;
-	private int rows;
+	private ObjectState<Component> titleState;
+	private IntegerState rowsState;
 
-	private Scene scene;
+	private ObjectState<Scene> sceneState;
 
 	/**
 	 * Constructs a new ChestGui with the specified title and number of rows.
@@ -60,12 +64,8 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 1.0.0
 	 */
 	public ChestGui(Component title, int rows) {
-		if (rows < 1 || rows > 6) {
-			throw new IllegalArgumentException("Rows must be between 1 and 6");
-		}
-
-		this.title = title;
-		this.rows = rows;
+		setTitle(title);
+		setRows(rows);
 
 		this.inventory = createInventory();
 		setDirtyFlag(DirtyFlag.GUI_CONTENT);
@@ -84,6 +84,8 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 	@Override
 	public  Inventory createInventory() {
+		final Component title = getTitle();
+		final int rows = getRows();
 		return title == null ? Bukkit.createInventory(this, rows * 9)
 				: Bukkit.createInventory(this, rows * 9, title);
 	}
@@ -95,6 +97,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 		}
 
 		final int oldRows = inventory.getSize() / 9;
+		final int rows = getRows();
 		ItemStack[] contents = Arrays.copyOf(inventory.getContents(), rows * 9);
 
 		if (inventory == null || isDirty(DirtyFlag.GUI_TITLE) || isDirty(DirtyFlag.GUI_ROWS)) {
@@ -120,6 +123,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		rendering = true;
 
+		final Scene scene = getScene();
 		if (scene == null || (scene.getRoot() == null && scene.getBackground() == null)) {
 			inventory.clear();
 			rendering = false;
@@ -128,9 +132,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 
 		GuiRenderContext guiRenderContext = new GuiRenderContext(this, scene);
 		fireOnRender(guiRenderContext);
-		if (scene != null) {
-			scene.fireOnRender(guiRenderContext);
-		}
+		scene.fireOnRender(guiRenderContext);
 
 		if (guiRenderContext.isCanceled()) {
 			rendering = false;
@@ -152,6 +154,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 			return;
 		}
 
+		final int rows = getRows();
 		ItemStack[][] pixels = new ItemStack[9][rows];
 		Parent root = scene.getRoot();
 		root.layout();
@@ -192,6 +195,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 2.1.0
 	 */
 	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slotX, int slotY) {
+		final Scene scene = getScene();
 		if (scene == null) {
 			return;
 		}
@@ -231,13 +235,36 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	/**
+	 * Returns the state that holds the {@link Scene} of this GUI.
+	 *
+	 * @return the state holding the scene
+	 * @since 3.0.0
+	 */
+	public ObjectState<Scene> sceneState() {
+		if (sceneState == null) {
+			sceneState = new SimpleObjectState<>();
+			sceneState.observe((oldScene, newScene) -> {
+				if (oldScene != null) {
+					SceneHelper.setGui(oldScene, null);
+				}
+				if (newScene != null) {
+					SceneHelper.setGui(newScene, this);
+				}
+				setDirtyFlag(DirtyFlag.GUI_CONTENT);
+				update();
+			});
+		}
+		return sceneState;
+	}
+
+	/**
 	 * Returns the {@link Scene} of this GUI.
 	 *
 	 * @return the scene
 	 * @since 1.0.0
 	 */
 	public Scene getScene() {
-		return scene;
+		return sceneState == null ? null : sceneState.get();
 	}
 
 	/**
@@ -247,18 +274,24 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 1.0.0
 	 */
 	public void setScene(Scene scene) {
-		if (this.scene == scene) {
-			return;
+		sceneState().set(scene);
+	}
+
+	/**
+	 * Returns the state that holds the title of this GUI.
+	 *
+	 * @return the state holding the title
+	 * @since 3.0.0
+	 */
+	public ObjectState<Component> titleState() {
+		if (titleState == null) {
+			titleState = new SimpleObjectState<>();
+			titleState.observe((oldTitle, newTitle) -> {
+				setDirtyFlag(DirtyFlag.GUI_TITLE);
+				update();
+			});
 		}
-		if (this.scene != null) {
-			SceneHelper.setGui(this.scene, null);
-		}
-		this.scene = scene;
-		if (scene != null) {
-			SceneHelper.setGui(scene, this);
-		}
-		setDirtyFlag(DirtyFlag.GUI_CONTENT);
-		update();
+		return titleState;
 	}
 
 	/**
@@ -268,7 +301,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 1.0.0
 	 */
 	public Component getTitle() {
-		return title;
+		return titleState == null ? null : titleState.get();
 	}
 
 	/**
@@ -278,12 +311,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 1.0.0
 	 */
 	public void setTitle(Component title) {
-		if (this.title.equals(title)) {
-			return;
-		}
-		this.title = title;
-		setDirtyFlag(DirtyFlag.GUI_TITLE);
-		update();
+		titleState().set(title);
 	}
 
 	/**
@@ -307,13 +335,38 @@ public class ChestGui extends Gui implements InventoryHolder {
 	}
 
 	/**
+	 * Returns the state that holds the number of rows of this GUI.
+	 *
+	 * @return the state holding the number of rows
+	 * @since 3.0.0
+	 */
+	public IntegerState rowsState() {
+		if (rowsState == null) {
+			rowsState = new SimpleIntegerState() {
+				@Override
+				public Integer sanitize(Integer oldRows, Integer newRows) {
+					if (newRows < 1 || newRows > 6) {
+						throw new IllegalArgumentException("Rows must be between 1 and 6");
+					}
+					return newRows;
+				}
+			};
+			rowsState.observe((oldRows, newRows) -> {
+				setDirtyFlag(DirtyFlag.GUI_ROWS);
+				update();
+			});
+		}
+		return rowsState;
+	}
+
+	/**
 	 * Returns the number of rows of this GUI.
 	 *
 	 * @return the number of rows
 	 * @since 1.0.0
 	 */
 	public int getRows() {
-		return rows;
+		return rowsState == null ? 6 : rowsState.get();
 	}
 
 	/**
@@ -323,15 +376,7 @@ public class ChestGui extends Gui implements InventoryHolder {
 	 * @since 1.0.0
 	 */
 	public void setRows(int rows) {
-		if (rows < 1 || rows > 6) {
-			throw new IllegalArgumentException("Rows must be between 1 and 6");
-		}
-		if (this.rows == rows) {
-			return;
-		}
-		this.rows = rows;
-		setDirtyFlag(DirtyFlag.GUI_ROWS);
-		update();
+		rowsState().set(rows);
 	}
 
 	@Override
