@@ -168,6 +168,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isLessThan(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> doubleValue() < value.get().doubleValue(), this, value);
 	}
 
@@ -193,6 +196,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isLessThanOrEqualTo(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> doubleValue() <= value.get().doubleValue(), this, value);
 	}
 
@@ -218,6 +224,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isGreaterThan(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> doubleValue() > value.get().doubleValue(), this, value);
 	}
 
@@ -233,6 +242,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isGreaterThanOrEqualTo(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> doubleValue() >= value.get().doubleValue(), this, value);
 	}
 
@@ -280,6 +292,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isBetween(ObservableValue<? extends Number> min, ObservableValue<? extends Number> max) {
+		if (min == null || max == null) {
+			throw new IllegalArgumentException("min and max must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> {
 			final double thisValue = doubleValue();
 			return thisValue >= min.get().doubleValue() && thisValue <= max.get().doubleValue();
@@ -320,6 +335,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyBooleanState isBetweenExclusive(ObservableValue<? extends Number> min, ObservableValue<? extends Number> max) {
+		if (min == null || max == null) {
+			throw new IllegalArgumentException("min and max must be non-null");
+		}
 		return Reflect.createBooleanReflection(() -> {
 			final double thisValue = doubleValue();
 			return thisValue > min.get().doubleValue() && thisValue < max.get().doubleValue();
@@ -348,6 +366,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> add(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, value);
 		return Reflect.createNumberReflection(commonType, () -> doubleValue() + value.get().doubleValue(), this, value);
@@ -355,6 +376,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> subtract(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, value);
 		return Reflect.createNumberReflection(commonType, () -> doubleValue() - value.get().doubleValue(), this, value);
@@ -362,6 +386,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> multiply(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, value);
 		return Reflect.createNumberReflection(commonType, () -> doubleValue() * value.get().doubleValue(), this, value);
@@ -369,6 +396,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> min(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, value);
 		return Reflect.createNumberReflection(commonType, () -> Math.min(doubleValue(), value.get().doubleValue()), this, value);
@@ -376,6 +406,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> max(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, value);
 		return Reflect.createNumberReflection(commonType, () -> Math.max(doubleValue(), value.get().doubleValue()), this, value);
@@ -383,6 +416,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyNumberState<? extends Number> clamp(ObservableValue<? extends Number> min, ObservableValue<? extends Number> max) {
+		if (min == null || max == null) {
+			throw new IllegalArgumentException("min and max must be non-null");
+		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, min, max);
 		return Reflect.createNumberReflection(commonType, () -> Math.clamp(doubleValue(), min.get().doubleValue(), max.get().doubleValue()), this, min, max);
@@ -410,6 +446,9 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 
 	@Override
 	public ReadOnlyDoubleState divide(ObservableValue<? extends Number> value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value must be non-null");
+		}
 		return Reflect.createDoubleReflection(() -> doubleValue() / value.get().doubleValue(), this, value);
 	}
 
