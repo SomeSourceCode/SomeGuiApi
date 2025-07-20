@@ -403,4 +403,273 @@ public class Reflect {
 		return expression;
 	}
 
+	private static void checkValuesNonNull(ObservableValue<?>... values) {
+		if (values == null || Arrays.stream(values).anyMatch(Objects::isNull)) {
+			throw new IllegalArgumentException("All values must be non-null");
+		}
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState any(ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		return createBooleanReflection(() -> {
+			for (ObservableValue<? extends Boolean> value : values) {
+				if (value.get()) {
+					return true;
+				}
+			}
+			return false;
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState all(ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		return createBooleanReflection(() -> {
+			for (ObservableValue<? extends Boolean> value : values) {
+				if (!value.get()) {
+					return false;
+				}
+			}
+			return true;
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState none(ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		return createBooleanReflection(() -> {
+			for (ObservableValue<? extends Boolean> value : values) {
+				if (value.get()) {
+					return false;
+				}
+			}
+			return true;
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState consensus(ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (length == 0) {
+			return createBooleanReflection(() -> true);
+		}
+		return createBooleanReflection(() -> {
+			boolean consensus = values[0].get();
+			for (int i = 1; i < length; i++) {
+				if (values[i].get() != consensus) {
+					return false;
+				}
+			}
+			return true;
+		}, values);
+	}
+
+	private static int countTrueValues(ObservableValue<? extends Boolean>[] values) {
+		int count = 0;
+		for (ObservableValue<? extends Boolean> value : values) {
+			if (value.get()) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState exactly(int count, ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (count < 0 || count > length) {
+			return createBooleanReflection(() -> false);
+		}
+		return createBooleanReflection(() -> countTrueValues(values) == count, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState exactly(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
+		if (count == null) {
+			throw new IllegalArgumentException("count must be non-null");
+		}
+		checkValuesNonNull(values);
+		final int length = values.length;
+		return createBooleanReflection(() -> countTrueValues(values) == count.get(), combineDependencies(count, values));
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState tie(ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (length % 2 == 1) {
+			return createBooleanReflection(() -> false);
+		}
+		return exactly(length / 2, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState atLeast(int count, ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (count > length) {
+			return createBooleanReflection(() -> false);
+		}
+		return createBooleanReflection(() -> countTrueValues(values) >= count, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState atLeast(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
+		if (count == null) {
+			throw new IllegalArgumentException("count must be non-null");
+		}
+		checkValuesNonNull(values);
+		final int length = values.length;
+		return createBooleanReflection(() -> countTrueValues(values) >= count.get(), combineDependencies(count, values));
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState atMost(int count, ObservableValue<? extends Boolean>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (count < 0) {
+			return createBooleanReflection(() -> false);
+		}
+		return createBooleanReflection(() -> countTrueValues(values) <= count, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState atMost(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
+		if (count == null) {
+			throw new IllegalArgumentException("count must be non-null");
+		}
+		checkValuesNonNull(values);
+		final int length = values.length;
+		return createBooleanReflection(() -> countTrueValues(values) <= count.get(), combineDependencies(count, values));
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState majority(ObservableValue<? extends Boolean>... values) {
+		return atLeast((values.length + 1) / 2, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState strictMajority(ObservableValue<? extends Boolean>... values) {
+		return atLeast(values.length / 2 + 1, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState minority(ObservableValue<? extends Boolean>... values) {
+		return atMost((values.length - 1) / 2, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyBooleanState strictMinority(ObservableValue<? extends Boolean>... values) {
+		return atMost(values.length / 2 - 1, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyNumberState<? extends Number> min(ObservableValue<? extends Number>... values) {
+		return minMax(values, true);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyNumberState<? extends Number> max(ObservableValue<? extends Number>... values) {
+		return minMax(values, false);
+	}
+
+	private static ReadOnlyNumberState<? extends Number> minMax(ObservableValue<? extends Number>[] values, boolean findMin) {
+		checkValuesNonNull(values);
+		final Class<?> type = NumberState.findCommonNumberType(values);
+		return createNumberReflection(type, () -> {
+			final DoubleStream stream = Stream.of(values)
+					.mapToDouble(value -> value.get().doubleValue());
+			final OptionalDouble minMax = findMin ? stream.min() : stream.max();
+			return minMax.orElse(0);
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyDoubleState mean(ObservableValue<? extends Number>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (length == 0) {
+			return createDoubleReflection(() -> 0.0);
+		}
+		return createDoubleReflection(() -> {
+			double mean = 0;
+			for (ObservableValue<? extends Number> value : values) {
+				mean += value.get().doubleValue() / length;
+			}
+			return mean;
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyNumberState<? extends Number> median(ObservableValue<? extends Number>... values) {
+		checkValuesNonNull(values);
+		final int length = values.length;
+		if (length == 0) {
+			return createIntegerReflection(() -> 0);
+		}
+		final Class<?> type = NumberState.findCommonNumberType(values);
+		return createNumberReflection(type, () -> {
+			final double[] sortedValues = Stream.of(values).mapToDouble(v -> v.get().doubleValue()).sorted().toArray();
+			if (length % 2 == 1) {
+				return sortedValues[length / 2];
+			} else {
+				return (sortedValues[length / 2 - 1] + sortedValues[length / 2]) / 2;
+			}
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyStringState join(String delimiter, ObservableValue<String>... values) {
+		if (values == null) {
+			throw new IllegalArgumentException("Values must be non-null");
+		}
+		for (ObservableValue<String> value : values) {
+			if (value == null) {
+				throw new IllegalArgumentException("All values must be non-null");
+			}
+		}
+		return createStringReflection(() -> {
+			final String nonNullDelimiter = delimiter == null ? "" : delimiter;
+			return joinStrings(nonNullDelimiter, values);
+		}, values);
+	}
+
+	@SafeVarargs
+	public static ReadOnlyStringState join(ObservableValue<String> delimiter, ObservableValue<String>... values) {
+		if (delimiter == null) {
+			throw new IllegalArgumentException("Delimiter must be non-null");
+		}
+		checkValuesNonNull(values);
+		return createStringReflection(() -> {
+			final String nonNullDelimiter = delimiter.get() == null ? "" : delimiter.get();
+			return joinStrings(nonNullDelimiter, values);
+		}, combineDependencies(delimiter, values));
+	}
+
+	private static String joinStrings(String nonNullDelimiter, ObservableValue<String>[] values) {
+		final StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < values.length; i++) {
+			if (i > 0) {
+				builder.append(nonNullDelimiter);
+			}
+			builder.append(values[i].get());
+		}
+		return builder.toString();
+	}
+
+	@SafeVarargs
+	public static ReadOnlyStringState concat(ObservableValue<String>... values) {
+		checkValuesNonNull(values);
+		return createStringReflection(() -> {
+			final StringBuilder builder = new StringBuilder();
+			for (ObservableValue<String> value : values) {
+				builder.append(value.get());
+			}
+			return builder.toString();
+		}, values);
+	}
+
 }
