@@ -23,14 +23,18 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.Context;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
 import io.github.somesourcecode.someguiapi.scene.storage.Storage;
-import io.github.somesourcecode.someguiapi.scene.util.Orientation;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.ReadOnlyObjectState;
+import io.github.somesourcecode.someguiapi.state.ReadOnlyObjectStateWrapper;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
@@ -64,10 +68,10 @@ public class Scene {
 	private final ContextDataHolder dataHolder = new ContextDataHolder();
 	private final Storage storage = new Storage();
 
-	private Gui gui;
+	private ReadOnlyObjectStateWrapper<Gui> guiStateWrapper;
 
-	private Parent root;
-	private Background background;
+	private ObjectState<Parent> rootState;
+	private ObjectState<Background> backgroundState;
 
 	private Consumer<? super GuiRenderContext> onRender;
 
@@ -113,13 +117,36 @@ public class Scene {
 	}
 
 	/**
+	 * Returns the state wrapper that holds the GUI that this scene is attached to.
+	 *
+	 * @return the state wrapper that holds the GUI that this scene is attached to
+	 * @since 3.0.0
+	 */
+	private ReadOnlyObjectStateWrapper<Gui> guiStateWrapper() {
+		if (guiStateWrapper == null) {
+			guiStateWrapper = new ReadOnlyObjectStateWrapper<>();
+		}
+		return guiStateWrapper;
+	}
+
+	/**
+	 * Returns a read-only state that holds the GUI that this scene is attached to.
+	 *
+	 * @return a read-only state that holds the GUI that this scene is attached to
+	 * @since 3.0.0
+	 */
+	public ReadOnlyObjectState<Gui> guiState() {
+		return guiStateWrapper().readOnly();
+	}
+
+	/**
 	 * Returns the GUI that this scene is attached to.
 	 *
 	 * @return the GUI that this scene is attached to
 	 * @since 2.0.0
 	 */
 	public Gui getGui() {
-		return gui;
+		return guiStateWrapper == null ? null : guiStateWrapper.get();
 	}
 
 	/**
@@ -129,7 +156,7 @@ public class Scene {
 	 * @since 2.0.0
 	 */
 	private void setGui(Gui gui) {
-		this.gui = gui;
+		guiStateWrapper().set(gui);
 	}
 
 	/**
@@ -145,6 +172,7 @@ public class Scene {
 	 * @since 2.1.0
 	 */
 	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
+		final Parent root = getRoot();
 		if (root == null) {
 			return;
 		}
@@ -172,7 +200,7 @@ public class Scene {
 			parent = parent.getParent();
 		}
 
-		NodeClickContext context = new NodeClickContext(gui, this, area, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
+		NodeClickContext context = new NodeClickContext(getGui(), this, area, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
 
 		for (Node node : nodeBranch) {
 			context = context.copyFor(node);
@@ -193,13 +221,33 @@ public class Scene {
 	}
 
 	/**
+	 * Returns the state that holds the root of the scene.
+	 *
+	 * @return the state that holds the root of the scene
+	 * @since 3.0.0
+	 */
+	public ObjectState<Parent> rootState() {
+		if (rootState == null) {
+			rootState = new SimpleObjectState<>();
+			rootState.observe(() -> {
+				final Gui gui = getGui();
+				if (gui == null) {
+					return;
+				}
+				GuiHelper.setDirtyFlag(gui, DirtyFlag.GUI_CONTENT);
+			});
+		}
+		return rootState;
+	}
+
+	/**
 	 * Returns the root of the scene.
 	 *
 	 * @return the root of the scene
 	 * @since 1.0.0
 	 */
 	public Parent getRoot() {
-		return root;
+		return rootState == null ? null : rootState.get();
 	}
 
 	/**
@@ -209,13 +257,14 @@ public class Scene {
 	 * @since 1.0.0
 	 */
 	public void setRoot(Parent root) {
-		if (this.root == root) {
+		final Parent thisRoot = getRoot();
+		if (thisRoot == root) {
 			return;
 		}
-		if (this.root != null) {
-			NodeHelper.setScene(this.root, null);
+		if (thisRoot != null) {
+			NodeHelper.setScene(thisRoot, null);
 		}
-		this.root = root;
+		setRoot(root);
 		if (root != null) {
 			NodeHelper.setScene(root, this);
 		}
@@ -233,6 +282,7 @@ public class Scene {
 	 * @since 2.0.0
 	 */
 	public Node lookup(String selector) {
+		final Parent root = getRoot();
 		if (root == null) {
 			return null;
 		}
@@ -249,10 +299,31 @@ public class Scene {
 	 * @since 2.0.0
 	 */
 	public Set<Node> lookupAll(String selector) {
+		final Parent root = getRoot();
 		if (root == null) {
 			return Collections.emptySet();
 		}
 		return root.lookupAll(selector);
+	}
+
+	/**
+	 * Returns the state that holds the background of the scene.
+	 *
+	 * @return the state that holds the background of the scene
+	 * @since 3.0.0
+	 */
+	public ObjectState<Background> backgroundState() {
+		if (backgroundState == null) {
+			backgroundState = new SimpleObjectState<>();
+			backgroundState.observe(() -> {
+				final Gui gui = getGui();
+				if (gui == null) {
+					return;
+				}
+				GuiHelper.setDirtyFlag(gui, DirtyFlag.GUI_CONTENT);
+			});
+		}
+		return backgroundState;
 	}
 
 	/**
@@ -262,7 +333,7 @@ public class Scene {
 	 * @since 1.0.0
 	 */
 	public Background getBackground() {
-		return background;
+		return backgroundState == null ? null : backgroundState.get();
 	}
 
 	/**
@@ -272,7 +343,7 @@ public class Scene {
 	 * @since 1.0.0
 	 */
 	public void setBackground(Background background) {
-		this.background = background;
+		backgroundState().set(background);
 	}
 
 	/**
