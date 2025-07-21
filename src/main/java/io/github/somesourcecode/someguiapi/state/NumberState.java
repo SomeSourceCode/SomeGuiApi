@@ -47,6 +47,7 @@ public interface NumberState<T extends Number> extends ReadOnlyNumberState<T>, S
 	 *
 	 * @param values the observable values to find the common type for
 	 * @return the common number type
+	 * @since 3.0.0
 	 */
 	@SuppressWarnings({"unchecked"})
 	static Class<? extends Number> findCommonNumberType(ObservableValue<? extends Number>... values) {

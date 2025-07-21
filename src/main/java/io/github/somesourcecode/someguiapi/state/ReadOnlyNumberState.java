@@ -481,6 +481,7 @@ public interface ReadOnlyNumberState<T extends Number> extends ReadOnlyState<T> 
 	 * @param min the minimum value
 	 * @param max the maximum value
 	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
 	 */
 	ReadOnlyBooleanState isBetween(ObservableValue<? extends Number> min, ObservableValue<? extends Number> max);
 
@@ -549,6 +550,7 @@ public interface ReadOnlyNumberState<T extends Number> extends ReadOnlyState<T> 
 	 * @param min the minimum value
 	 * @param max the maximum value
 	 * @return the new {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
 	 */
 	ReadOnlyBooleanState isBetweenExclusive(ObservableValue<? extends Number> min, ObservableValue<? extends Number> max);
 

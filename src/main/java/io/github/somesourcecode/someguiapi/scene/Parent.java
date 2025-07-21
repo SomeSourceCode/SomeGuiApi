@@ -234,6 +234,7 @@ public abstract class Parent extends Node {
 	 * It will be rendered behind all children.
 	 *
 	 * @return the state holding the background of this parent
+	 * @since 3.0.0
 	 */
 	public ObjectState<Background> backgroundState() {
 		if (backgroundState == null) {
