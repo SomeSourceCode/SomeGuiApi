@@ -64,7 +64,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a boolean {@link ReadOnlyBooleanState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyBooleanState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -107,7 +107,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a number {@link ReadOnlyNumberState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyNumberState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 * <p>
 	 * The specific implementation of the state is determined by the type of the
@@ -146,7 +146,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates an integer {@link ReadOnlyIntegerState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyIntegerState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -189,7 +189,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a long {@link ReadOnlyLongState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyLongState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -232,7 +232,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a long {@link ReadOnlyFloatState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyFloatState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -275,7 +275,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a double {@link ReadOnlyDoubleState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyDoubleState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -318,7 +318,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates an object {@link ReadOnlyObjectState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyObjectState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -361,7 +361,7 @@ public class Reflect {
 	}
 
 	/**
-	 * Creates a string {@link ReadOnlyStringState} that reflects the value of the given
+	 * Creates a {@link ReadOnlyStringState} that reflects the value of the given
 	 * supplier and updates when any of the given dependencies change.
 	 *
 	 * @param supplier the supplier that provides the value of the state
@@ -409,6 +409,15 @@ public class Reflect {
 		}
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if any of the
+	 * given {@link ObservableValue}s is {@code true}, {@code false} otherwise.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState any(ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -422,6 +431,15 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if all the
+	 * given {@link ObservableValue}s are {@code true}, {@code false} otherwise.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState all(ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -435,6 +453,15 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if none of the
+	 * given {@link ObservableValue}s are {@code true}, {@code false} otherwise.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState none(ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -448,6 +475,15 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if the values of
+	 * all the given {@link ObservableValue}s are equal, {@code false} otherwise.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState consensus(ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -476,6 +512,17 @@ public class Reflect {
 		return count;
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if exactly
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the number of {@link ObservableValue}s that must be {@code true} for the
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState exactly(int count, ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -486,6 +533,17 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) == count, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if exactly
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the {@link ObservableValue} that holds the number of values that must be {@code true}
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if count or any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState exactly(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
 		if (count == null) {
@@ -496,6 +554,18 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) == count.get(), combineDependencies(count, values));
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if exactly half
+	 * of the given {@link ObservableValue}s are {@code true}, {@code false}
+	 * otherwise.
+	 * <p>
+	 * If the number of values is odd, this will always return {@code false}.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState tie(ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -506,6 +576,17 @@ public class Reflect {
 		return exactly(length / 2, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at least
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the number of {@link ObservableValue}s that must be {@code true}
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState atLeast(int count, ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -516,6 +597,17 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) >= count, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at least
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the {@link ObservableValue} that holds the number of values that must be {@code true}
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if count or any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState atLeast(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
 		if (count == null) {
@@ -526,6 +618,17 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) >= count.get(), combineDependencies(count, values));
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at most
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the number of {@link ObservableValue}s that must be {@code true}
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState atMost(int count, ObservableValue<? extends Boolean>... values) {
 		checkValuesNonNull(values);
@@ -536,6 +639,17 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) <= count, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at most
+	 * {@code count} of the given {@link ObservableValue}s are {@code true},
+	 * {@code false} otherwise.
+	 *
+	 * @param count the {@link ObservableValue} that holds the number of values that must be {@code true}
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if count or any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState atMost(ObservableValue<Integer> count, ObservableValue<? extends Boolean>... values) {
 		if (count == null) {
@@ -546,31 +660,107 @@ public class Reflect {
 		return createBooleanReflection(() -> countTrueValues(values) <= count.get(), combineDependencies(count, values));
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at least
+	 * half of the given {@link ObservableValue}s are {@code true}, {@code false}
+	 * otherwise.
+	 * <p>
+	 * This is inclusive, meaning that if exactly half of the values are
+	 * {@code true}, the state will be {@code true}.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState majority(ObservableValue<? extends Boolean>... values) {
 		return atLeast((values.length + 1) / 2, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at least
+	 * half of the given {@link ObservableValue}s are {@code true}, {@code false}
+	 * otherwise.
+	 * <p>
+	 * This is exclusive, meaning that if exactly half of the values are
+	 * {@code true}, the state will be {@code false}.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState strictMajority(ObservableValue<? extends Boolean>... values) {
 		return atLeast(values.length / 2 + 1, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at most
+	 * half of the given {@link ObservableValue}s are {@code true}, {@code false}
+	 * otherwise.
+	 * <p>
+	 * This is inclusive, meaning that if exactly half of the values are
+	 * {@code true}, the state will be {@code true}.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState minority(ObservableValue<? extends Boolean>... values) {
 		return atMost((values.length - 1) / 2, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyBooleanState} that is {@code true} if at most
+	 * half of the given {@link ObservableValue}s are {@code true}, {@code false}
+	 * otherwise.
+	 * <p>
+	 * This is exclusive, meaning that if exactly half of the values are
+	 * {@code true}, the state will be {@code false}.
+	 *
+	 * @param values the {@link ObservableValue}s to check
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyBooleanState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyBooleanState strictMinority(ObservableValue<? extends Boolean>... values) {
 		return atMost(values.length / 2 - 1, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyNumberState} that holds the smallest of the given
+	 * {@link ObservableValue}s.
+	 * <p>
+	 * The type of the returned state is determined by the most specific applicable type
+	 * from the {@link NumberState#TYPES} array.
+	 *
+	 * @param values the {@link ObservableValue}s to find the minimum of
+	 * @return the newly created {@code ReadOnlyNumberState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyNumberState<? extends Number> min(ObservableValue<? extends Number>... values) {
 		return minMax(values, true);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyNumberState} that holds the largest of the given
+	 * {@link ObservableValue}s.
+	 * <p>
+	 * The type of the returned state is determined by the most specific applicable type
+	 * from the {@link NumberState#TYPES} array.
+	 *
+	 * @param values the {@link ObservableValue}s to find the maximum of
+	 * @return the newly created {@code ReadOnlyNumberState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyNumberState<? extends Number> max(ObservableValue<? extends Number>... values) {
 		return minMax(values, false);
@@ -587,6 +777,15 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyDoubleState} that holds the mean of the given
+	 * {@link ObservableValue}s.
+	 *
+	 * @param values the {@link ObservableValue}s to calculate the mean of
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyDoubleState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyDoubleState mean(ObservableValue<? extends Number>... values) {
 		checkValuesNonNull(values);
@@ -603,6 +802,18 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyNumberState} that holds the median of the given
+	 * {@link ObservableValue}s.
+	 * <p>
+	 * The type of the returned state is determined by the most specific applicable type
+	 * from the {@link NumberState#TYPES} array.
+	 *
+	 * @param values the {@link ObservableValue}s to calculate the median of
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @return the newly created {@code ReadOnlyNumberState}
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyNumberState<? extends Number> median(ObservableValue<? extends Number>... values) {
 		checkValuesNonNull(values);
@@ -621,6 +832,18 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyStringState} that joins the values of the given
+	 * {@link ObservableValue}s with the specified delimiter.
+	 * <p>
+	 * If the delimiter is {@code null}, it will be treated as an empty string.
+	 *
+	 * @param delimiter the delimiter to use for joining
+	 * @param values the {@link ObservableValue}s to join
+	 * @return the newly created {@code ReadOnlyStringState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyStringState join(String delimiter, ObservableValue<String>... values) {
 		if (values == null) {
@@ -637,6 +860,18 @@ public class Reflect {
 		}, values);
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyStringState} that joins the values of the given
+	 * {@link ObservableValue}s with the specified delimiter.
+	 * <p>
+	 * If the delimiter is {@code null}, it will be treated as an empty string.
+	 *
+	 * @param delimiter the {@link ObservableValue} that provides the delimiter to use for joining
+	 * @param values the {@link ObservableValue}s to join
+	 * @return the newly created {@code ReadOnlyStringState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyStringState join(ObservableValue<String> delimiter, ObservableValue<String>... values) {
 		if (delimiter == null) {
@@ -660,6 +895,15 @@ public class Reflect {
 		return builder.toString();
 	}
 
+	/**
+	 * Creates a {@link ReadOnlyStringState} that concatenates the values of the
+	 * given {@link ObservableValue}s.
+	 *
+	 * @param values the {@link ObservableValue}s to concatenate
+	 * @return the newly created {@code ReadOnlyStringState}
+	 * @throws IllegalArgumentException if any of the values are null
+	 * @since 3.0.0
+	 */
 	@SafeVarargs
 	public static ReadOnlyStringState concat(ObservableValue<String>... values) {
 		checkValuesNonNull(values);
