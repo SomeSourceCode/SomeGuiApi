@@ -453,7 +453,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (length == 0) {
-			return createBooleanReflection(() -> true);
+			return new BooleanConstant(true);
 		}
 		return createBooleanReflection(() -> {
 			boolean consensus = values[0].get();
@@ -481,7 +481,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (count < 0 || count > length) {
-			return createBooleanReflection(() -> false);
+			return new BooleanConstant(false);
 		}
 		return createBooleanReflection(() -> countTrueValues(values) == count, values);
 	}
@@ -501,7 +501,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (length % 2 == 1) {
-			return createBooleanReflection(() -> false);
+			return new BooleanConstant(false);
 		}
 		return exactly(length / 2, values);
 	}
@@ -511,7 +511,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (count > length) {
-			return createBooleanReflection(() -> false);
+			return new BooleanConstant(false);
 		}
 		return createBooleanReflection(() -> countTrueValues(values) >= count, values);
 	}
@@ -531,7 +531,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (count < 0) {
-			return createBooleanReflection(() -> false);
+			return new BooleanConstant(false);
 		}
 		return createBooleanReflection(() -> countTrueValues(values) <= count, values);
 	}
@@ -592,7 +592,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (length == 0) {
-			return createDoubleReflection(() -> 0.0);
+			return new DoubleConstant(0);
 		}
 		return createDoubleReflection(() -> {
 			double mean = 0;
@@ -608,7 +608,7 @@ public class Reflect {
 		checkValuesNonNull(values);
 		final int length = values.length;
 		if (length == 0) {
-			return createIntegerReflection(() -> 0);
+			return new IntegerConstant(0);
 		}
 		final Class<?> type = NumberState.findCommonNumberType(values);
 		return createNumberReflection(type, () -> {
