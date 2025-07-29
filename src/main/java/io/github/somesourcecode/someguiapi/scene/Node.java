@@ -472,12 +472,28 @@ public abstract class Node {
 	}
 
 	/**
+	 * Returns the state holding the width of the node.
+	 *
+	 * @return the state holding the width
+	 * @since 3.0.0
+	 */
+	public abstract ReadOnlyIntegerState widthState();
+
+	/**
 	 * Returns the width of the node.
 	 *
 	 * @return the width of the node
 	 * @since 1.0.0
 	 */
 	public abstract int getWidth();
+
+	/**
+	 * Returns the state holding the height of the node.
+	 *
+	 * @return the state holding the height
+	 * @since 3.0.0
+	 */
+	public abstract ReadOnlyIntegerState heightState();
 
 	/**
 	 * Returns the height of the node.
