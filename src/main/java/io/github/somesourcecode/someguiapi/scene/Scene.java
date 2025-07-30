@@ -177,8 +177,8 @@ public class Scene {
 			return;
 		}
 
-		final int localX = x - root.getLayoutX();
-		final int localY = y - root.getLayoutY();
+		final int localX = x - root.getX();
+		final int localY = y - root.getY();
 
 		final ArrayList<Node> nodeBranch = new ArrayList<>();
 
@@ -189,14 +189,14 @@ public class Scene {
 		nodeBranch.add(clickedNode);
 
 		Parent parent = clickedNode.getParent();
-		int clickedLocalX = clickedNode.getLayoutX();
-		int clickedLocalY = clickedNode.getLayoutY();
+		int clickedLocalX = clickedNode.getX();
+		int clickedLocalY = clickedNode.getY();
 		while (parent != null) {
 			if (clickedLocalX >= 0 && clickedLocalY >= 0 && clickedLocalX < parent.getWidth() && clickedLocalY < parent.getHeight()) {
 				nodeBranch.add(parent);
 			}
-			clickedLocalX += parent.getLayoutX();
-			clickedLocalY += parent.getLayoutY();
+			clickedLocalX += parent.getX();
+			clickedLocalY += parent.getY();
 			parent = parent.getParent();
 		}
 

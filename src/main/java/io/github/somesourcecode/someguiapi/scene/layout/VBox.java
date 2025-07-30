@@ -119,7 +119,7 @@ public class VBox extends Pane {
 
 		int y = getPadding().getTop();
 		for (Node child : getChildren()) {
-			child.relocate(leftPadding + child.getTranslateX(), y + child.getTranslateY());
+			child.relocate(leftPadding, y);
 			y += child.getHeight() + spacing;
 		}
 	}

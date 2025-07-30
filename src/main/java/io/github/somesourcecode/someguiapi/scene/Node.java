@@ -95,6 +95,9 @@ public abstract class Node {
 	private IntegerState translateXState;
 	private IntegerState translateYState;
 
+	private ReadOnlyIntegerState xState;
+	private ReadOnlyIntegerState yState;
+
 	private BooleanState visibleState;
 	private BooleanState clippingState;
 
@@ -469,6 +472,56 @@ public abstract class Node {
 	 */
 	public void setTranslateY(int translateY) {
 		translateYState().set(translateY);
+	}
+
+	/**
+	 * Returns the state that holds the x coordinate of the node's origin,
+	 * which is the sum of the layoutX and translateX.
+	 *
+	 * @return the state that holds the final x coordinate
+	 * @since 3.0.0
+	 */
+	public ReadOnlyIntegerState xState() {
+		if (xState == null) {
+			xState = layoutXState().add(translateXState()).asIntegerState();
+		}
+		return xState;
+	}
+
+	/**
+	 * Returns the x coordinate of the node's origin,
+	 * which is the sum of the layoutX and translateX.
+	 *
+	 * @return the final x coordinate
+	 * @since 3.0.0
+	 */
+	public int getX() {
+		return getLayoutX() + getTranslateX();
+	}
+
+	/**
+	 * Returns the state that holds the y coordinate of the node's origin,
+	 * which is the sum of the layoutY and translateY.
+	 *
+	 * @return the state that holds the final y coordinate
+	 * @since 3.0.0
+	 */
+	public ReadOnlyIntegerState yState() {
+		if (yState == null) {
+			yState = layoutYState().add(translateYState()).asIntegerState();
+		}
+		return yState;
+	}
+
+	/**
+	 * Returns the y coordinate of the node's origin,
+	 * which is the sum of the layoutY and translateY.
+	 *
+	 * @return the final y coordinate
+	 * @since 3.0.0
+	 */
+	public int getY() {
+		return getLayoutY() + getTranslateY();
 	}
 
 	/**

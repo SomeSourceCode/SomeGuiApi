@@ -159,12 +159,12 @@ public class ChestGui extends Gui implements InventoryHolder {
 		Parent root = scene.getRoot();
 		root.layout();
 
-		final int rootLayoutX = root.getLayoutX();
-		final int rootLayoutY = root.getLayoutY();
+		final int rootX = root.getX();
+		final int rootY = root.getY();
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < rows; y++) {
-				Pixel pixel = renderOverrides.getOrDefault(x + 9 * y, root.renderPixelAt(x - rootLayoutX, y - rootLayoutY));
+				Pixel pixel = renderOverrides.getOrDefault(x + 9 * y, root.renderPixelAt(x - rootX, y - rootY));
 				if (pixel == null && scene.getBackground() != null) {
 					pixel = scene.getBackground().backgroundAt(x, y);
 				}

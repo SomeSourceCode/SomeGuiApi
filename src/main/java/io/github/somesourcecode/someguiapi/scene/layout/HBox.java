@@ -119,7 +119,7 @@ public class HBox extends Pane {
 
 		int x = getPadding().getLeft();
 		for (Node child : getChildren()) {
-			child.relocate(x + child.getTranslateX(), topPadding + child.getTranslateY());
+			child.relocate(x, topPadding);
 			x += child.getWidth() + spacing;
 		}
 	}

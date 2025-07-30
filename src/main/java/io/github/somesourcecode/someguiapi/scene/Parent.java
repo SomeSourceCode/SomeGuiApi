@@ -293,8 +293,8 @@ public abstract class Parent extends Node {
 				continue;
 			}
 
-			final int childX = child.getLayoutX();
-			final int childY = child.getLayoutY();
+			final int childX = child.getX();
+			final int childY = child.getY();
 
 			final int localX = x - childX;
 			final int localY = y - childY;
@@ -326,8 +326,8 @@ public abstract class Parent extends Node {
 
 		for (int i = children.size() - 1; i >= 0; i--) {
 			Node child = children.get(i);
-			final int childX = child.getLayoutX();
-			final int childY = child.getLayoutY();
+			final int childX = child.getX();
+			final int childY = child.getY();
 
 			final int localX = x - childX;
 			final int localY = y - childY;
