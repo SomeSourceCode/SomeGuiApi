@@ -264,7 +264,7 @@ public class Scene {
 		if (thisRoot != null) {
 			NodeHelper.setScene(thisRoot, null);
 		}
-		setRoot(root);
+		rootState().set(root);
 		if (root != null) {
 			NodeHelper.setScene(root, this);
 		}
