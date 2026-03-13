@@ -150,7 +150,7 @@ public abstract class ReadOnlyLongStateBase extends ReadOnlyNumberStateBase<Long
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createLongReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createLongReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override
@@ -158,7 +158,7 @@ public abstract class ReadOnlyLongStateBase extends ReadOnlyNumberStateBase<Long
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createFloatReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createFloatReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public abstract class ReadOnlyLongStateBase extends ReadOnlyNumberStateBase<Long
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createDoubleReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createDoubleReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override

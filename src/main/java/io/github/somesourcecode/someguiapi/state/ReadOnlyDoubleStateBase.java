@@ -162,7 +162,7 @@ public abstract class ReadOnlyDoubleStateBase extends ReadOnlyNumberStateBase<Do
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createDoubleReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createDoubleReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override

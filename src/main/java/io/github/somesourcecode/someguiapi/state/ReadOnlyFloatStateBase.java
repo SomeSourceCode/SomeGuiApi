@@ -157,7 +157,7 @@ public abstract class ReadOnlyFloatStateBase extends ReadOnlyNumberStateBase<Flo
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createFloatReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createFloatReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override
@@ -165,7 +165,7 @@ public abstract class ReadOnlyFloatStateBase extends ReadOnlyNumberStateBase<Flo
 		if (min > max) {
 			throw new IllegalArgumentException("min must be less than or equal to max");
 		}
-		return Reflect.createDoubleReflection(() -> Math.clamp(get(), min, max), this);
+		return Reflect.createDoubleReflection(() -> Math.min(Math.max(get(), min), max), this);
 	}
 
 	@Override

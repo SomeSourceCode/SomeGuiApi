@@ -421,7 +421,7 @@ public abstract class ReadOnlyNumberStateBase<T extends Number> extends ReadOnly
 		}
 		@SuppressWarnings("unchecked")
 		final Class<? extends Number> commonType = NumberState.findCommonNumberType(this, min, max);
-		return Reflect.createNumberReflection(commonType, () -> Math.clamp(doubleValue(), min.get().doubleValue(), max.get().doubleValue()), this, min, max);
+		return Reflect.createNumberReflection(commonType, () -> Math.min(Math.max(doubleValue(), min.get().doubleValue()), max.get().doubleValue()), this, min, max);
 	}
 
 	@Override
