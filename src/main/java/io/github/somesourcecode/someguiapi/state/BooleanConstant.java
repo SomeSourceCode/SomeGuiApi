@@ -47,8 +47,9 @@ public class BooleanConstant extends ReadOnlyBooleanStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super Boolean> observer) {
+	public Subscription observe(Observer<? super Boolean> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override

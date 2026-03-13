@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, SomeSourceCode - MIT License
+ * Copyright 2026, SomeSourceCode - MIT License
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the “Software”), to deal in
@@ -24,38 +24,27 @@
 package io.github.somesourcecode.someguiapi.state;
 
 /**
- * A read-only double state that always returns a constant value.
+ * Represents a subscription to an observable state.
+ * <p>
+ * This interface provides a mechanism to manually detach an observer from a state
+ * when it is no longer needed. While detaching is not strictly required if the observer
+ * and the state share the same lifecycle (e.g., a node observing its own state), it is
+ * crucial when a short-lived component observes a long-lived or global state, in order
+ * to prevent memory leaks.
  *
  * @since 3.0.0
  */
-public class DoubleConstant extends ReadOnlyDoubleStateBase {
-
-	private final double value;
+@FunctionalInterface
+public interface Subscription {
 
 	/**
-	 * Constructs a new DoubleConstant with the specified value.
+	 * Cancels the subscription.
+	 * <p>
+	 * After this method is called, the associated observer will no longer receive
+	 * updates from the state it was subscribed to.
 	 *
-	 * @param value the constant double value to be returned by this state
 	 * @since 3.0.0
 	 */
-	public DoubleConstant(double value) {
-		this.value = value;
-	}
-
-	@Override
-	public Double get() {
-		return value;
-	}
-
-	@Override
-	public Subscription observe(Observer<? super Double> observer) {
-		// no-op
-		return () -> {};
-	}
-
-	@Override
-	public void removeObserver(Observer<? super Double> observer) {
-		// no-op
-	}
+	void cancel();
 
 }

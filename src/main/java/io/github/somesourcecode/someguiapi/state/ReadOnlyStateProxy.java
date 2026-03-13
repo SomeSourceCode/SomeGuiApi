@@ -57,8 +57,8 @@ public abstract class ReadOnlyStateProxy<T> implements ReadOnlyState<T> {
 	}
 
 	@Override
-	public void observe(Observer<? super T> observer) {
-		delegate.observe(observer);
+	public Subscription observe(Observer<? super T> observer) {
+		return delegate.observe(observer);
 	}
 
 	@Override

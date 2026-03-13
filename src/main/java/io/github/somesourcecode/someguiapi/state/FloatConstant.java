@@ -48,8 +48,9 @@ public class FloatConstant extends ReadOnlyFloatStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super Float> observer) {
+	public Subscription observe(Observer<? super Float> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override

@@ -53,18 +53,25 @@ public interface ObservableValue<T> {
 	 * Registers an {@link Observer} to be notified of changes to this value.
 	 *
 	 * @param observer the observer to register
+	 * @return a subscription that can be used to unregister the observer
 	 * @throws IllegalArgumentException if observer is null
 	 * @since 3.0.0
 	 */
-	void observe(Observer<? super T> observer);
+	Subscription observe(Observer<? super T> observer);
 
-	default Observer<T> observe(Runnable observer) {
+	/**
+	 * Registers a simple observer that is notified of changes to this value.
+	 *
+	 * @param observer the runnable to run when the value changes
+	 * @return a subscription that can be used to unregister the observer
+	 * @throws IllegalArgumentException if observer is null
+	 * @since 3.0.0
+	 */
+	default Subscription observe(Runnable observer) {
 		if (observer == null) {
 			throw new IllegalArgumentException("observer must be non-null");
 		}
-		final Observer<T> obs = (oldValue, newValue) -> observer.run();
-		observe(obs);
-		return obs;
+		return observe((oldValue, newValue) -> observer.run());
 	}
 
 	/**

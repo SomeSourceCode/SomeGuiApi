@@ -74,14 +74,14 @@ public class FloatExpression extends ReadOnlyFloatStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super Float> observer) {
+	public Subscription observe(Observer<? super Float> observer) {
 		if (observer == null) {
 			throw new IllegalArgumentException("observer must be non-null");
 		}
-		if (observers.contains(observer)) {
-			return;
+		if (!observers.contains(observer)) {
+			observers.add(observer);
 		}
-		observers.add(observer);
+		return () -> removeObserver(observer);
 	}
 
 	@Override

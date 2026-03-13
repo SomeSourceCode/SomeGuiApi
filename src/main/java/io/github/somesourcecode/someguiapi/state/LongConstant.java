@@ -48,8 +48,9 @@ public class LongConstant extends ReadOnlyLongStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super Long> observer) {
+	public Subscription observe(Observer<? super Long> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override

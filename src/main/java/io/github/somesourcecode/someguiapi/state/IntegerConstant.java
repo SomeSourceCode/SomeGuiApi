@@ -48,8 +48,9 @@ public class IntegerConstant extends ReadOnlyIntegerStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super Integer> observer) {
+	public Subscription observe(Observer<? super Integer> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override

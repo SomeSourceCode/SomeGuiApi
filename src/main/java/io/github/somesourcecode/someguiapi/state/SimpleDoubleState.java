@@ -134,14 +134,14 @@ public class SimpleDoubleState extends ReadOnlyDoubleStateBase implements Double
 	}
 
 	@Override
-	public void observe(Observer<? super Double> observer) {
+	public Subscription observe(Observer<? super Double> observer) {
 		if (observer == null) {
 			throw new IllegalArgumentException("observer must be non-null");
 		}
-		if (observers.contains(observer)) {
-			return;
+		if (!observers.contains(observer)) {
+			observers.add(observer);
 		}
-		observers.add(observer);
+		return () -> removeObserver(observer);
 	}
 
 	@Override

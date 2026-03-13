@@ -48,8 +48,9 @@ public class ObjectConstant<T> extends ReadOnlyObjectStateBase<T> {
 	}
 
 	@Override
-	public void observe(Observer<? super T> observer) {
+	public Subscription observe(Observer<? super T> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override

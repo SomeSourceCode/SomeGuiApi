@@ -48,8 +48,9 @@ public class StringConstant extends ReadOnlyStringStateBase {
 	}
 
 	@Override
-	public void observe(Observer<? super String> observer) {
+	public Subscription observe(Observer<? super String> observer) {
 		// no-op
+		return () -> {};
 	}
 
 	@Override
