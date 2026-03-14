@@ -64,7 +64,6 @@ public class DoubleExpression extends ReadOnlyDoubleStateBase {
 	 * @since 3.0.0
 	 */
 	public void update() {
-		System.out.println("UPDATE UPDATE UPDATE");
 		final double newValue = supplier.get();
 		if (Objects.equals(value, newValue)) {
 			return;
