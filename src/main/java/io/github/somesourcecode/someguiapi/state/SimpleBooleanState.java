@@ -79,7 +79,7 @@ public class SimpleBooleanState extends ReadOnlyBooleanStateBase implements Bool
 
 	private boolean sanitizeValue(Boolean currentValue, Boolean newValue) {
 		final Boolean sanitizedValue = sanitize(currentValue, newValue);
-		return sanitizedValue != null && value;
+		return sanitizedValue != null && sanitizedValue;
 	}
 
 	private final Observer<Boolean> reflectObserver = (oldValue, newValue) -> {
