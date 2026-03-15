@@ -668,7 +668,7 @@ public abstract class ReadOnlyStringStateBase extends ReadOnlyObjectStateBase<St
 	}
 
 	@Override
-	public ReadOnlyStringState stringTailing() {
+	public ReadOnlyStringState stripTrailing() {
 		return createMethodForwardStringReflection(String::stripTrailing, this);
 	}
 

@@ -656,7 +656,7 @@ public interface ReadOnlyStringState extends ReadOnlyObjectState<String> {
 	 * @return the new {@code ReadOnlyStringState}
 	 * @since 3.0.0
 	 */
-	ReadOnlyStringState stringTailing();
+	ReadOnlyStringState stripTrailing();
 
 	/**
 	 * Creates a new {@link ReadOnlyStringState} that holds the reversed value

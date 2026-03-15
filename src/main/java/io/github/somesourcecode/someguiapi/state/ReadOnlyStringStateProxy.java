@@ -291,8 +291,8 @@ public class ReadOnlyStringStateProxy extends ReadOnlyObjectStateProxy<String> i
 	}
 
 	@Override
-	public ReadOnlyStringState stringTailing() {
-		return delegate.stringTailing();
+	public ReadOnlyStringState stripTrailing() {
+		return delegate.stripTrailing();
 	}
 
 	@Override
