@@ -25,6 +25,10 @@ package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.scene.util.Insets;
 import io.github.somesourcecode.someguiapi.scene.Parent;
+import io.github.somesourcecode.someguiapi.state.IntegerState;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.SimpleIntegerState;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 
 /**
  * The Base class for parent nodes whose size can be freely set.
@@ -36,10 +40,10 @@ import io.github.somesourcecode.someguiapi.scene.Parent;
  */
 public class Region extends Parent {
 
-	private int width;
-	private int height;
+	private IntegerState widthState;
+	private IntegerState heightState;
 
-	private Insets padding;
+	private ObjectState<Insets> paddingState;
 
 	/**
 	 * Constructs a new region with a width and height of 0.
@@ -50,9 +54,23 @@ public class Region extends Parent {
 		super();
 	}
 
+	/**
+	 * Returns the state holding the width of this region.
+	 *
+	 * @return the state holding the width of this region
+	 * @since 3.0.0
+	 */
+	public IntegerState widthState() {
+		if (widthState == null) {
+			widthState = new SimpleIntegerState(0);
+			widthState.observe(this::requestLayout);
+		}
+		return widthState;
+	}
+
 	@Override
 	public int getWidth() {
-		return width;
+		return widthState == null ? 0 : widthState.get();
 	}
 
 	/**
@@ -62,16 +80,26 @@ public class Region extends Parent {
 	 * @since 1.0.0
 	 */
 	public void setWidth(int width) {
-		if (this.width == width) {
-			return;
+		widthState().set(width);
+	}
+
+	/**
+	 * Returns the state holding the height of this region.
+	 *
+	 * @return the state holding the height of this region
+	 * @since 3.0.0
+	 */
+	public IntegerState heightState() {
+		if (heightState == null) {
+			heightState = new SimpleIntegerState(0);
+			heightState.observe(this::requestLayout);
 		}
-		this.width = width;
-		requestLayout();
+		return heightState;
 	}
 
 	@Override
 	public int getHeight() {
-		return height;
+		return heightState == null ? 0 : heightState.get();
 	}
 
 	/**
@@ -81,11 +109,7 @@ public class Region extends Parent {
 	 * @since 1.0.0
 	 */
 	public void setHeight(int height) {
-		if (this.height == height) {
-			return;
-		}
-		this.height = height;
-		requestLayout();
+		heightState().set(height);
 	}
 
 	/**
@@ -119,13 +143,32 @@ public class Region extends Parent {
 	}
 
 	/**
+	 * Returns the state holding the padding of this region.
+	 *
+	 * @return the state holding the padding of this region
+	 * @since 3.0.0
+	 */
+	public ObjectState<Insets> paddingState() {
+		if (paddingState == null) {
+			paddingState = new SimpleObjectState<>(Insets.EMPTY) {
+				@Override
+				public Insets sanitize(Insets oldInsets, Insets newInsets) {
+					return newInsets == null ? oldInsets : newInsets;
+				}
+			};
+			paddingState.observe(this::requestLayout);
+		}
+		return paddingState;
+	}
+
+	/**
 	 * Returns the padding of this region.
 	 *
 	 * @return the padding of this region
 	 * @since 1.0.0
 	 */
 	public Insets getPadding() {
-		return padding == null ? Insets.EMPTY : padding;
+		return paddingState == null ? Insets.EMPTY : paddingState.get();
 	}
 
 	/**
@@ -135,11 +178,7 @@ public class Region extends Parent {
 	 * @since 1.0.0
 	 */
 	public void setPadding(Insets padding) {
-		if ((this.padding == null && padding == null) || (this.padding != null && this.padding.equals(padding))) {
-			return;
-		}
-		this.padding = padding;
-		requestLayout();
+		paddingState().set(padding);
 	}
 
 }

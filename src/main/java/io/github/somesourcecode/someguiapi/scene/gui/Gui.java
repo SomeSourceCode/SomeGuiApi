@@ -27,6 +27,8 @@ import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import io.github.somesourcecode.someguiapi.scene.context.*;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
 import io.github.somesourcecode.someguiapi.scene.storage.Storage;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
@@ -69,7 +71,7 @@ public abstract class Gui {
 
 	protected final EnumSet<DirtyFlag> dirtyFlags = EnumSet.noneOf(DirtyFlag.class);
 
-	private Gui parent;
+	private ObjectState<Gui> parentState;
 
 	private Consumer<? super GuiClickContext> onClick;
 	private Consumer<? super GuiSlotClickContext> onGuiClick;
@@ -163,13 +165,41 @@ public abstract class Gui {
 	}
 
 	/**
+	 * Returns the state that holds the parent GUI of this GUI.
+	 *
+	 * @return the state that holds the parent GUI
+	 * @since 3.0.0
+	 */
+	public ObjectState<Gui> parentState() {
+		if (parentState == null) {
+			parentState = new SimpleObjectState<>() {
+				@Override
+				public Gui sanitize(Gui oldParent, Gui newParent) {
+					if (newParent == Gui.this) {
+						throw new IllegalArgumentException("A GUI cannot be its own parent");
+					}
+					if (wouldCreateParentCycle(newParent)) {
+						throw new IllegalArgumentException("Parent cycle detected when setting parent of GUI " + this + " to " + newParent);
+					}
+					return newParent;
+				}
+			};
+		}
+		return parentState;
+	}
+
+	private boolean wouldCreateParentCycle(Gui parent) {
+		return parent == this || (parent != null && wouldCreateParentCycle(parent.getParent()));
+	}
+
+	/**
 	 * Returns the parent GUI of this GUI.
 	 *
 	 * @return the parent GUI
 	 * @since 2.1.0
 	 */
 	public Gui getParent() {
-		return parent;
+		return parentState == null ? null : parentState.get();
 	}
 
 	/**
@@ -179,17 +209,7 @@ public abstract class Gui {
 	 * @since 2.1.0
 	 */
 	public void setParent(Gui parent) {
-		if (parent == this) {
-			throw new IllegalArgumentException("A GUI cannot be its own parent");
-		}
-		if (wouldCreateParentCycle(parent)) {
-			throw new IllegalArgumentException("Parent cycle detected when setting parent of GUI " + this + " to " + parent);
-		}
-		this.parent = parent;
-	}
-
-	private boolean wouldCreateParentCycle(Gui parent) {
-		return parent == this || (parent != null && wouldCreateParentCycle(parent.getParent()));
+		parentState().set(parent);
 	}
 
 	/**
@@ -200,6 +220,7 @@ public abstract class Gui {
 	 * @since 2.1.0
 	 */
 	public void navigateToParent(HumanEntity viewer) {
+		final Gui parent = getParent();
 		if (parent == null || viewer == null) {
 			return;
 		}
@@ -214,6 +235,7 @@ public abstract class Gui {
 	 * @since 2.1.0
 	 */
 	public void navigateToParentOrClose(HumanEntity viewer) {
+		final Gui parent = getParent();
 		if (parent == null || viewer == null) {
 			close(viewer);
 			return;

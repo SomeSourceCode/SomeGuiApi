@@ -25,6 +25,9 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.context.Context;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
+import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import io.github.somesourcecode.someguiapi.scene.gui.GuiHelper;
+import io.github.somesourcecode.someguiapi.state.*;
 import org.bukkit.Bukkit;
 
 import java.util.Collections;
@@ -81,25 +84,62 @@ public abstract class Node {
 		});
 	}
 
-	private Scene scene;
-	private Parent parent;
+	private ReadOnlyObjectStateWrapper<Scene> sceneStateWrapper;
+	private ReadOnlyObjectStateWrapper<Parent> parentStateWrapper;
 
-	private String id;
+	private StringState idState;
 
-	private int layoutX;
-	private int layoutY;
+	private IntegerState layoutXState;
+	private IntegerState layoutYState;
 
-	private int translateX;
-	private int translateY;
+	private IntegerState translateXState;
+	private IntegerState translateYState;
 
-	private boolean visible = true;
-	private boolean clipping = true;
+	private ReadOnlyIntegerState xState;
+	private ReadOnlyIntegerState yState;
+
+	private BooleanState visibleState;
+	private BooleanState clippingState;
 
 	private Consumer<? super NodeClickContext> onClick;
 	private Consumer<? super NodeClickContext> onLeftClick;
 	private Consumer<? super NodeClickContext> onRightClick;
 	private Consumer<? super NodeClickContext> onShiftClick;
 	private Consumer<? super NodeClickContext> onHotBarClick;
+
+	/**
+	 * Returns the state wrapper that holds the scene that this node is in.
+	 * If this node is not in a scene, the state will hold null.
+	 * This is used internally and should not be exposed to the user.
+	 *
+	 * @return the state wrapper that holds the scene that this node is in
+	 * @since 3.0.0
+	 */
+	private ReadOnlyObjectStateWrapper<Scene> sceneStateWrapper() {
+		if (sceneStateWrapper == null) {
+			sceneStateWrapper = new ReadOnlyObjectStateWrapper<>(null);
+			sceneStateWrapper.observe((oldScene, newScene) -> {
+				if (!(Node.this instanceof Parent asParent)) {
+					return;
+				}
+				for (Node child : asParent.getChildren()) {
+					child.setScene(newScene);
+				}
+			});
+		}
+		return sceneStateWrapper;
+	}
+
+	/**
+	 * Returns the read-only state that holds the scene that this node is in.
+	 * If this node is not in a scene, the state will hold null.
+	 *
+	 * @return the read-only state that holds the scene that this node is in
+	 * @since 3.0.0
+	 */
+	public ReadOnlyObjectState<Scene> sceneState() {
+		return sceneStateWrapper().readOnly();
+	}
 
 	/**
 	 * Returns the scene that this node is in.
@@ -109,7 +149,7 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	public Scene getScene() {
-		return scene;
+		return sceneStateWrapper == null ? null : sceneStateWrapper.get();
 	}
 
 	/**
@@ -119,12 +159,33 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	private void setScene(Scene scene) {
-		this.scene = scene;
-		if (this instanceof Parent asParent) {
-			for (Node child : asParent.getChildren()) {
-				child.setScene(scene);
-			}
+		sceneStateWrapper().set(scene);
+	}
+
+	/**
+	 * Returns the state wrapper that holds the parent of this node.
+	 * If this node has no parent, the state will hold null.
+	 * This is used internally and should not be exposed to the user.
+	 *
+	 * @return the state wrapper that holds the parent of this node
+	 * @since 3.0.0
+	 */
+	private ReadOnlyObjectStateWrapper<Parent> parentStateWrapper() {
+		if (parentStateWrapper == null) {
+			parentStateWrapper = new ReadOnlyObjectStateWrapper<>(null);
 		}
+		return parentStateWrapper;
+	}
+
+	/**
+	 * Returns the read-only state that holds the parent of this node.
+	 * If this node has no parent, the state will hold null.
+	 *
+	 * @return the read-only state that holds the parent of this node
+	 * @since 3.0.0
+	 */
+	public ReadOnlyObjectState<Parent> parentState() {
+		return parentStateWrapper().readOnly();
 	}
 
 	/**
@@ -135,7 +196,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public Parent getParent() {
-		return parent;
+		return parentStateWrapper == null ? null : parentStateWrapper.get();
 	}
 
 	/**
@@ -145,7 +206,14 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	private void setParent(Parent parent) {
-		this.parent = parent;
+		parentStateWrapper().set(parent);
+	}
+
+	public StringState idState() {
+		if (idState == null) {
+			idState = new SimpleStringState();
+		}
+		return idState;
 	}
 
 	/**
@@ -155,7 +223,7 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	public final String getId() {
-		return id;
+		return idState == null ? null : idState.get();
 	}
 
 	/**
@@ -166,7 +234,7 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	public final void setId(String id) {
-		this.id = id;
+		idState().set(id);
 	}
 
 	/**
@@ -180,6 +248,7 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	public Node lookup(String selector) {
+		final String id = getId();
 		if (selector == null || id == null) {
 			return null;
 		}
@@ -218,10 +287,10 @@ public abstract class Node {
 	 * @since 2.0.0
 	 */
 	protected Set<Node> lookupAll(String selector, Set<Node> results) {
+		final String id = getId();
 		if (selector == null || id == null) {
 			return results;
 		}
-
 		if (selector.equals("#" + id)) {
 			if (results == null) {
 				results = new HashSet<>();
@@ -245,6 +314,21 @@ public abstract class Node {
 	}
 
 	/**
+	 * Returns the state holding the x coordinate of the node's origin.
+	 * The origin is the top-left corner of the node.
+	 *
+	 * @return the state holding the x coordinate of the node's origin
+	 * @since 3.0.0
+	 */
+	public IntegerState layoutXState() {
+		if (layoutXState == null) {
+			layoutXState = new SimpleIntegerState(0);
+			layoutXState.observe(this::requestParentLayout);
+		}
+		return layoutXState;
+	}
+
+	/**
 	 * Returns the x coordinate of the node's origin.
 	 * The origin is the top-left corner of the node.
 	 *
@@ -252,7 +336,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public int getLayoutX() {
-		return layoutX;
+		return layoutXState == null ? 0 : layoutXState.get();
 	}
 
 	/**
@@ -263,11 +347,22 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setLayoutX(int layoutX) {
-		if (this.layoutX == layoutX) {
-			return;
+		layoutXState().set(layoutX);
+	}
+
+	/**
+	 * Returns the state holding the y coordinate of the node's origin.
+	 * The origin is the top-left corner of the node.
+	 *
+	 * @return the state holding the y coordinate of the node's origin
+	 * @since 3.0.0
+	 */
+	public IntegerState layoutYState() {
+		if (layoutYState == null) {
+			layoutYState = new SimpleIntegerState(0);
+			layoutYState.observe(this::requestParentLayout);
 		}
-		this.layoutX = layoutX;
-		requestParentLayout();
+		return layoutYState;
 	}
 
 	/**
@@ -278,7 +373,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public int getLayoutY() {
-		return layoutY;
+		return layoutYState == null ? 0 : layoutYState.get();
 	}
 
 	/**
@@ -289,11 +384,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setLayoutY(int layoutY) {
-		if (this.layoutY == layoutY) {
-			return;
-		}
-		this.layoutY = layoutY;
-		requestParentLayout();
+		layoutYState().set(layoutY);
 	}
 
 	/**
@@ -310,6 +401,21 @@ public abstract class Node {
 	}
 
 	/**
+	 * Returns the state holding the x translation of the node.
+	 * The translation is applied after the layout has been computed, but before the node is rendered.
+	 *
+	 * @return the state holding the x translation of the node
+	 * @since 3.0.0
+	 */
+	public IntegerState translateXState() {
+		if (translateXState == null) {
+			translateXState = new SimpleIntegerState(0);
+			translateXState.observe(this::requestParentLayout);
+		}
+		return translateXState;
+	}
+
+	/**
 	 * Returns the x translation of the node.
 	 * The translation is applied after the layout has been computed, but before the node is rendered.
 	 *
@@ -317,7 +423,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public int getTranslateX() {
-		return translateX;
+		return translateXState == null ? 0 : translateXState.get();
 	}
 
 	/**
@@ -328,11 +434,22 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setTranslateX(int translateX) {
-		if (this.translateX == translateX) {
-			return;
+		translateXState().set(translateX);
+	}
+
+	/**
+	 * Returns the state holding the y translation of the node.
+	 * The translation is applied after the layout has been computed, but before the node is rendered.
+	 *
+	 * @return the state holding the y translation of the node
+	 * @since 3.0.0
+	 */
+	public IntegerState translateYState() {
+		if (translateYState == null) {
+			translateYState = new SimpleIntegerState(0);
+			translateYState.observe(this::requestParentLayout);
 		}
-		this.translateX = translateX;
-		requestParentLayout();
+		return translateYState;
 	}
 
 	/**
@@ -343,7 +460,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public int getTranslateY() {
-		return translateY;
+		return translateYState == null ? 0 : translateYState.get();
 	}
 
 	/**
@@ -354,12 +471,66 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setTranslateY(int translateY) {
-		if (this.translateY == translateY) {
-			return;
-		}
-		this.translateY = translateY;
-		requestParentLayout();
+		translateYState().set(translateY);
 	}
+
+	/**
+	 * Returns the state that holds the x coordinate of the node's origin,
+	 * which is the sum of the layoutX and translateX.
+	 *
+	 * @return the state that holds the final x coordinate
+	 * @since 3.0.0
+	 */
+	public ReadOnlyIntegerState xState() {
+		if (xState == null) {
+			xState = layoutXState().add(translateXState()).asIntegerState();
+		}
+		return xState;
+	}
+
+	/**
+	 * Returns the x coordinate of the node's origin,
+	 * which is the sum of the layoutX and translateX.
+	 *
+	 * @return the final x coordinate
+	 * @since 3.0.0
+	 */
+	public int getX() {
+		return getLayoutX() + getTranslateX();
+	}
+
+	/**
+	 * Returns the state that holds the y coordinate of the node's origin,
+	 * which is the sum of the layoutY and translateY.
+	 *
+	 * @return the state that holds the final y coordinate
+	 * @since 3.0.0
+	 */
+	public ReadOnlyIntegerState yState() {
+		if (yState == null) {
+			yState = layoutYState().add(translateYState()).asIntegerState();
+		}
+		return yState;
+	}
+
+	/**
+	 * Returns the y coordinate of the node's origin,
+	 * which is the sum of the layoutY and translateY.
+	 *
+	 * @return the final y coordinate
+	 * @since 3.0.0
+	 */
+	public int getY() {
+		return getLayoutY() + getTranslateY();
+	}
+
+	/**
+	 * Returns the state holding the width of the node.
+	 *
+	 * @return the state holding the width
+	 * @since 3.0.0
+	 */
+	public abstract ReadOnlyIntegerState widthState();
 
 	/**
 	 * Returns the width of the node.
@@ -370,12 +541,46 @@ public abstract class Node {
 	public abstract int getWidth();
 
 	/**
+	 * Returns the state holding the height of the node.
+	 *
+	 * @return the state holding the height
+	 * @since 3.0.0
+	 */
+	public abstract ReadOnlyIntegerState heightState();
+
+	/**
 	 * Returns the height of the node.
 	 *
 	 * @return the height of the node
 	 * @since 1.0.0
 	 */
 	public abstract int getHeight();
+
+	/**
+	 * Returns the state that holds whether the node is visible.
+	 * If a node is not visible, it will not be rendered, but it
+	 * will still be considered for layout calculations.
+	 *
+	 * @return the state that holds whether the node is visible
+	 * @since 3.0.0
+	 */
+	public BooleanState visibleState() {
+		if (visibleState == null) {
+			visibleState = new SimpleBooleanState(true);
+			visibleState.observe(() -> {
+				final Scene scene = getScene();
+				if (scene == null) {
+					return;
+				}
+				final Gui gui = scene.getGui();
+				if (gui == null) {
+					return;
+				}
+				GuiHelper.setDirtyFlag(gui, DirtyFlag.GUI_CONTENT);
+			});
+		}
+		return visibleState;
+	}
 
 	/**
 	 * Returns whether the node is visible.
@@ -386,7 +591,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public boolean isVisible() {
-		return visible;
+		return visibleState == null || visibleState.get();
 	}
 
 	/**
@@ -398,7 +603,22 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setVisible(boolean visible) {
-		this.visible = visible;
+		visibleState().set(visible);
+	}
+
+	/**
+	 * Returns the state that holds whether the node is clipping its children.
+	 * If a node is clipping its children, children that are outside
+	 * the bounds of the node will not be rendered.
+	 *
+	 * @return the state that holds whether the node is clipping its children
+	 * @since 3.0.0
+	 */
+	public BooleanState clippingState() {
+		if (clippingState == null) {
+			clippingState = new SimpleBooleanState(true);
+		}
+		return clippingState;
 	}
 
 	/**
@@ -410,7 +630,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public boolean isClipping() {
-		return clipping;
+		return clippingState == null || clippingState.get();
 	}
 
 	/**
@@ -422,7 +642,7 @@ public abstract class Node {
 	 * @since 1.0.0
 	 */
 	public void setClipping(boolean clipping) {
-		this.clipping = clipping;
+		clippingState().set(clipping);
 	}
 
 	/**
@@ -637,6 +857,7 @@ public abstract class Node {
 	@Override
 	public String toString() {
 		String simpleName = getClass().getSimpleName();
+		String id = getId();
 		boolean hasId = id != null && !id.isEmpty();
 
 		StringBuilder builder = new StringBuilder(simpleName);

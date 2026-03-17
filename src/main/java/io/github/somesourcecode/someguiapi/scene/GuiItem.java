@@ -26,6 +26,8 @@ package io.github.somesourcecode.someguiapi.scene;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import io.github.somesourcecode.someguiapi.scene.lore.Lore;
+import io.github.somesourcecode.someguiapi.state.IntegerConstant;
+import io.github.somesourcecode.someguiapi.state.ReadOnlyIntegerState;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 
@@ -43,6 +45,9 @@ import java.util.function.Function;
 public class GuiItem extends Node {
 
 	private final Pixel pixel;
+
+	private ReadOnlyIntegerState widthState;
+	private ReadOnlyIntegerState heightState;
 
 	/**
 	 * Constructs a new GuiItem with an empty pixel.
@@ -64,8 +69,24 @@ public class GuiItem extends Node {
 	}
 
 	@Override
+	public ReadOnlyIntegerState widthState() {
+		if (widthState == null) {
+			widthState = new IntegerConstant(1);
+		}
+		return widthState;
+	}
+
+	@Override
 	public int getWidth() {
 		return 1;
+	}
+
+	@Override
+	public ReadOnlyIntegerState heightState() {
+		if (heightState == null) {
+			heightState = new IntegerConstant(1);
+		}
+		return heightState;
 	}
 
 	@Override

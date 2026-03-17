@@ -25,6 +25,7 @@ package io.github.somesourcecode.someguiapi.scene;
 
 import io.github.somesourcecode.someguiapi.scene.context.PixelRenderContext;
 import io.github.somesourcecode.someguiapi.scene.lore.Lore;
+import io.github.somesourcecode.someguiapi.state.*;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -72,14 +73,14 @@ public class Pixel {
 		return new Pixel(material);
 	}
 
-	private Material material;
+	private ObjectState<Material> materialState;
 
-	private Component title;
-	private Function<? super PixelRenderContext, Component> titleFunction;
-	private Lore lore;
+	private ObjectState<Component> titleState;
+	private ObjectState<Function<? super PixelRenderContext, Component>> titleFunctionState;
+	private ObjectState<Lore> loreState;
 
-	private int index = 1;
-	private boolean glow = false;
+	private IntegerState indexState;
+	private BooleanState glowState;
 
 	/**
 	 * Constructs a new empty pixel.
@@ -97,7 +98,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material) {
-		this.material = material;
+		setMaterial(material);
 	}
 
 	/**
@@ -108,8 +109,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index) {
-		this.material = material;
-		this.index = index;
+		this(material);
+		setIndex(index);
 	}
 
 	/**
@@ -121,9 +122,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title) {
-		this.material = material;
-		this.index = index;
-		this.title = title;
+		this(material, index);
+		setTitle(title);
 	}
 
 	/**
@@ -136,10 +136,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title, Lore lore) {
-		this.material = material;
-		this.index = index;
-		this.title = title;
-		this.lore = lore;
+		this(material, index, title);
+		setLore(lore);
 	}
 
 	/**
@@ -153,11 +151,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, int index, Component title, Lore lore, boolean glow) {
-		this.material = material;
-		this.index = index;
-		this.title = title;
-		this.lore = lore;
-		this.glow = glow;
+		this(material, index, title, lore);
+		setGlow(glow);
 	}
 
 	/**
@@ -168,8 +163,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title) {
-		this.material = material;
-		this.title = title;
+		this(material);
+		setTitle(title);
 	}
 
 	/**
@@ -181,9 +176,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title, Lore lore) {
-		this.material = material;
-		this.title = title;
-		this.lore = lore;
+		this(material, title);
+		setLore(lore);
 	}
 
 	/**
@@ -196,10 +190,21 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel(Material material, Component title, Lore lore, boolean glow) {
-		this.material = material;
-		this.title = title;
-		this.lore = lore;
-		this.glow = glow;
+		this(material, title, lore);
+		setGlow(glow);
+	}
+
+	/**
+	 * Returns the state holding the material of this pixel.
+	 *
+	 * @return the state holding the material
+	 * @since 3.0.0
+	 */
+	public ObjectState<Material> materialState() {
+		if (materialState == null) {
+			materialState = new SimpleObjectState<>();
+		}
+		return materialState;
 	}
 
 	/**
@@ -209,7 +214,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Material getMaterial() {
-		return material;
+		return materialState == null ? null : materialState.get();
 	}
 
 	/**
@@ -220,8 +225,26 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel setMaterial(Material material) {
-		this.material = material;
+		materialState().set(material);
 		return this;
+	}
+
+	/**
+	 * Returns the state holding the title of this pixel.
+	 *
+	 * @return the state holding the title
+	 * @since 3.0.0
+	 */
+	public ObjectState<Component> titleState() {
+		if (titleState == null) {
+			titleState = new SimpleObjectState<>();
+			titleState.observe(() -> {
+				if (titleFunctionState != null) {
+					titleFunctionState.set(null);
+				}
+			});
+		}
+		return titleState;
 	}
 
 	/**
@@ -231,7 +254,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Component getTitle() {
-		return title;
+		return titleState == null ? null : titleState.get();
 	}
 
 	/**
@@ -243,9 +266,27 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel setTitle(Component title) {
-		this.title = title;
-		this.titleFunction = null;
+		titleState().set(title);
 		return this;
+	}
+
+	/**
+	 * Returns the state holding the dynamic title of this pixel.
+	 * This is a function that generates the title during rendering.
+	 *
+	 * @return the state holding the dynamic title
+	 * @since 3.0.0
+	 */
+	public ObjectState<Function<? super PixelRenderContext, Component>> dynamicTitleState() {
+		if (titleFunctionState == null) {
+			titleFunctionState = new SimpleObjectState<>();
+			titleFunctionState.observe(() -> {
+				if (titleState != null) {
+					titleState.set(null);
+				}
+			});
+		}
+		return titleFunctionState;
 	}
 
 	/**
@@ -256,7 +297,7 @@ public class Pixel {
 	 * @since 2.1.0
 	 */
 	public Function<? super PixelRenderContext, Component> getDynamicTitle() {
-		return titleFunction;
+		return titleFunctionState == null ? null : titleFunctionState.get();
 	}
 
 	/**
@@ -269,9 +310,21 @@ public class Pixel {
 	 * @since 2.1.0
 	 */
 	public Pixel setDynamicTitle(Function<? super PixelRenderContext, Component> titleFunction) {
-		this.titleFunction = titleFunction;
-		this.title = null;
+		dynamicTitleState().set(titleFunction);
 		return this;
+	}
+
+	/**
+	 * Returns the state holding the lore of this pixel.
+	 *
+	 * @return the state holding the lore
+	 * @since 3.0.0
+	 */
+	public ObjectState<Lore> loreState() {
+		if (loreState == null) {
+			loreState = new SimpleObjectState<>();
+		}
+		return loreState;
 	}
 
 	/**
@@ -281,7 +334,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Lore getLore() {
-		return lore;
+		return loreState == null ? null : loreState.get();
 	}
 
 	/**
@@ -292,8 +345,21 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel setLore(Lore lore) {
-		this.lore = lore;
+		loreState().set(lore);
 		return this;
+	}
+
+	/**
+	 * Returns the state holding the index of this pixel.
+	 *
+	 * @return the state holding the index
+	 * @since 3.0.0
+	 */
+	public IntegerState indexState() {
+		if (indexState == null) {
+			indexState = new SimpleIntegerState(1);
+		}
+		return indexState;
 	}
 
 	/**
@@ -303,7 +369,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public int getIndex() {
-		return index;
+		return indexState == null ? 1 : indexState.get();
 	}
 
 	/**
@@ -314,8 +380,21 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel setIndex(int index) {
-		this.index = index;
+		indexState().set(index);
 		return this;
+	}
+
+	/**
+	 * Returns the state holding that is {@code true} if this pixel should glow,
+	 * {@code false} otherwise.
+	 *
+	 * @return the state holding whether this pixel should glow
+	 */
+	public BooleanState glowState() {
+		if (glowState == null) {
+			glowState = new SimpleBooleanState();
+		}
+		return glowState;
 	}
 
 	/**
@@ -325,7 +404,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public boolean isGlow() {
-		return glow;
+		return glowState != null && glowState.get();
 	}
 
 	/**
@@ -336,7 +415,7 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public Pixel setGlow(boolean glow) {
-		this.glow = glow;
+		glowState().set(glow);
 		return this;
 	}
 
@@ -349,6 +428,8 @@ public class Pixel {
 	 * @since 2.0.0
 	 */
 	public boolean isEmpty() {
+		final Material material = getMaterial();
+		final int index = getIndex();
 		return material == null || material.isAir() || index <= 0;
 	}
 
@@ -364,7 +445,14 @@ public class Pixel {
 			return null;
 		}
 
-		ItemStack item = new ItemStack(material);
+		final Material material = getMaterial();
+		final Component title = getTitle();
+		final Function<? super PixelRenderContext, Component> titleFunction = getDynamicTitle();
+		final Lore lore = getLore();
+		final int index = getIndex();
+		final boolean glow = isGlow();
+
+		final ItemStack item = new ItemStack(material);
 
 		if (title != null) {
 			item.editMeta(meta -> meta.displayName(title));

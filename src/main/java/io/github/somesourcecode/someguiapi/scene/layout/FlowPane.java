@@ -25,6 +25,10 @@ package io.github.somesourcecode.someguiapi.scene.layout;
 
 import io.github.somesourcecode.someguiapi.scene.Node;
 import io.github.somesourcecode.someguiapi.scene.util.Orientation;
+import io.github.somesourcecode.someguiapi.state.IntegerState;
+import io.github.somesourcecode.someguiapi.state.ObjectState;
+import io.github.somesourcecode.someguiapi.state.SimpleIntegerState;
+import io.github.somesourcecode.someguiapi.state.SimpleObjectState;
 
 /**
  * A layout pane that arranges its children in a flow, wrapping at the pane's bounds.
@@ -38,10 +42,10 @@ import io.github.somesourcecode.someguiapi.scene.util.Orientation;
  */
 public class FlowPane extends Pane {
 
-	private Orientation orientation;
+	private ObjectState<Orientation> orientationState;
 
-	private int hGap;
-	private int vGap;
+	private IntegerState hGapState;
+	private IntegerState vGapState;
 
 	/**
 	 * Constructs a new FlowPane with horizontal orientation.
@@ -60,7 +64,7 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(Orientation orientation) {
 		super();
-		this.orientation = orientation;
+		setOrientation(orientation);
 	}
 
 	/**
@@ -72,8 +76,8 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(int hGap, int vGap) {
 		super();
-		this.hGap = hGap;
-		this.vGap = vGap;
+		setHGap(hGap);
+		setVGap(vGap);
 	}
 
 	/**
@@ -86,9 +90,9 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(Orientation orientation, int hGap, int vGap) {
 		super();
-		this.orientation = orientation;
-		this.hGap = hGap;
-		this.vGap = vGap;
+		setOrientation(orientation);
+		setHGap(hGap);
+		setVGap(vGap);
 	}
 
 	/**
@@ -110,7 +114,7 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(Orientation orientation, Node... children) {
 		super(children);
-		this.orientation = orientation;
+		setOrientation(orientation);
 	}
 
 	/**
@@ -123,8 +127,8 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(int hGap, int vGap, Node... children) {
 		super(children);
-		this.hGap = hGap;
-		this.vGap = vGap;
+		setHGap(hGap);
+		setVGap(vGap);
 	}
 
 	/**
@@ -138,9 +142,23 @@ public class FlowPane extends Pane {
 	 */
 	public FlowPane(Orientation orientation, int hGap, int vGap, Node... children) {
 		super(children);
-		this.orientation = orientation;
-		this.hGap = hGap;
-		this.vGap = vGap;
+		setOrientation(orientation);
+		setHGap(hGap);
+		setVGap(vGap);
+	}
+
+	/**
+	 * Returns the state holding the orientation of the flow pane.
+	 *
+	 * @return the state holding the orientation of the flow pane
+	 * @since 3.0.0
+	 */
+	public ObjectState<Orientation> orientationState() {
+		if (orientationState == null) {
+			orientationState = new SimpleObjectState<>(Orientation.HORIZONTAL);
+			orientationState.observe(this::requestLayout);
+		}
+		return orientationState;
 	}
 
 	/**
@@ -150,6 +168,10 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public Orientation getOrientation() {
+		if (orientationState == null) {
+			return Orientation.HORIZONTAL;
+		}
+		final Orientation orientation = orientationState.get();
 		return orientation == null ? Orientation.HORIZONTAL : orientation;
 	}
 
@@ -160,11 +182,22 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setOrientation(Orientation orientation) {
-		if (this.orientation == orientation) {
-			return;
+		orientationState().set(orientation);
+	}
+
+	/**
+	 * Returns the state holding the amount of space between each node in a horizontal FlowPane
+	 * or the space between each column in a vertical FlowPane.
+	 *
+	 * @return the state holding the horizontal gap between nodes
+	 * @since 3.0.0
+	 */
+	public IntegerState hGapState() {
+		if (hGapState == null) {
+			hGapState = new SimpleIntegerState(0);
+			hGapState.observe(this::requestLayout);
 		}
-		this.orientation = orientation;
-		requestLayout();
+		return hGapState;
 	}
 
 	/**
@@ -175,7 +208,7 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public int getHGap() {
-		return hGap;
+		return hGapState == null ? 0 : hGapState.get();
 	}
 
 	/**
@@ -186,11 +219,22 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setHGap(int hGap) {
-		if (this.hGap == hGap) {
-			return;
+		hGapState().set(hGap);
+	}
+
+	/**
+	 * Returns the state holding the amount of space between each node in a vertical FlowPane
+	 * or the space between each row in a horizontal FlowPane.
+	 *
+	 * @return the state holding the vertical gap between nodes
+	 * @since 3.0.0
+	 */
+	public IntegerState vGapState() {
+		if (vGapState == null) {
+			vGapState = new SimpleIntegerState(0);
+			vGapState.observe(this::requestLayout);
 		}
-		this.hGap = hGap;
-		requestLayout();
+		return vGapState;
 	}
 
 	/**
@@ -201,7 +245,7 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public int getVGap() {
-		return vGap;
+		return vGapState == null ? 0 : vGapState.get();
 	}
 
 	/**
@@ -212,11 +256,7 @@ public class FlowPane extends Pane {
 	 * @since 1.0.0
 	 */
 	public void setVGap(int vGap) {
-		if (this.vGap == vGap) {
-			return;
-		}
-		this.vGap = vGap;
-		requestLayout();
+		vGapState().set(vGap);
 	}
 
 	@Override
@@ -228,6 +268,9 @@ public class FlowPane extends Pane {
 
 		final int layoutWidth = getWidth() - leftPadding - rightPadding;
 		final int layoutHeight = getHeight() - topPadding - bottomPadding;
+
+		final int hGap = getHGap();
+		final int vGap = getVGap();
 
 		final Orientation orientation = getOrientation();
 		final int maxLength = orientation == Orientation.HORIZONTAL ? layoutWidth : layoutHeight;
@@ -252,7 +295,7 @@ public class FlowPane extends Pane {
 				length = 0;
 			}
 
-			child.relocate(x + child.getTranslateX(), y + child.getTranslateY());
+			child.relocate(x, y);
 
 			width = Math.max(width, childWidth);
 			length += childLength;
