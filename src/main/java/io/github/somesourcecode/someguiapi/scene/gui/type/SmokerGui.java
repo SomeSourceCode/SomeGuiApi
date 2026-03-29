@@ -40,7 +40,7 @@ public class SmokerGui extends FurnaceGuiBase {
 	 * @since 3.0.0
 	 */
 	public SmokerGui(Component title) {
-		super(InventoryType.BLAST_FURNACE);
+		super(InventoryType.SMOKER);
 
 		this.title = title;
 	}
