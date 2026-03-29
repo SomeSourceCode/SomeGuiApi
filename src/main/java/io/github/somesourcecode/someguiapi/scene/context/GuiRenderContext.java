@@ -37,18 +37,33 @@ import java.util.HashMap;
 public class GuiRenderContext extends RenderContext implements Cancelable {
 
 	private final HashMap<Integer, Pixel> renderOverrides = new HashMap<>();
+	private final int slotOffset;
 
 	private boolean canceled;
 
 	/**
 	 * Constructs a new render context.
 	 *
-	 * @param gui   the GUI
+	 * @param gui the GUI
 	 * @param scene the scene
 	 * @since 2.1.0
 	 */
 	public GuiRenderContext(Gui gui, Scene scene) {
 		super(gui, scene);
+		this.slotOffset = 0;
+	}
+
+	/**
+	 * Constructs a new render context.
+	 *
+	 * @param gui the GUI
+	 * @param scene the scene
+	 * @param slotOffset the slot offset for pixels inside a coordinate system
+	 * @since 3.0.0
+	 */
+	public GuiRenderContext(Gui gui, Scene scene, int slotOffset) {
+		super(gui, scene);
+		this.slotOffset = slotOffset;
 	}
 
 	/**
@@ -62,11 +77,24 @@ public class GuiRenderContext extends RenderContext implements Cancelable {
 	 * @since 2.1.0
 	 */
 	public void setRenderOverride(int slotX, int slotY, Pixel pixel) {
-		if (slotX < 0 || slotX >= 9 || slotY < 0 || slotY >= 6) {
-			throw new IllegalArgumentException("Slot coordinates out of bounds (" + slotX + ", " + slotY + ")");
+		final int slot = slotX + 9 * slotY + slotOffset;
+		if (pixel == null) {
+			renderOverrides.remove(slot);
+			return;
 		}
-		final int slot = slotX + 9 * slotY;
+		renderOverrides.put(slot, pixel);
+	}
 
+	/**
+	 * Sets a render override for a slot. This will override the pixel
+	 * that would be rendered at the specified slot.
+	 * Pass {@code null} to remove the override.
+	 *
+	 * @param slot the slot index
+	 * @param pixel the pixel to render
+	 * @since 3.0.0
+	 */
+	public void setRenderOverride(int slot, Pixel pixel) {
 		if (pixel == null) {
 			renderOverrides.remove(slot);
 			return;
@@ -83,10 +111,18 @@ public class GuiRenderContext extends RenderContext implements Cancelable {
 	 * @since 2.1.0
 	 */
 	public void removeOverride(int slotX, int slotY) {
-		if (slotX < 0 || slotX >= 9 || slotY < 0 || slotY >= 6) {
-			return;
-		}
-		final int slot = slotX + 9 * slotY;
+		final int slot = slotX + 9 * slotY + slotOffset;
+		renderOverrides.remove(slot);
+	}
+
+	/**
+	 * Removes a render override for a slot.
+	 * If the slot does not have an override, nothing happens.
+	 *
+	 * @param slot the slot index
+	 * @since 3.0.0
+	 */
+	public void removeOverride(int slot) {
 		renderOverrides.remove(slot);
 	}
 
@@ -109,10 +145,7 @@ public class GuiRenderContext extends RenderContext implements Cancelable {
 	 * @since 2.1.0
 	 */
 	public Pixel getRenderOverride(int slotX, int slotY) {
-		if (slotX < 0 || slotX >= 9 || slotY < 0 || slotY >= 6) {
-			return null;
-		}
-		final int slot = slotX + 9 * slotY;
+		final int slot = slotX + 9 * slotY + slotOffset;
 		return renderOverrides.get(slot);
 	}
 

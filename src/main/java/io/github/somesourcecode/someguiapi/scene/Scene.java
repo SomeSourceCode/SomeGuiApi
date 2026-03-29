@@ -23,20 +23,20 @@
 
 package io.github.somesourcecode.someguiapi.scene;
 
-import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.Context;
+import io.github.somesourcecode.someguiapi.scene.context.GuiArea;
 import io.github.somesourcecode.someguiapi.scene.context.GuiRenderContext;
 import io.github.somesourcecode.someguiapi.scene.context.NodeClickContext;
 import io.github.somesourcecode.someguiapi.scene.data.ContextDataHolder;
-import io.github.somesourcecode.someguiapi.scene.gui.Gui;
+import io.github.somesourcecode.someguiapi.scene.gui.SceneGui;
 import io.github.somesourcecode.someguiapi.scene.storage.Storage;
-import io.github.somesourcecode.someguiapi.scene.util.Orientation;
+import io.github.somesourcecode.someguiapi.scene.util.NodeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -49,22 +49,11 @@ import java.util.logging.Level;
  *
  * @since 1.0.0
  */
-public class Scene {
-
-	static {
-		SceneHelper.setSceneAccessor(new SceneHelper.SceneAccessor() {
-			@Override
-			public void setGui(Scene scene, Gui gui) {
-				scene.setGui(gui);
-			}
-		});
-	}
+public class Scene extends ContentLayer<SceneGui> {
 
 	@Deprecated(since = "2.1.0", forRemoval = true)
 	private final ContextDataHolder dataHolder = new ContextDataHolder();
 	private final Storage storage = new Storage();
-
-	private Gui gui;
 
 	private Parent root;
 	private Background background;
@@ -112,83 +101,36 @@ public class Scene {
 		return storage;
 	}
 
-	/**
-	 * Returns the GUI that this scene is attached to.
-	 *
-	 * @return the GUI that this scene is attached to
-	 * @since 2.0.0
-	 */
-	public Gui getGui() {
-		return gui;
-	}
-
-	/**
-	 * Sets the GUI that this scene is attached to.
-	 *
-	 * @param gui the GUI that this scene is attached to
-	 * @since 2.0.0
-	 */
-	private void setGui(Gui gui) {
-		this.gui = gui;
-	}
-
-	/**
-	 * Fires the onClick event for the node at the given coordinates.
-	 * The listeners a called for the clicked node and all of its parents, respectively.
-	 *
-	 * @param area the area of the click
-	 * @param clickType the click type
-	 * @param hotbarButton the hot bar button
-	 * @param whoClicked the human entity that clicked
-	 * @param x the x coordinate of the slot
-	 * @param y the y coordinate of the slot
-	 * @since 2.1.0
-	 */
-	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int x, int y) {
-		if (root == null) {
+	@Override
+	public void handleClick(GuiArea area, ClickType clickType, int hotbarButton, HumanEntity whoClicked, int slot) {
+		final SceneGui gui = getGui();
+		if (getGui() == null || root == null) {
 			return;
 		}
+
+		final int width = gui.getWidth();
+
+		if (width == 0 || slot < 0 || slot >= width * gui.getHeight()) {
+			return;
+		}
+
+		final int x = slot % width;
+		final int y = slot / width;
 
 		final int localX = x - root.getLayoutX();
 		final int localY = y - root.getLayoutY();
 
-		final ArrayList<Node> nodeBranch = new ArrayList<>();
-
-		final Node clickedNode = root.nodeAt(localX, localY);
-		if (clickedNode == null) {
+		final NodeUtil.HitResult hitResult = NodeUtil.findHit(root, localX, localY);
+		if (hitResult == null) {
 			return;
 		}
-		nodeBranch.add(clickedNode);
 
-		Parent parent = clickedNode.getParent();
-		int clickedLocalX = clickedNode.getLayoutX();
-		int clickedLocalY = clickedNode.getLayoutY();
-		while (parent != null) {
-			if (clickedLocalX >= 0 && clickedLocalY >= 0 && clickedLocalX < parent.getWidth() && clickedLocalY < parent.getHeight()) {
-				nodeBranch.add(parent);
-			}
-			clickedLocalX += parent.getLayoutX();
-			clickedLocalY += parent.getLayoutY();
-			parent = parent.getParent();
-		}
+		final Node clickedNode = hitResult.hit();
+		final List<Node> nodeHierarchy = hitResult.nodeHierarchy();
 
-		NodeClickContext context = new NodeClickContext(gui, this, area, clickType, hotbarButton, whoClicked, x, y, clickedNode, clickedNode);
-
-		for (Node node : nodeBranch) {
-			context = context.copyFor(node);
-			node.fireOnClick(context);
-			if (context.isLeftClick()) {
-				node.fireOnLeftClick(context);
-			}
-			if (context.isRightClick()) {
-				node.fireOnRightClick(context);
-			}
-			if (context.isShiftClick()) {
-				node.fireOnShiftClick(context);
-			}
-			if (context.isHotBarClick()) {
-				node.fireOnHotBarClick(context);
-			}
+		final NodeClickContext clickContext = new NodeClickContext(gui, null, area, clickType, hotbarButton, whoClicked, 0, 0, clickedNode, clickedNode);
+		for (Node node : nodeHierarchy) {
+			NodeUtil.fireOnClick(node, clickContext.copyFor(node));
 		}
 	}
 

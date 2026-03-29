@@ -115,10 +115,7 @@ public abstract class SceneGui extends NamedGui implements InventoryBased {
 		if (scene == null) {
 			return;
 		}
-		slot -= getSlotOffset();
-		int slotX = slot % getWidth();
-		int slotY = slot / getHeight();
-		scene.handleClick(area, clickType, hotbarButton, whoClicked, slotX, slotY);
+		scene.handleClick(area, clickType, hotbarButton, whoClicked, slot);
 	}
 
 	@Override
