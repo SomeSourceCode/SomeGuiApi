@@ -26,6 +26,8 @@ package io.github.somesourcecode.someguiapi.scene.gui;
 import io.github.somesourcecode.someguiapi.scene.DirtyFlag;
 import net.kyori.adventure.text.Component;
 
+import java.util.Objects;
+
 /**
  * A GUI that has a title.
  *
@@ -52,7 +54,7 @@ public abstract class NamedGui extends Gui {
 	 * @since 3.0.0
 	 */
 	public void setTitle(Component title) {
-		if (this.title.equals(title)) {
+		if (Objects.equals(this.title, title)) {
 			return;
 		}
 		this.title = title;
