@@ -33,6 +33,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -263,7 +264,8 @@ public abstract class SceneGui extends NamedGui implements InventoryBased {
 
 	@Override
 	public List<HumanEntity> getViewers() {
-		return new ArrayList<>(inventory.getViewers());
+		return inventory == null ? Collections.emptyList()
+				: List.copyOf(inventory.getViewers());
 	}
 
 	@Override
