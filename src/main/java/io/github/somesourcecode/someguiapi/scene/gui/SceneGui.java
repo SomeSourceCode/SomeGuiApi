@@ -138,8 +138,10 @@ public abstract class SceneGui extends NamedGui implements InventoryBased {
 			render();
 		}
 
-		clearDirtyFlags();
 		humanEntity.openInventory(inventory);
+
+		clearDirtyFlag(DirtyFlag.GUI_TITLE);
+		clearDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
 	private boolean rendering = false;

@@ -110,8 +110,11 @@ public class ChestGui extends SceneGui {
 			render();
 		}
 
-		clearDirtyFlags();
 		humanEntity.openInventory(inventory);
+
+		clearDirtyFlag(DirtyFlag.GUI_TITLE);
+		clearDirtyFlag(DirtyFlag.GUI_ROWS);
+		clearDirtyFlag(DirtyFlag.GUI_CONTENT);
 	}
 
 	/**
