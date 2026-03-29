@@ -29,7 +29,6 @@ import io.github.somesourcecode.someguiapi.scene.context.GuiClickContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiCloseContext;
 import io.github.somesourcecode.someguiapi.scene.context.GuiSlotClickContext;
 import io.github.somesourcecode.someguiapi.scene.gui.Gui;
-import io.github.somesourcecode.someguiapi.scene.gui.InventoryBased;
 import io.github.somesourcecode.someguiapi.scene.gui.SceneGui;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -48,14 +47,14 @@ public class GuiListener implements Listener {
 	@EventHandler
 	public void onGuiClick(InventoryClickEvent event) {
 		Gui gui = Gui.getGui(event.getWhoClicked());
-		if (!(gui instanceof InventoryBased inventoryBased)) {
+		if (gui == null) {
 			return;
 		}
 		event.setCancelled(true);
 
 		final Scene scene = gui instanceof SceneGui sceneGui ? sceneGui.getScene() : null;
 
-		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(inventoryBased.getInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
+		final GuiArea area = event.getClickedInventory() == null ? GuiArea.OUTSIDE : event.getClickedInventory().equals(event.getView().getTopInventory()) ? GuiArea.TOP : GuiArea.BOTTOM;
 		final GuiClickContext guiClickContext = new GuiClickContext(gui, scene, area, event.getClick(), event.getHotbarButton(), event.getWhoClicked());
 
 		gui.fireOnClick(guiClickContext);
