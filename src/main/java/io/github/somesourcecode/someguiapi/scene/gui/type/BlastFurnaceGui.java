@@ -1,5 +1,5 @@
 /*
- * Copyright 2024, SomeSourceCode - MIT License
+ * Copyright 2026, SomeSourceCode - MIT License
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the “Software”), to deal in
@@ -21,20 +21,38 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.github.somesourcecode.someguiapi.scene;
+package io.github.somesourcecode.someguiapi.scene.gui.type;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.event.inventory.InventoryType;
 
 /**
- * Contains flags that indicate what part of a GUI needs to be updated.
+ * A GUI represented by a blast furnace inventory.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
-public enum DirtyFlag {
+public class BlastFurnaceGui extends FurnaceGuiBase {
 
-	GUI_TITLE,
-	GUI_ROWS,
-	GUI_CONTENT,
+	/**
+	 * Constructs a new BlastFurnaceGui with the specified title.
+	 *
+	 * @param title the title
+	 * @since 3.0.0
+	 */
+	public BlastFurnaceGui(Component title) {
+		super(InventoryType.BLAST_FURNACE);
 
-	GUI_FURNACE_BURN_TIME,
-	GUI_FURNACE_COOK_TIME
+		this.title = title;
+	}
+
+	/**
+	 * Constructs a new BlastFurnaceGui with the specified title.
+	 *
+	 * @param title the title
+	 * @since 3.0.0
+	 */
+	public BlastFurnaceGui(String title) {
+		this(title == null ? null : Component.text(title));
+	}
 
 }
